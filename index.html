@@ -24,7 +24,7 @@
             min-height: 100vh;
         }
 
-        /* --- 1. NIEBLA ANIMADA --- */
+        /* 1. NIEBLA ANIMADA */
         .fog {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -40,7 +40,7 @@
             to { background-position: 10000px 0; }
         }
 
-        /* --- 2. GLOW REACTIVO AL CURSOR --- */
+        /* 2. GLOW REACTIVO AL CURSOR */
         #cursor-glow {
             position: fixed;
             width: 500px;
@@ -53,7 +53,7 @@
             transition: 0.1s ease-out;
         }
 
-        /* --- 3. LATIDO DEL TÍTULO --- */
+        /* 3. LATIDO DEL TÍTULO */
         .titulo-latido {
             font-size: 3rem;
             color: var(--bright-red);
@@ -92,7 +92,7 @@
 
         #contenido { display: none; padding: 20px; text-align: center; width: 100%; max-width: 1000px; }
 
-        /* Estilos de Tarjetas (Gótico) */
+        /* Tarjetas */
         .contenedor-vales {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -125,7 +125,7 @@
             background: transparent; color: var(--bright-red); text-transform: uppercase; letter-spacing: 2px; cursor: pointer;
         }
 
-        /* Reproductor Minimalista */
+        /* Reproductor */
         .music-player {
             position: fixed; bottom: 20px; right: 20px;
             background: rgba(20, 20, 20, 0.9);
@@ -148,7 +148,7 @@
             <p>¿Cómo me dices de cariño?</p>
             <input type="password" id="password" style="background:transparent; border:none; border-bottom:1px solid red; color:white; text-align:center; outline:none; font-size: 1.2rem;">
             <br><br>
-            <button onclick="verificar()" style="background:var(--gothic-red); color:white; border:none; padding:10px 25px; cursor:pointer; font-family: serif;">REVELAR</button>
+            <button onclick="verificar()" style="background:var(--gothic-red); color:white; border:none; padding:10px 25px; cursor:pointer;">REVELAR</button>
         </div>
     </div>
 
@@ -201,7 +201,7 @@
     <div class="music-player">
         <button id="musicBtn" onclick="toggleMusic()" style="background:none; border:none; color:var(--bright-red); cursor:pointer; font-weight: bold;">🎶 PLAY MUSIC</button>
         <audio id="track" loop>
-            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+            <source src="musica.mp3" type="audio/mpeg">
         </audio>
     </div>
 
@@ -216,12 +216,12 @@
         // Contraseña
         function verificar() {
             const pass = document.getElementById('password').value.toLowerCase();
-            if(pass === "chino") { // <--- CAMBIA ESTO
+            if(pass === "amor") { // <--- CAMBIA ESTO
                 document.getElementById('pantalla-bloqueo').style.opacity = "0";
                 setTimeout(() => {
                     document.getElementById('pantalla-bloqueo').style.display = "none";
                     document.getElementById('contenido').style.display = "block";
-                    toggleMusic(); // Inicia música al entrar
+                    toggleMusic(); 
                 }, 1000);
             } else {
                 alert("Esa no es nuestra palabra...");
@@ -229,7 +229,7 @@
         }
 
         // Contador
-        const fechaInicio = new Date('2024-12-15T00:00:00'); // <--- CAMBIA TU FECHA
+        const fechaInicio = new Date('2023-05-15T00:00:00'); // <--- CAMBIA TU FECHA
         setInterval(() => {
             const diff = new Date() - fechaInicio;
             const d = Math.floor(diff / 86400000);
@@ -242,7 +242,7 @@
         // WhatsApp
         function canjear(msg) {
             event.stopPropagation();
-            const tel = "+5627134465"; // <--- TU NUMERO
+            const tel = "1234567890"; // <--- TU NUMERO
             window.open(`https://wa.me/${tel}?text=He reclamado mi: ${msg} 🖤🥀`, '_blank');
         }
 
@@ -257,7 +257,7 @@
             }, 500);
         }
 
-        // Lluvia de corazones
+        // Corazones
         setInterval(() => {
             const h = document.createElement('div');
             h.classList.add('heart'); h.innerHTML = '❤️';
@@ -268,7 +268,7 @@
             setTimeout(() => h.remove(), 5000);
         }, 400);
 
-        // Control de Música
+        // Música
         function toggleMusic() {
             const track = document.getElementById('track');
             const btn = document.getElementById('musicBtn');
