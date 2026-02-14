@@ -14,26 +14,43 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--rosa-claro);
+            margin: 0;
+            overflow-x: hidden; /* Evita scroll horizontal por los corazones */
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 20px;
         }
 
-        h1 { color: var(--rosa-fuerte); margin-bottom: 30px; }
+        /* Lluvia de corazones */
+        .corazon-caida {
+            position: fixed;
+            top: -10%;
+            z-index: -1;
+            user-select: none;
+            pointer-events: none;
+            animation: caida linear forwards;
+        }
+
+        @keyframes caida {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+            }
+        }
+
+        h1 { color: var(--rosa-fuerte); margin-bottom: 30px; text-shadow: 2px 2px white; }
 
         .contenedor-vales {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
             width: 100%;
             max-width: 900px;
         }
 
-        /* Estructura de la Tarjeta */
         .vale-card {
-            width: 200px;
-            height: 250px;
+            width: 220px;
+            height: 280px;
             perspective: 1000px;
             cursor: pointer;
         }
@@ -45,7 +62,7 @@
             text-align: center;
             transition: transform 0.6s;
             transform-style: preserve-3d;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
             border-radius: 15px;
         }
 
@@ -63,91 +80,106 @@
             align-items: center;
             justify-content: center;
             border-radius: 15px;
-            padding: 15px;
+            padding: 20px;
             box-sizing: border-box;
         }
 
         .vale-front {
-            background-color: var(--rosa-fuerte);
+            background: linear-gradient(135deg, var(--rosa-fuerte), #ff80ab);
             color: white;
+            font-size: 1.2rem;
         }
 
-        .vale-front i { font-size: 50px; }
+        .vale-front span { font-size: 50px; margin-bottom: 10px; }
 
         .vale-back {
             background-color: var(--blanco);
             color: #333;
             transform: rotateY(180deg);
-            border: 2px dashed var(--rosa-fuerte);
+            border: 3px dashed var(--rosa-fuerte);
         }
+
+        .vale-back p { font-size: 1.1rem; font-weight: bold; }
 
         button {
-            background-color: #25d366; /* Color WhatsApp */
+            background-color: #25d366;
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
+            padding: 12px 18px;
+            border-radius: 25px;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 15px;
             font-weight: bold;
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+            transition: 0.3s;
         }
 
-        button:hover { opacity: 0.9; }
+        button:hover { transform: scale(1.05); }
     </style>
 </head>
 <body>
 
-    <h1>💌 Mis Vales de Amor 💌</h1>
+    <h1>💌 Vales Canjeables por Amor 💌</h1>
 
     <div class="contenedor-vales">
         <div class="vale-card" onclick="this.classList.toggle('flipped')">
             <div class="vale-inner">
-                <div class="vale-front">
-                    <span>❤️</span>
-                    <h3>Vale #1</h3>
-                </div>
+                <div class="vale-front"><span>💆‍♂️</span><h3>Vale #1</h3></div>
                 <div class="vale-back">
-                    <p>Vale por un <b>Masaje Relajante</b></p>
-                    <button onclick="canjearVale('Masaje Relajante')">Canjear en WhatsApp</button>
+                    <p>Un Masaje Relajante de 20 min</p>
+                    <button onclick="canjearVale('Masaje Relajante')">Canjear</button>
                 </div>
             </div>
         </div>
 
         <div class="vale-card" onclick="this.classList.toggle('flipped')">
             <div class="vale-inner">
-                <div class="vale-front">
-                    <span>🎬</span>
-                    <h3>Vale #2</h3>
-                </div>
+                <div class="vale-front"><span>🎬</span><h3>Vale #2</h3></div>
                 <div class="vale-back">
-                    <p>Vale por <b>Elegir la Película</b></p>
-                    <button onclick="canjearVale('Elegir la Película')">Canjear en WhatsApp</button>
+                    <p>Elegir la película y las palomitas</p>
+                    <button onclick="canjearVale('Elegir la Película')">Canjear</button>
                 </div>
             </div>
         </div>
 
         <div class="vale-card" onclick="this.classList.toggle('flipped')">
             <div class="vale-inner">
-                <div class="vale-front">
-                    <span>🍕</span>
-                    <h3>Vale #3</h3>
-                </div>
+                <div class="vale-front"><span>🍦</span><h3>Vale #3</h3></div>
                 <div class="vale-back">
-                    <p>Vale por una <b>Cena de Pizza</b></p>
-                    <button onclick="canjearVale('Cena de Pizza')">Canjear en WhatsApp</button>
+                    <p>Una salida por nuestro postre favorito</p>
+                    <button onclick="canjearVale('Salida por Postre')">Canjear</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+        // Función para enviar WhatsApp
         function canjearVale(regalo) {
-            const telefono = "+5627134465"; // <-- CAMBIA ESTO POR TU NÚMERO (con código de país)
-            const mensaje = `¡Hola! Quiero canjear mi vale por: ${regalo} 😍`;
-            const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
-            window.open(url, '_blank');
+            event.stopPropagation(); // Evita que la carta se gire al dar clic al botón
+            const telefono = "1234567890"; // CAMBIA ESTO
+            const mensaje = `¡Hola amor! He decidido canjear mi vale por: ${regalo} 💖`;
+            window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
         }
-    </script>
 
+        // Generador de lluvia de corazones
+        function crearCorazon() {
+            const corazon = document.createElement('div');
+            corazon.classList.add('corazon-caida');
+            corazon.innerHTML = '❤️';
+            corazon.style.left = Math.random() * 100 + "vw";
+            corazon.style.animationDuration = Math.random() * 3 + 2 + "s";
+            corazon.style.fontSize = Math.random() * 20 + 10 + "px";
+            corazon.style.opacity = Math.random();
+            
+            document.body.appendChild(corazon);
+
+            setTimeout(() => {
+                corazon.remove();
+            }, 5000);
+        }
+
+        setInterval(crearCorazon, 300);
+    </script>
 </body>
 </html>
