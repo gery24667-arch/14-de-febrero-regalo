@@ -24,13 +24,13 @@
             min-height: 100vh;
         }
 
-        /* --- NIEBLA MEJORADA (Efecto Humo Real) --- */
+        /* --- 1. NIEBLA GÓTICA DE DOBLE CAPA --- */
         .fog-wrapper {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -2;
             overflow: hidden;
-            background: black; /* Asegura fondo oscuro detrás del humo */
+            pointer-events: none;
         }
 
         .fog-layer {
@@ -38,19 +38,17 @@
             top: 0; left: 0; width: 200%; height: 100%;
             background: url('https://raw.githubusercontent.com/gery24667-arch/images/main/fog.png');
             background-repeat: repeat-x;
-            opacity: 0.3;
         }
 
-        /* Capa 1: Humo lento */
         .fog-1 {
-            animation: moveFog 40s linear infinite;
+            opacity: 0.3;
+            animation: moveFog 45s linear infinite;
         }
 
-        /* Capa 2: Humo un poco más rápido y rotado para variedad */
         .fog-2 {
-            animation: moveFog 25s linear infinite reverse;
             opacity: 0.2;
-            filter: blur(5px);
+            filter: blur(8px);
+            animation: moveFog 30s linear infinite reverse;
         }
 
         @keyframes moveFog {
@@ -58,7 +56,16 @@
             to { transform: translateX(-50%); }
         }
 
-        /* 2. GLOW REACTIVO AL CURSOR */
+        /* --- 2. BORDES OSCUROS (VIÑETA) --- */
+        .vignette {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            box-shadow: inset 0 0 150px rgba(0,0,0,0.9);
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        /* --- 3. GLOW DEL CURSOR --- */
         #cursor-glow {
             position: fixed;
             width: 500px;
@@ -71,7 +78,7 @@
             transition: 0.1s ease-out;
         }
 
-        /* 3. LATIDO DEL TÍTULO */
+        /* --- 4. TÍTULO LATIDO --- */
         .titulo-latido {
             font-size: 3rem;
             color: var(--bright-red);
@@ -81,6 +88,7 @@
             text-shadow: 0 0 15px var(--gothic-red);
             margin-top: 50px;
             text-align: center;
+            z-index: 10;
         }
 
         @keyframes heartbeat {
@@ -91,7 +99,7 @@
             70% { transform: scale(1); }
         }
 
-        /* Pantalla Bloqueo */
+        /* Pantalla de Bloqueo */
         #pantalla-bloqueo {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -108,9 +116,9 @@
             box-shadow: 0 0 30px #000;
         }
 
-        #contenido { display: none; padding: 20px; text-align: center; width: 100%; max-width: 1000px; }
+        #contenido { display: none; padding: 20px; text-align: center; width: 100%; max-width: 1000px; z-index: 10; }
 
-        /* Tarjetas */
+        /* Estilo de los Vales */
         .contenedor-vales {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -130,7 +138,7 @@
         }
         
         .vale-front { background: linear-gradient(45deg, #000, #1a1a1a); color: var(--gothic-red); border: 1px solid var(--gothic-red); }
-        .vale-front span { font-size: 40px; }
+        .vale-front span { font-size: 40px; margin-bottom: 10px; }
         
         .vale-back { background: #1a1a1a; color: white; transform: rotateY(180deg); border: 2px solid var(--bright-red); box-shadow: inset 0 0 15px rgba(255, 0, 0, 0.2); }
         .vale-back p { font-weight: bold; margin-bottom: 15px; }
@@ -156,14 +164,14 @@
     </style>
 </head>
 <body>
+
     <div id="cursor-glow"></div>
+    <div class="vignette"></div>
+    
     <div class="fog-wrapper">
         <div class="fog-layer fog-1"></div>
         <div class="fog-layer fog-2"></div>
     </div>
-
-    <div id="cursor-glow"></div>
-    <div class="fog"></div>
 
     <div id="pantalla-bloqueo">
         <div class="login-box">
@@ -236,15 +244,18 @@
             glow.style.top = e.clientY + 'px';
         });
 
-        // Contraseña
+        // Contraseña y Música
         function verificar() {
             const pass = document.getElementById('password').value.toLowerCase();
-            if(pass === "chino") { // <--- CAMBIA ESTO
+            if(pass === "chino") { // <--- CAMBIA SI ES OTRA
                 document.getElementById('pantalla-bloqueo').style.opacity = "0";
+                const track = document.getElementById('track');
+                track.play().catch(e => console.log("Audio esperando clic"));
+                
                 setTimeout(() => {
                     document.getElementById('pantalla-bloqueo').style.display = "none";
                     document.getElementById('contenido').style.display = "block";
-                    toggleMusic(); 
+                    document.getElementById('musicBtn').innerHTML = "⏸ PAUSE MUSIC";
                 }, 1000);
             } else {
                 alert("Esa no es nuestra palabra...");
@@ -252,7 +263,7 @@
         }
 
         // Contador
-        const fechaInicio = new Date('2024-12-15T00:00:00'); // <--- CAMBIA TU FECHA
+        const fechaInicio = new Date('2024-12-15T00:00:00'); // <--- AJUSTADA SEGUN TU CAPTURA
         setInterval(() => {
             const diff = new Date() - fechaInicio;
             const d = Math.floor(diff / 86400000);
@@ -265,8 +276,8 @@
         // WhatsApp
         function canjear(msg) {
             event.stopPropagation();
-            const tel = "+5627134465"; // <--- TU NUMERO
-            window.open(`https://wa.me/${tel}?text=He reclamado mi: ${msg} 🖤🥀`, '_blank');
+            const tel = "+5627134465"; // <--- PON TU NUMERO AQUÍ
+            window.open(`https://wa.me/${tel}?text=He decidido reclamar mi: ${msg} 🖤🥀`, '_blank');
         }
 
         // Suerte Aleatoria
@@ -280,7 +291,7 @@
             }, 500);
         }
 
-        // Corazones
+        // Lluvia de Corazones
         setInterval(() => {
             const h = document.createElement('div');
             h.classList.add('heart'); h.innerHTML = '❤️';
@@ -291,7 +302,7 @@
             setTimeout(() => h.remove(), 5000);
         }, 400);
 
-        // Música
+        // Función Música
         function toggleMusic() {
             const track = document.getElementById('track');
             const btn = document.getElementById('musicBtn');
