@@ -25,33 +25,14 @@
             min-height: 100vh;
         }
 
-        /* --- NIEBLA BLANCA (CSS) --- */
-        .fog-wrapper {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -2;
-            overflow: hidden;
-            pointer-events: none;
-        }
-        .fog-layer {
-            position: absolute;
-            width: 200%; height: 100%;
-            background-image: 
-                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.2) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.2) 0%, transparent 60%);
-            background-size: 1000px 100%;
-            filter: blur(50px);
-        }
+        /* --- NIEBLA Y AMBIENTE --- */
+        .fog-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; overflow: hidden; pointer-events: none; }
+        .fog-layer { position: absolute; width: 200%; height: 100%; background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.2) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.2) 0%, transparent 60%); background-size: 1000px 100%; filter: blur(50px); }
         .fog-1 { opacity: 0.4; animation: moveFog 30s linear infinite; }
         @keyframes moveFog { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-        /* --- VIÑETA Y CURSOR --- */
-        .vignette {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            box-shadow: inset 0 0 200px rgba(0,0,0,1);
-            pointer-events: none; z-index: 5;
-        }
+        .vignette { position: fixed; top: 0; left: 0; width: 100%; height: 100%; box-shadow: inset 0 0 200px rgba(0,0,0,1); pointer-events: none; z-index: 5; }
+        
         #cursor-glow {
             position: fixed; width: 400px; height: 400px;
             background: radial-gradient(circle, rgba(255, 0, 0, 0.15) 0%, rgba(0,0,0,0) 70%);
@@ -59,83 +40,43 @@
             transform: translate(-50%, -50%); transition: 0.1s ease-out;
         }
 
-        /* --- PANTALLA BLOQUEO (ORIGINAL) --- */
-        #pantalla-bloqueo {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-dark); display: flex; justify-content: center; align-items: center;
-            z-index: 2000; transition: 1.5s;
-        }
-        .login-box {
-            background: var(--card-dark); padding: 40px;
-            border: 1px solid var(--gothic-red); text-align: center;
-            box-shadow: 0 0 30px #000;
-        }
+        /* --- PANTALLA BLOQUEO --- */
+        #pantalla-bloqueo { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); display: flex; justify-content: center; align-items: center; z-index: 2000; transition: 1.5s; }
+        .login-box { background: var(--card-dark); padding: 40px; border: 1px solid var(--gothic-red); text-align: center; box-shadow: 0 0 30px #000; }
 
-        /* --- CONTENIDO PRINCIPAL --- */
+        /* --- CONTENIDO --- */
         #contenido { display: none; padding: 20px; text-align: center; width: 100%; max-width: 1000px; z-index: 10; }
+        .titulo-latido { font-size: 3.5rem; color: var(--bright-red); text-transform: uppercase; letter-spacing: 6px; text-shadow: 0 0 20px var(--bright-red); margin-top: 50px; animation: heartbeat 2s infinite; }
+        @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-        .titulo-latido {
-            font-size: 3.5rem; color: var(--bright-red);
-            text-transform: uppercase; letter-spacing: 6px;
-            text-shadow: 0 0 20px var(--bright-red);
-            margin-top: 50px; animation: heartbeat 2s infinite;
-        }
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); filter: brightness(1); }
-            50% { transform: scale(1.05); filter: brightness(1.3); }
-        }
-
-        /* --- CARTAS ESTILO NEÓN --- */
-        .contenedor-vales {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 30px; margin-top: 50px; justify-items: center;
-        }
-
-        .vale-card { width: 220px; height: 300px; perspective: 1000px; cursor: pointer; }
+        /* --- CARTAS NEÓN --- */
+        .contenedor-vales { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-top: 50px; justify-items: center; }
+        .vale-card { width: 220px; height: 320px; perspective: 1000px; cursor: pointer; }
         .vale-inner { position: relative; width: 100%; height: 100%; transition: 0.8s; transform-style: preserve-3d; }
         .flipped .vale-inner { transform: rotateY(180deg); }
-        
-        .vale-front, .vale-back {
-            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
-            border-radius: 15px; padding: 20px; box-sizing: border-box;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: var(--card-dark);
-            border: 2px solid var(--bright-red);
-            box-shadow: var(--neon-glow); /* Brillo neón en bordes */
-        }
-        
-        .vale-front span { 
-            font-size: 60px; margin-bottom: 15px; 
-            filter: drop-shadow(0 0 10px var(--bright-red)); /* Brillo en emoji */
-        }
-        .vale-front h3 { color: var(--bright-red); text-shadow: 0 0 5px var(--bright-red); margin: 0; }
-        
-        .vale-back { 
-            transform: rotateY(180deg); background: #000; 
-            border: 2px solid white; box-shadow: 0 0 15px white; 
-        }
+        .vale-front, .vale-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--card-dark); border: 2px solid var(--bright-red); box-shadow: var(--neon-glow); }
+        .vale-front span { font-size: 60px; margin-bottom: 15px; filter: drop-shadow(0 0 10px var(--bright-red)); }
+        .vale-back { transform: rotateY(180deg); background: #000; border: 2px solid white; box-shadow: 0 0 15px white; }
+        .caducidad { font-size: 0.7rem; color: #888; margin-top: 15px; font-style: italic; }
 
-        /* --- BOTÓN DESTINO NEÓN --- */
-        .btn-random {
-            margin: 60px 0; padding: 15px 40px; font-size: 1.2rem;
-            border: 2px solid var(--bright-red); border-radius: 10px;
-            background: rgba(255, 0, 0, 0.1); color: white;
-            cursor: pointer; letter-spacing: 2px;
-            box-shadow: var(--neon-glow);
-            transition: 0.3s;
-        }
-        .btn-random:hover { background: var(--bright-red); box-shadow: 0 0 30px var(--bright-red); }
+        /* --- MODAL PERGAMINO --- */
+        #modal-carta { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center; }
+        .pergamino { background: #f4e4bc; color: #2c1e16; padding: 40px; width: 80%; max-width: 500px; border-radius: 5px; box-shadow: 0 0 50px rgba(0,0,0,0.5); position: relative; transform: rotate(-1deg); border-left: 10px solid #d4c49c; }
+        .pergamino p { font-family: 'Dancing Script', cursive; font-size: 1.3rem; line-height: 1.6; }
+        .btn-cerrar { position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #8b0000; }
 
-        /* REPRODUCTOR */
-        .music-player { 
-            position: fixed; bottom: 20px; right: 20px; 
-            background: rgba(0,0,0,0.8); padding: 10px 25px; 
-            border: 1px solid var(--bright-red); border-radius: 50px; 
-            z-index: 100; box-shadow: 0 0 10px var(--gothic-red);
-        }
-        .heart { position: fixed; top: -10%; color: var(--bright-red); z-index: 6; animation: fall linear forwards; pointer-events: none; }
+        /* --- BOTONES --- */
+        .btn-random, .btn-carta { margin: 30px 10px; padding: 15px 30px; border: 2px solid var(--bright-red); border-radius: 10px; background: rgba(255,0,0,0.1); color: white; cursor: pointer; letter-spacing: 2px; box-shadow: var(--neon-glow); transition: 0.3s; }
+        .btn-carta { border-color: #f4e4bc; color: #f4e4bc; box-shadow: 0 0 15px rgba(244, 228, 188, 0.3); }
+
+        /* --- PARTÍCULAS --- */
+        .particle { position: fixed; pointer-events: none; z-index: 6; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+        @keyframes floatUp { to { transform: translateY(-110vh) translateX(20px); opacity: 0; } }
+
+        .music-player { position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.8); padding: 10px 25px; border: 1px solid var(--bright-red); border-radius: 50px; z-index: 100; }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -145,58 +86,57 @@
 
     <div id="pantalla-bloqueo">
         <div class="login-box">
-            <h2 style="color: var(--bright-red); text-shadow: 0 0 10px red;">Solo para tus ojos...</h2>
+            <h2 style="color: var(--bright-red)">Solo para tus ojos...</h2>
             <p>¿Cómo me dices de cariño?</p>
             <input type="password" id="password" style="background:transparent; border:none; border-bottom:1px solid red; color:white; text-align:center; outline:none; font-size: 1.2rem;">
             <br><br>
-            <button onclick="verificar()" style="background:var(--gothic-red); color:white; border:none; padding:10px 25px; cursor:pointer; font-weight:bold;">REVELAR</button>
+            <button onclick="verificar()" style="background:var(--gothic-red); color:white; border:none; padding:10px 25px; cursor:pointer;">REVELAR</button>
         </div>
     </div>
 
     <div id="contenido">
         <h1 class="titulo-latido">Eternidad a tu lado</h1>
-        <div id="contador" style="color: var(--bright-red); font-size: 1.8rem; font-weight: bold; letter-spacing: 4px; margin: 25px 0;"></div>
+        <div id="contador" style="color: var(--bright-red); font-size: 1.8rem; font-weight: bold; margin: 25px 0;"></div>
+
+        <button class="btn-carta" onclick="abrirCarta()">📜 NUESTRA ETERNIDAD</button>
 
         <div class="contenedor-vales">
-            <div class="vale-card" onclick="this.classList.toggle('flipped')">
-                <div class="vale-inner">
-                    <div class="vale-front"><span>🎬</span><h3>VALE I</h3></div>
-                    <div class="vale-back"><p>Una tarde de películas</p><button style="padding:8px; cursor:pointer;" onclick="canjear('Películas')">Canjear</button></div>
-                </div>
-            </div>
-            <div class="vale-card" onclick="this.classList.toggle('flipped')">
-                <div class="vale-inner">
-                    <div class="vale-front"><span>🛌</span><h3>VALE II</h3></div>
-                    <div class="vale-back"><p>Una camita de chismes</p><button style="padding:8px; cursor:pointer;" onclick="canjear('Chismes')">Canjear</button></div>
-                </div>
-            </div>
-            <div class="vale-card" onclick="this.classList.toggle('flipped')">
-                <div class="vale-inner">
-                    <div class="vale-front"><span>🍬</span><h3>VALE III</h3></div>
-                    <div class="vale-back"><p>Unas gomitas</p><button style="padding:8px; cursor:pointer;" onclick="canjear('Gomitas')">Canjear</button></div>
-                </div>
-            </div>
-            <div class="vale-card" onclick="this.classList.toggle('flipped')">
-                <div class="vale-inner">
-                    <div class="vale-front"><span>🔥</span><h3>VALE IV</h3></div>
-                    <div class="vale-back"><p>Una bolsa de chetos</p><button style="padding:8px; cursor:pointer;" onclick="canjear('Chetos')">Canjear</button></div>
-                </div>
-            </div>
-            <div class="vale-card" onclick="this.classList.toggle('flipped')">
-                <div class="vale-inner">
-                    <div class="vale-front"><span>🍕</span><h3>VALE V</h3></div>
-                    <div class="vale-back"><p>Una pizza a tu lado</p><button style="padding:8px; cursor:pointer;" onclick="canjear('Pizza')">Canjear</button></div>
-                </div>
-            </div>
-            <div class="vale-card" onclick="this.classList.toggle('flipped')">
-                <div class="vale-inner">
-                    <div class="vale-front"><span>🧛</span><h3>VALE VI</h3></div>
-                    <div class="vale-back"><p>Un día de besos</p><button style="padding:8px; cursor:pointer;" onclick="canjear('Besos')">Canjear</button></div>
-                </div>
-            </div>
+            <script>
+                const vales = [
+                    {e:'🎬', t:'VALE I', m:'Una tarde de películas'},
+                    {e:'🛌', t:'VALE II', m:'Una camita de chismes'},
+                    {e:'🍬', t:'VALE III', m:'Unas gomitas'},
+                    {e:'🔥', t:'VALE IV', m:'Una bolsa de chetos'},
+                    {e:'🍕', t:'VALE V', m:'Una pizza a tu lado'},
+                    {e:'🧛', t:'VALE VI', m:'Un día de besos'}
+                ];
+                vales.forEach(v => {
+                    document.write(`
+                        <div class="vale-card" onclick="this.classList.toggle('flipped')">
+                            <div class="vale-inner">
+                                <div class="vale-front"><span>${v.e}</span><h3>${v.t}</h3></div>
+                                <div class="vale-back">
+                                    <p>${v.m}</p>
+                                    <button style="padding:8px; cursor:pointer;" onclick="canjear('${v.m}')">Canjear</button>
+                                    <p class="caducidad">Válido hasta: Que la muerte nos separe. 🧛🥀</p>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                });
+            </script>
         </div>
 
         <button class="btn-random" onclick="suerteAleatoria()">Dejar que el destino elija</button>
+    </div>
+
+    <div id="modal-carta">
+        <div class="pergamino">
+            <button class="btn-cerrar" onclick="cerrarCarta()">×</button>
+            <p>Mi Amor,<br><br>
+            He elegido "Apocalypse" porque describe lo que siento: un amor que trasciende el fin del mundo. No importa si el cielo se cae o si el tiempo se detiene, mientras mi mano esté en la tuya, todo estará bien. Gracias por estos 426 días de ser mi luz en la oscuridad. <br><br>
+            Por siempre tuyo.</p>
+        </div>
     </div>
 
     <div class="music-player">
@@ -205,6 +145,9 @@
     </div>
 
     <script>
+        function abrirCarta() { document.getElementById('modal-carta').style.display = 'flex'; }
+        function cerrarCarta() { document.getElementById('modal-carta').style.display = 'none'; }
+
         const glow = document.getElementById('cursor-glow');
         document.addEventListener('mousemove', (e) => {
             glow.style.left = e.clientX + 'px';
@@ -243,20 +186,34 @@
             const cards = document.querySelectorAll('.vale-card');
             cards.forEach(c => c.classList.remove('flipped'));
             const randomIdx = Math.floor(Math.random() * cards.length);
-            setTimeout(() => {
-                cards[randomIdx].classList.add('flipped');
-                cards[randomIdx].scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 500);
+            setTimeout(() => { cards[randomIdx].classList.add('flipped'); cards[randomIdx].scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 500);
         }
 
+        // --- SISTEMA DE PARTÍCULAS MEZCLADAS ---
         setInterval(() => {
-            const h = document.createElement('div');
-            h.classList.add('heart'); h.innerHTML = '❤️';
-            h.style.left = Math.random() * 100 + "vw";
-            h.style.animationDuration = Math.random() * 3 + 2 + "s";
-            document.body.appendChild(h);
-            setTimeout(() => h.remove(), 5000);
-        }, 600);
+            const p = document.createElement('div');
+            p.classList.add('particle');
+            const type = Math.random();
+            
+            if(type < 0.4) { // Corazones
+                p.innerHTML = '❤️';
+                p.style.animation = `fall ${Math.random()*3+2}s linear forwards`;
+            } else if (type < 0.7) { // Pétalos Negros
+                p.innerHTML = '🖤';
+                p.style.animation = `fall ${Math.random()*4+3}s linear forwards`;
+            } else { // Brasas Rojas (Flotan hacia arriba)
+                p.innerHTML = '•';
+                p.style.color = 'red';
+                p.style.fontSize = '20px';
+                p.style.filter = 'blur(2px)';
+                p.style.bottom = '0';
+                p.style.animation = `floatUp ${Math.random()*5+2}s ease-out forwards`;
+            }
+
+            p.style.left = Math.random() * 100 + "vw";
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 6000);
+        }, 300);
 
         function toggleMusic() {
             const track = document.getElementById('track');
