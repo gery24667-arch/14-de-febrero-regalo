@@ -11,7 +11,7 @@
             --gothic-red: #8b0000;
             --bright-red: #ff0000;
             --paper: #f4e4bc;
-            --neon-glow: 0 0 15px rgba(255, 0, 0, 0.7);
+            --neon-glow: 0 0 15px rgba(255, 0, 0, 0.7), 0 0 5px rgba(255, 0, 0, 0.5);
         }
 
         body {
@@ -21,7 +21,7 @@
             display: flex; flex-direction: column; align-items: center; min-height: 100vh;
         }
 
-        /* --- NIEBLA Y AMBIENTE --- */
+        /* --- NIEBLA BLANCA --- */
         .fog-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; }
         .fog-layer { position: absolute; width: 200%; height: 100%; background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.2) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.2) 0%, transparent 60%); background-size: 1000px 100%; filter: blur(50px); animation: moveFog 30s linear infinite; }
         @keyframes moveFog { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -36,73 +36,21 @@
         .titulo-latido { font-size: 3.5rem; color: var(--bright-red); text-transform: uppercase; letter-spacing: 6px; text-shadow: 0 0 20px var(--bright-red); margin-top: 50px; animation: heartbeat 2s infinite; }
         @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-        /* --- PERGAMINO QUE SE DESENROLLA --- */
-        .scroll-container {
-            margin: 40px 0;
-            perspective: 1000px;
-            cursor: pointer;
+        /* --- PERGAMINO INTERACTIVO --- */
+        .scroll-container { margin: 40px 0; perspective: 1000px; cursor: pointer; }
+        .scroll-closed { 
+            width: 160px; height: 60px; background: linear-gradient(to bottom, #d4c49c, #f4e4bc, #d4c49c);
+            border-radius: 10px; border: 2px solid #8b5e3c; display: flex; align-items: center; justify-content: center;
+            color: #4e342e; font-weight: bold; box-shadow: 0 0 15px rgba(255,215,0,0.3); transition: 0.3s;
         }
-
-        /* El rollo cerrado */
-        .scroll-closed {
-            width: 120px; height: 50px;
-            background: linear-gradient(to bottom, #d4c49c, #f4e4bc, #d4c49c);
-            border-radius: 10px;
-            border: 2px solid #8b5e3c;
-            display: flex; align-items: center; justify-content: center;
-            color: #4e342e; font-weight: bold; font-size: 0.8rem;
-            box-shadow: 0 0 15px rgba(255,215,0,0.3);
-            transition: transform 0.3s;
-            position: relative;
-        }
-        .scroll-closed::before, .scroll-closed::after {
-            content: ''; position: absolute; width: 10px; height: 60px;
-            background: #8b5e3c; border-radius: 5px; top: -5px;
-        }
-        .scroll-closed::before { left: -5px; } .scroll-closed::after { right: -5px; }
         .scroll-closed:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--bright-red); }
 
-        /* La carta abierta (Modal) */
-        #modal-carta {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center;
-        }
-
-        .pergamino-abierto {
-            background: var(--paper);
-            color: #2c1e16;
-            width: 90%; max-width: 500px;
-            height: 0; /* Empieza con altura 0 */
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 0 50px rgba(0,0,0,1);
-            transition: height 1.5s ease-in-out; /* Efecto desenrollar */
-            border-left: 2px solid #d4c49c;
-            border-right: 2px solid #d4c49c;
-        }
-
-        .pergamino-abierto.desenrollado {
-            height: 550px; /* Altura final al abrirse */
-        }
-
-        /* Tapas del rollo (Madera) */
-        .scroll-rod {
-            width: 105%; height: 30px;
-            background: #4e342e;
-            position: absolute; left: -2.5%;
-            z-index: 10; border-radius: 10px;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.5);
-        }
-        .rod-top { top: 0; }
-        .rod-bottom { bottom: 0; }
-
-        .carta-texto {
-            padding: 60px 40px;
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.4rem; line-height: 1.6;
-            text-align: left; opacity: 0;
-            transition: opacity 1s 1s; /* Aparece después de desenrollar */
-        }
+        #modal-carta { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 3000; justify-content: center; align-items: center; }
+        .pergamino-abierto { background: var(--paper); color: #2c1e16; width: 90%; max-width: 500px; height: 0; overflow: hidden; position: relative; box-shadow: 0 0 50px rgba(0,0,0,1); transition: height 1.5s cubic-bezier(0.4, 0, 0.2, 1); border-left: 2px solid #d4c49c; border-right: 2px solid #d4c49c; }
+        .pergamino-abierto.desenrollado { height: 500px; }
+        .scroll-rod { width: 105%; height: 25px; background: #4e342e; position: absolute; left: -2.5%; z-index: 10; border-radius: 5px; }
+        .rod-top { top: 0; } .rod-bottom { bottom: 0; }
+        .carta-texto { padding: 50px 40px; font-family: 'Dancing Script', cursive; font-size: 1.4rem; line-height: 1.6; text-align: left; opacity: 0; transition: opacity 0.8s 1.2s; }
         .desenrollado .carta-texto { opacity: 1; }
 
         /* --- VALES NEÓN --- */
@@ -115,12 +63,17 @@
         .vale-back { transform: rotateY(180deg); background: #000; border: 2px solid white; box-shadow: 0 0 15px white; }
         .caducidad { font-size: 0.7rem; color: #888; margin-top: 15px; font-style: italic; }
 
-        .btn-random { margin: 60px 0; padding: 15px 40px; border: 2px solid var(--bright-red); border-radius: 10px; background: rgba(255,0,0,0.1); color: white; cursor: pointer; box-shadow: var(--neon-glow); }
+        /* --- BOTONES --- */
+        .btn-random { margin: 60px 0; padding: 15px 40px; border: 2px solid var(--bright-red); border-radius: 10px; background: rgba(255,0,0,0.1); color: white; cursor: pointer; box-shadow: var(--neon-glow); transition: 0.3s; }
+
+        /* --- SISTEMA DE FLORES Y CORAZONES --- */
+        .particle { position: fixed; pointer-events: none; z-index: 6; font-size: 24px; }
+        @keyframes fall { 
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0.3; }
+        }
 
         .music-player { position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.8); padding: 10px 25px; border: 1px solid var(--bright-red); border-radius: 50px; z-index: 100; }
-        .particle { position: fixed; pointer-events: none; z-index: 6; }
-        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
-        @keyframes floatUp { to { transform: translateY(-110vh) opacity: 0; } }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
 </head>
@@ -145,7 +98,7 @@
         <div id="contador" style="color: var(--bright-red); font-size: 1.8rem; font-weight: bold; margin: 25px 0;"></div>
 
         <div class="scroll-container" onclick="abrirCarta()">
-            <div class="scroll-closed">📜 LEER CARTA</div>
+            <div class="scroll-closed">📜 NUESTRA CARTA</div>
         </div>
 
         <div class="contenedor-vales">
@@ -165,7 +118,7 @@
                                 <div class="vale-front"><span>${v.e}</span><h3>${v.t}</h3></div>
                                 <div class="vale-back">
                                     <p>${v.m}</p>
-                                    <button onclick="canjear('${v.m}')">Canjear</button>
+                                    <button onclick="canjear('${v.m}')" style="padding:8px; cursor:pointer;">Canjear</button>
                                     <p class="caducidad">Válido hasta: Que la muerte nos separe. 🧛🥀</p>
                                 </div>
                             </div>
@@ -183,9 +136,10 @@
             <div class="scroll-rod rod-top"></div>
             <div class="carta-texto">
                 Mi Amor,<br><br>
-                He elegido "Apocalypse" porque describe lo que siento: un amor que trasciende el fin del mundo. No importa si el cielo se cae o si el tiempo se detiene, mientras mi mano esté en la tuya, todo estará bien. <br><br>
-                Gracias por estos 426 días de ser mi luz en la oscuridad. <br><br>
-                Por siempre tuyo. 🖤🥀
+                Elegí "Apocalypse" porque nuestro amor es lo único que importa, incluso si el mundo se acaba. <br><br>
+                Como estos girasoles, siempre busco tu luz, y como las rosas negras, mi amor por ti es eterno y profundo. <br><br>
+                Gracias por estar conmigo.<br>
+                426 días y contando... 🖤🥀🌻
             </div>
             <div class="scroll-rod rod-bottom"></div>
         </div>
@@ -199,31 +153,32 @@
     <script>
         function abrirCarta() {
             document.getElementById('modal-carta').style.display = 'flex';
-            setTimeout(() => {
-                document.getElementById('pergamino').classList.add('desenrollado');
-            }, 100);
+            setTimeout(() => { document.getElementById('pergamino').classList.add('desenrollado'); }, 100);
         }
         function cerrarCarta() {
             document.getElementById('pergamino').classList.remove('desenrollado');
-            setTimeout(() => {
-                document.getElementById('modal-carta').style.display = 'none';
-            }, 800);
+            setTimeout(() => { document.getElementById('modal-carta').style.display = 'none'; }, 800);
         }
 
-        // --- SISTEMA DE PARTÍCULAS ---
+        // --- SISTEMA DE FLORES, GIRASOLES Y CORAZONES ---
+        const flores = ['🌻', '🌹', '🌸', '🤍', '🖤', '❤️', '🥀'];
+        
         setInterval(() => {
             const p = document.createElement('div');
             p.classList.add('particle');
-            const type = Math.random();
-            if(type < 0.4) { p.innerHTML = '❤️'; p.style.animation = `fall ${Math.random()*3+2}s linear forwards`; }
-            else if (type < 0.7) { p.innerHTML = '🖤'; p.style.animation = `fall ${Math.random()*4+3}s linear forwards`; }
-            else { p.innerHTML = '•'; p.style.color = 'red'; p.style.bottom = '0'; p.style.animation = `floatUp ${Math.random()*5+2}s ease-out forwards`; }
+            
+            // Selecciona una flor o corazón al azar de la lista
+            const emoji = flores[Math.floor(Math.random() * flores.length)];
+            p.innerHTML = emoji;
+            
             p.style.left = Math.random() * 100 + "vw";
+            p.style.fontSize = Math.random() * 20 + 20 + "px";
+            p.style.animation = `fall ${Math.random() * 4 + 3}s linear forwards`;
+            
             document.body.appendChild(p);
-            setTimeout(() => p.remove(), 6000);
-        }, 400);
+            setTimeout(() => p.remove(), 7000);
+        }, 300);
 
-        // --- FUNCIONES BÁSICAS ---
         function verificar() {
             const pass = document.getElementById('password').value.toLowerCase();
             if(pass === "chino") { 
@@ -233,7 +188,7 @@
                     document.getElementById('pantalla-bloqueo').style.display = "none";
                     document.getElementById('contenido').style.display = "block";
                 }, 1000);
-            } else { alert("Palabra incorrecta..."); }
+            } else { alert("Esa no es nuestra palabra..."); }
         }
 
         const fechaInicio = new Date('2024-12-15T00:00:00'); 
@@ -248,13 +203,14 @@
 
         function canjear(msg) {
             event.stopPropagation();
-            window.open(`https://wa.me/+5627134465?text=He reclamado mi: ${msg} 🖤🥀`, '_blank');
+            window.open(`https://wa.me/1234567890?text=He reclamado mi: ${msg} 🖤🥀🌻`, '_blank');
         }
 
         function suerteAleatoria() {
             const cards = document.querySelectorAll('.vale-card');
+            cards.forEach(c => c.classList.remove('flipped'));
             const randomIdx = Math.floor(Math.random() * cards.length);
-            cards[randomIdx].classList.add('flipped');
+            setTimeout(() => { cards[randomIdx].classList.add('flipped'); }, 300);
         }
 
         function toggleMusic() {
