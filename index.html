@@ -27,15 +27,6 @@
         @keyframes moveFog { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .vignette { position: fixed; top: 0; left: 0; width: 100%; height: 100%; box-shadow: inset 0 0 200px rgba(0,0,0,1); pointer-events: none; z-index: 5; }
 
-        /* --- PANTALLA BLOQUEO --- */
-        #pantalla-bloqueo { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); display: flex; justify-content: center; align-items: center; z-index: 2000; transition: 1.5s; }
-        .login-box { background: var(--card-dark); padding: 40px; border: 1px solid var(--gothic-red); text-align: center; box-shadow: 0 0 30px #000; }
-
-        /* --- CONTENIDO --- */
-        #contenido { display: none; padding: 20px; text-align: center; width: 100%; max-width: 1000px; z-index: 10; }
-        .titulo-latido { font-size: 3.5rem; color: var(--bright-red); text-transform: uppercase; letter-spacing: 6px; text-shadow: 0 0 20px var(--bright-red); margin-top: 50px; animation: heartbeat 2s infinite; }
-        @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-
         /* --- IMAGEN ROSA PERSONALIZADA --- */
         .img-container {
             margin: 30px 0;
@@ -44,6 +35,15 @@
         }
         .img-container img { width: 200px; height: auto; border-radius: 10px; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+        /* --- PANTALLA BLOQUEO --- */
+        #pantalla-bloqueo { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); display: flex; justify-content: center; align-items: center; z-index: 2000; transition: 1.5s; }
+        .login-box { background: var(--card-dark); padding: 40px; border: 1px solid var(--gothic-red); text-align: center; box-shadow: 0 0 30px #000; }
+
+        /* --- CONTENIDO --- */
+        #contenido { display: none; padding: 20px; text-align: center; width: 100%; max-width: 1000px; z-index: 10; }
+        .titulo-latido { font-size: 3.5rem; color: var(--bright-red); text-transform: uppercase; letter-spacing: 6px; text-shadow: 0 0 20px var(--bright-red); margin-top: 50px; animation: heartbeat 2s infinite; }
+        @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
         /* --- PERGAMINO --- */
         .scroll-container { margin: 40px 0; perspective: 1000px; cursor: pointer; }
@@ -64,6 +64,7 @@
         .vale-front, .vale-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--card-dark); border: 2px solid var(--bright-red); box-shadow: var(--neon-glow); }
         .vale-front span { font-size: 60px; margin-bottom: 15px; filter: drop-shadow(0 0 10px var(--bright-red)); }
         .vale-back { transform: rotateY(180deg); background: #000; border: 2px solid white; box-shadow: 0 0 15px white; }
+        .caducidad { font-size: 0.7rem; color: #888; margin-top: 15px; font-style: italic; }
 
         /* --- RASTRO Y PARTÍCULAS --- */
         .trail { position: fixed; width: 10px; height: 10px; background: var(--bright-red); border-radius: 50%; pointer-events: none; z-index: 100; box-shadow: 0 0 15px var(--bright-red); animation: vanish 1s forwards; }
@@ -126,7 +127,6 @@
     </div>
 
     <script>
-        // RASTRO (CORREGIDO PARA MOUSE Y TOUCH)
         function crearRastro(x, y) {
             const trail = document.createElement('div');
             trail.className = 'trail';
@@ -139,7 +139,6 @@
         document.addEventListener('mousemove', (e) => crearRastro(e.clientX, e.clientY));
         document.addEventListener('touchmove', (e) => crearRastro(e.touches[0].clientX, e.touches[0].clientY));
 
-        // GENERAR VALES
         const valesData = [
             {e:'🎬', t:'VALE I', m:'Una tarde de películas'},
             {e:'🛌', t:'VALE II', m:'Una camita de chismes'},
@@ -157,6 +156,7 @@
                         <div class="vale-back">
                             <p>${v.m}</p>
                             <button onclick="canjear('${v.m}')">Canjear</button>
+                            <p class="caducidad">Válido hasta: Que la muerte nos separe. 🧛🥀</p>
                         </div>
                     </div>
                 </div>`;
