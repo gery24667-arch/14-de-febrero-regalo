@@ -19,11 +19,12 @@
             background-color: var(--bg-dark);
             color: white; margin: 0; overflow-x: hidden;
             display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+            touch-action: manipulation;
         }
 
-        /* --- NIEBLA BLANCA --- */
+        /* --- NIEBLA Y VIÑETA --- */
         .fog-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; }
-        .fog-layer { position: absolute; width: 200%; height: 100%; background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.2) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.2) 0%, transparent 60%); background-size: 1000px 100%; filter: blur(50px); animation: moveFog 30s linear infinite; }
+        .fog-layer { position: absolute; width: 200%; height: 100%; background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.15) 0%, transparent 60%); background-size: 1000px 100%; filter: blur(50px); animation: moveFog 30s linear infinite; }
         @keyframes moveFog { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .vignette { position: fixed; top: 0; left: 0; width: 100%; height: 100%; box-shadow: inset 0 0 200px rgba(0,0,0,1); pointer-events: none; z-index: 5; }
 
@@ -36,24 +37,18 @@
         .titulo-latido { font-size: 3.5rem; color: var(--bright-red); text-transform: uppercase; letter-spacing: 6px; text-shadow: 0 0 20px var(--bright-red); margin-top: 50px; animation: heartbeat 2s infinite; }
         @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-        /* --- PERGAMINO INTERACTIVO --- */
+        /* --- PERGAMINO --- */
         .scroll-container { margin: 40px 0; perspective: 1000px; cursor: pointer; }
-        .scroll-closed { 
-            width: 160px; height: 60px; background: linear-gradient(to bottom, #d4c49c, #f4e4bc, #d4c49c);
-            border-radius: 10px; border: 2px solid #8b5e3c; display: flex; align-items: center; justify-content: center;
-            color: #4e342e; font-weight: bold; box-shadow: 0 0 15px rgba(255,215,0,0.3); transition: 0.3s;
-        }
-        .scroll-closed:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--bright-red); }
-
+        .scroll-closed { width: 160px; height: 60px; background: linear-gradient(to bottom, #d4c49c, #f4e4bc, #d4c49c); border-radius: 10px; border: 2px solid #8b5e3c; display: flex; align-items: center; justify-content: center; color: #4e342e; font-weight: bold; box-shadow: 0 0 15px rgba(255,215,0,0.3); transition: 0.3s; }
         #modal-carta { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 3000; justify-content: center; align-items: center; }
-        .pergamino-abierto { background: var(--paper); color: #2c1e16; width: 90%; max-width: 500px; height: 0; overflow: hidden; position: relative; box-shadow: 0 0 50px rgba(0,0,0,1); transition: height 1.5s cubic-bezier(0.4, 0, 0.2, 1); border-left: 2px solid #d4c49c; border-right: 2px solid #d4c49c; }
+        .pergamino-abierto { background: var(--paper); color: #2c1e16; width: 90%; max-width: 500px; height: 0; overflow: hidden; position: relative; transition: height 1.5s cubic-bezier(0.4, 0, 0.2, 1); border-left: 2px solid #d4c49c; border-right: 2px solid #d4c49c; box-shadow: 0 0 50px black; }
         .pergamino-abierto.desenrollado { height: 500px; }
         .scroll-rod { width: 105%; height: 25px; background: #4e342e; position: absolute; left: -2.5%; z-index: 10; border-radius: 5px; }
         .rod-top { top: 0; } .rod-bottom { bottom: 0; }
         .carta-texto { padding: 50px 40px; font-family: 'Dancing Script', cursive; font-size: 1.4rem; line-height: 1.6; text-align: left; opacity: 0; transition: opacity 0.8s 1.2s; }
         .desenrollado .carta-texto { opacity: 1; }
 
-        /* --- VALES NEÓN --- */
+        /* --- VALES --- */
         .contenedor-vales { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-top: 50px; justify-items: center; }
         .vale-card { width: 220px; height: 320px; perspective: 1000px; cursor: pointer; }
         .vale-inner { position: relative; width: 100%; height: 100%; transition: 0.8s; transform-style: preserve-3d; }
@@ -63,14 +58,23 @@
         .vale-back { transform: rotateY(180deg); background: #000; border: 2px solid white; box-shadow: 0 0 15px white; }
         .caducidad { font-size: 0.7rem; color: #888; margin-top: 15px; font-style: italic; }
 
-        /* --- BOTONES --- */
-        .btn-random { margin: 60px 0; padding: 15px 40px; border: 2px solid var(--bright-red); border-radius: 10px; background: rgba(255,0,0,0.1); color: white; cursor: pointer; box-shadow: var(--neon-glow); transition: 0.3s; }
-
-        /* --- SISTEMA DE FLORES Y CORAZONES --- */
+        /* --- PARTÍCULAS --- */
         .particle { position: fixed; pointer-events: none; z-index: 6; font-size: 24px; }
         @keyframes fall { 
             0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0.3; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } 
+        }
+
+        /* --- RASTRO DEL CURSOR (MARIPOSA) --- */
+        .trail {
+            position: fixed; width: 8px; height: 8px;
+            background: var(--bright-red); border-radius: 50%;
+            pointer-events: none; z-index: 100;
+            box-shadow: 0 0 10px var(--bright-red);
+            animation: vanish 1s forwards;
+        }
+        @keyframes vanish {
+            to { transform: scale(3) translateY(-20px); opacity: 0; }
         }
 
         .music-player { position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.8); padding: 10px 25px; border: 1px solid var(--bright-red); border-radius: 50px; z-index: 100; }
@@ -79,7 +83,6 @@
 </head>
 <body>
 
-    <div id="cursor-glow" style="position:fixed; width:400px; height:400px; background:radial-gradient(circle, rgba(255,0,0,0.1) 0%, transparent 70%); border-radius:50%; pointer-events:none; z-index:-1; transform:translate(-50%,-50%);"></div>
     <div class="vignette"></div>
     <div class="fog-wrapper"><div class="fog-layer"></div></div>
 
@@ -118,7 +121,7 @@
                                 <div class="vale-front"><span>${v.e}</span><h3>${v.t}</h3></div>
                                 <div class="vale-back">
                                     <p>${v.m}</p>
-                                    <button onclick="canjear('${v.m}')" style="padding:8px; cursor:pointer;">Canjear</button>
+                                    <button onclick="canjear('${v.m}')">Canjear</button>
                                     <p class="caducidad">Válido hasta: Que la muerte nos separe. 🧛🥀</p>
                                 </div>
                             </div>
@@ -128,7 +131,7 @@
             </script>
         </div>
 
-        <button class="btn-random" onclick="suerteAleatoria()">Dejar que el destino elija</button>
+        <button onclick="suerteAleatoria()" style="margin:60px; padding:15px; border:2px solid red; background:transparent; color:white; cursor:pointer; box-shadow: var(--neon-glow);">Dejar que el destino elija</button>
     </div>
 
     <div id="modal-carta" onclick="cerrarCarta()">
@@ -136,10 +139,9 @@
             <div class="scroll-rod rod-top"></div>
             <div class="carta-texto">
                 Mi Amor,<br><br>
-                Elegí "Apocalypse" porque nuestro amor es lo único que importa, incluso si el mundo se acaba. <br><br>
-                Como estos girasoles, siempre busco tu luz, y como las rosas negras, mi amor por ti es eterno y profundo. <br><br>
-                Gracias por estar conmigo.<br>
-                426 días y contando... 🖤🥀🌻
+                Elegí "Apocalypse" porque nuestro amor es lo único que importa. Como estos girasoles, siempre busco tu luz, y como las rosas negras, mi amor es eterno.<br><br>
+                Gracias por estos 426 días.<br>
+                Eres mi eternidad. 🖤🥀🌻
             </div>
             <div class="scroll-rod rod-bottom"></div>
         </div>
@@ -151,6 +153,35 @@
     </div>
 
     <script>
+        // --- EFECTO MARIPOSA (RASTRO) ---
+        document.addEventListener('mousemove', (e) => {
+            const trail = document.createElement('div');
+            trail.className = 'trail';
+            trail.style.left = e.clientX + 'px';
+            trail.style.top = e.clientY + 'px';
+            
+            // Aleatoriamente crear un mini pétalo en el rastro
+            if(Math.random() > 0.9) {
+                trail.innerHTML = Math.random() > 0.5 ? '🥀' : '✨';
+                trail.style.background = 'none';
+                trail.style.fontSize = '12px';
+            }
+            
+            document.body.appendChild(trail);
+            setTimeout(() => trail.remove(), 1000);
+        });
+
+        // Soporte para móviles
+        document.addEventListener('touchmove', (e) => {
+            const touch = e.touches[0];
+            const trail = document.createElement('div');
+            trail.className = 'trail';
+            trail.style.left = touch.clientX + 'px';
+            trail.style.top = touch.clientY + 'px';
+            document.body.appendChild(trail);
+            setTimeout(() => trail.remove(), 1000);
+        });
+
         function abrirCarta() {
             document.getElementById('modal-carta').style.display = 'flex';
             setTimeout(() => { document.getElementById('pergamino').classList.add('desenrollado'); }, 100);
@@ -160,64 +191,19 @@
             setTimeout(() => { document.getElementById('modal-carta').style.display = 'none'; }, 800);
         }
 
-        // --- SISTEMA DE FLORES, GIRASOLES Y CORAZONES ---
         const flores = ['🌻', '🌹', '🌸', '🤍', '🖤', '❤️', '🥀'];
-        
         setInterval(() => {
             const p = document.createElement('div');
             p.classList.add('particle');
-            
-            // Selecciona una flor o corazón al azar de la lista
-            const emoji = flores[Math.floor(Math.random() * flores.length)];
-            p.innerHTML = emoji;
-            
+            p.innerHTML = flores[Math.floor(Math.random() * flores.length)];
             p.style.left = Math.random() * 100 + "vw";
             p.style.fontSize = Math.random() * 20 + 20 + "px";
-            p.style.animation = `fall ${Math.random() * 4 + 3}s linear forwards`;
-            
+            p.style.animation = `fall ${Math.random() * 4 + 4}s linear forwards`;
             document.body.appendChild(p);
-            setTimeout(() => p.remove(), 7000);
-        }, 300);
+            setTimeout(() => p.remove(), 8000);
+        }, 400);
 
         function verificar() {
             const pass = document.getElementById('password').value.toLowerCase();
             if(pass === "chino") { 
-                document.getElementById('pantalla-bloqueo').style.opacity = "0";
-                document.getElementById('track').play();
-                setTimeout(() => {
-                    document.getElementById('pantalla-bloqueo').style.display = "none";
-                    document.getElementById('contenido').style.display = "block";
-                }, 1000);
-            } else { alert("Esa no es nuestra palabra..."); }
-        }
-
-        const fechaInicio = new Date('2024-12-15T00:00:00'); 
-        setInterval(() => {
-            const diff = new Date() - fechaInicio;
-            const d = Math.floor(diff / 86400000);
-            const h = Math.floor((diff / 3600000) % 24);
-            const m = Math.floor((diff / 60000) % 60);
-            const s = Math.floor((diff / 1000) % 60);
-            document.getElementById('contador').innerHTML = `${d}D : ${h}H : ${m}M : ${s}S`;
-        }, 1000);
-
-        function canjear(msg) {
-            event.stopPropagation();
-            window.open(`https://wa.me/1234567890?text=He reclamado mi: ${msg} 🖤🥀🌻`, '_blank');
-        }
-
-        function suerteAleatoria() {
-            const cards = document.querySelectorAll('.vale-card');
-            cards.forEach(c => c.classList.remove('flipped'));
-            const randomIdx = Math.floor(Math.random() * cards.length);
-            setTimeout(() => { cards[randomIdx].classList.add('flipped'); }, 300);
-        }
-
-        function toggleMusic() {
-            const track = document.getElementById('track');
-            if (track.paused) { track.play(); document.getElementById('musicBtn').innerHTML = "⏸ PAUSE"; }
-            else { track.pause(); document.getElementById('musicBtn').innerHTML = "🎶 PLAY"; }
-        }
-    </script>
-</body>
-</html>
+                document.getElementById('pantalla
