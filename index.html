@@ -7,9 +7,10 @@
     <style>
         :root {
             --bg-dark: #050505;
-            --card-dark: #121212;
-            --gothic-red: #660000;
+            --card-dark: #0a0a0a;
+            --gothic-red: #8b0000;
             --bright-red: #ff0000;
+            --neon-glow: 0 0 15px rgba(255, 0, 0, 0.7), 0 0 5px rgba(255, 0, 0, 0.5);
         }
 
         body {
@@ -24,7 +25,7 @@
             min-height: 100vh;
         }
 
-        /* --- NUEVA NIEBLA GENERADA POR CÓDIGO (SIN IMÁGENES) --- */
+        /* --- NIEBLA BLANCA (CSS) --- */
         .fog-wrapper {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -32,112 +33,106 @@
             overflow: hidden;
             pointer-events: none;
         }
-
         .fog-layer {
             position: absolute;
             width: 200%; height: 100%;
-            /* Creamos un patrón de nubes blancas usando gradientes radiales */
             background-image: 
-                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.3) 0%, transparent 50%),
-                radial-gradient(circle at 50% 20%, rgba(255,255,255,0.2) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.3) 0%, transparent 60%);
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.2) 0%, transparent 60%);
             background-size: 1000px 100%;
-            filter: blur(40px); /* Esto crea el efecto de humo suave */
+            filter: blur(50px);
         }
+        .fog-1 { opacity: 0.4; animation: moveFog 30s linear infinite; }
+        @keyframes moveFog { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-        .fog-1 { opacity: 0.5; animation: moveFog 25s linear infinite; }
-        .fog-2 { opacity: 0.3; animation: moveFog 40s linear infinite reverse; top: 10%; }
-
-        @keyframes moveFog {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-        }
-
-        /* --- VIÑETA Y GLOW --- */
+        /* --- VIÑETA Y CURSOR --- */
         .vignette {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            box-shadow: inset 0 0 150px rgba(0,0,0,1);
-            pointer-events: none;
-            z-index: 5;
+            box-shadow: inset 0 0 200px rgba(0,0,0,1);
+            pointer-events: none; z-index: 5;
         }
-
         #cursor-glow {
-            position: fixed;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(255, 0, 0, 0.2) 0%, rgba(0,0,0,0) 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: -1;
-            transform: translate(-50%, -50%);
-            transition: 0.1s ease-out;
+            position: fixed; width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.15) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%; pointer-events: none; z-index: -1;
+            transform: translate(-50%, -50%); transition: 0.1s ease-out;
         }
 
-        /* --- PANTALLA DE BLOQUEO (ORIGINAL) --- */
+        /* --- PANTALLA BLOQUEO (ORIGINAL) --- */
         #pantalla-bloqueo {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-dark);
-            display: flex; justify-content: center; align-items: center;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-dark); display: flex; justify-content: center; align-items: center;
             z-index: 2000; transition: 1.5s;
         }
-
         .login-box {
-            background: var(--card-dark);
-            padding: 40px;
-            border: 1px solid var(--gothic-red);
-            text-align: center;
+            background: var(--card-dark); padding: 40px;
+            border: 1px solid var(--gothic-red); text-align: center;
             box-shadow: 0 0 30px #000;
         }
 
-        /* --- CONTENIDO --- */
+        /* --- CONTENIDO PRINCIPAL --- */
         #contenido { display: none; padding: 20px; text-align: center; width: 100%; max-width: 1000px; z-index: 10; }
 
         .titulo-latido {
-            font-size: 3.5rem;
-            color: var(--bright-red);
-            text-transform: uppercase;
-            letter-spacing: 6px;
-            animation: heartbeat 2s infinite;
-            text-shadow: 0 0 20px var(--gothic-red);
-            margin-top: 50px;
+            font-size: 3.5rem; color: var(--bright-red);
+            text-transform: uppercase; letter-spacing: 6px;
+            text-shadow: 0 0 20px var(--bright-red);
+            margin-top: 50px; animation: heartbeat 2s infinite;
         }
-
         @keyframes heartbeat {
-            0%, 28%, 70% { transform: scale(1); }
-            14%, 42% { transform: scale(1.05); text-shadow: 0 0 40px var(--bright-red); }
+            0%, 100% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.05); filter: brightness(1.3); }
         }
 
-        /* --- VALES --- */
+        /* --- CARTAS ESTILO NEÓN --- */
         .contenedor-vales {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
-            justify-items: center;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px; margin-top: 50px; justify-items: center;
         }
 
-        .vale-card { width: 200px; height: 280px; perspective: 1000px; cursor: pointer; }
+        .vale-card { width: 220px; height: 300px; perspective: 1000px; cursor: pointer; }
         .vale-inner { position: relative; width: 100%; height: 100%; transition: 0.8s; transform-style: preserve-3d; }
         .flipped .vale-inner { transform: rotateY(180deg); }
         
         .vale-front, .vale-back {
             position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
-            border-radius: 12px; padding: 15px; box-sizing: border-box;
+            border-radius: 15px; padding: 20px; box-sizing: border-box;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: var(--card-dark);
+            border: 2px solid var(--bright-red);
+            box-shadow: var(--neon-glow); /* Brillo neón en bordes */
         }
         
-        .vale-front { background: rgba(10, 10, 10, 0.7); backdrop-filter: blur(3px); color: var(--gothic-red); border: 1px solid var(--gothic-red); }
-        .vale-front span { font-size: 45px; margin-bottom: 10px; }
+        .vale-front span { 
+            font-size: 60px; margin-bottom: 15px; 
+            filter: drop-shadow(0 0 10px var(--bright-red)); /* Brillo en emoji */
+        }
+        .vale-front h3 { color: var(--bright-red); text-shadow: 0 0 5px var(--bright-red); margin: 0; }
         
-        .vale-back { background: #1a1a1a; color: white; transform: rotateY(180deg); border: 2px solid var(--bright-red); box-shadow: 0 0 20px rgba(255, 0, 0, 0.3); }
+        .vale-back { 
+            transform: rotateY(180deg); background: #000; 
+            border: 2px solid white; box-shadow: 0 0 15px white; 
+        }
 
-        .btn-reclamar { background: var(--gothic-red); color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        .btn-random { margin: 60px 0; padding: 15px 35px; border: 2px solid var(--bright-red); background: transparent; color: var(--bright-red); cursor: pointer; letter-spacing: 2px; }
+        /* --- BOTÓN DESTINO NEÓN --- */
+        .btn-random {
+            margin: 60px 0; padding: 15px 40px; font-size: 1.2rem;
+            border: 2px solid var(--bright-red); border-radius: 10px;
+            background: rgba(255, 0, 0, 0.1); color: white;
+            cursor: pointer; letter-spacing: 2px;
+            box-shadow: var(--neon-glow);
+            transition: 0.3s;
+        }
+        .btn-random:hover { background: var(--bright-red); box-shadow: 0 0 30px var(--bright-red); }
 
         /* REPRODUCTOR */
-        .music-player { position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.8); padding: 10px 20px; border: 1px solid var(--gothic-red); border-radius: 50px; z-index: 100; }
+        .music-player { 
+            position: fixed; bottom: 20px; right: 20px; 
+            background: rgba(0,0,0,0.8); padding: 10px 25px; 
+            border: 1px solid var(--bright-red); border-radius: 50px; 
+            z-index: 100; box-shadow: 0 0 10px var(--gothic-red);
+        }
         .heart { position: fixed; top: -10%; color: var(--bright-red); z-index: 6; animation: fall linear forwards; pointer-events: none; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
     </style>
@@ -146,61 +141,57 @@
 
     <div id="cursor-glow"></div>
     <div class="vignette"></div>
-    
-    <div class="fog-wrapper">
-        <div class="fog-layer fog-1"></div>
-        <div class="fog-layer fog-2"></div>
-    </div>
+    <div class="fog-wrapper"><div class="fog-layer fog-1"></div></div>
 
     <div id="pantalla-bloqueo">
         <div class="login-box">
-            <h2 style="color: var(--gothic-red)">Solo para tus ojos...</h2>
+            <h2 style="color: var(--bright-red); text-shadow: 0 0 10px red;">Solo para tus ojos...</h2>
             <p>¿Cómo me dices de cariño?</p>
             <input type="password" id="password" style="background:transparent; border:none; border-bottom:1px solid red; color:white; text-align:center; outline:none; font-size: 1.2rem;">
             <br><br>
-            <button onclick="verificar()" style="background:var(--gothic-red); color:white; border:none; padding:10px 25px; cursor:pointer;">REVELAR</button>
+            <button onclick="verificar()" style="background:var(--gothic-red); color:white; border:none; padding:10px 25px; cursor:pointer; font-weight:bold;">REVELAR</button>
         </div>
     </div>
 
     <div id="contenido">
         <h1 class="titulo-latido">Eternidad a tu lado</h1>
-        <div id="contador" style="color: var(--bright-red); font-size: 1.8rem; font-weight: bold; letter-spacing: 4px; margin: 25px 0; text-shadow: 0 0 10px black;"></div>
+        <div id="contador" style="color: var(--bright-red); font-size: 1.8rem; font-weight: bold; letter-spacing: 4px; margin: 25px 0;"></div>
 
         <div class="contenedor-vales">
             <div class="vale-card" onclick="this.classList.toggle('flipped')">
                 <div class="vale-inner">
                     <div class="vale-front"><span>🎬</span><h3>VALE I</h3></div>
-                    <div class="vale-back"><p>Una tarde de películas</p><button class="btn-reclamar" onclick="canjear('Una tarde de películas')">Canjear</button></div>
+                    <div class="vale-back"><p>Una tarde de películas</p><button style="padding:8px; cursor:pointer;" onclick="canjear('Películas')">Canjear</button></div>
                 </div>
             </div>
             <div class="vale-card" onclick="this.classList.toggle('flipped')">
                 <div class="vale-inner">
                     <div class="vale-front"><span>🛌</span><h3>VALE II</h3></div>
-                    <div class="vale-back"><p>Una camita de chismes</p><button class="btn-reclamar" onclick="canjear('Una camita de chismes')">Canjear</button></div>
+                    <div class="vale-back"><p>Una camita de chismes</p><button style="padding:8px; cursor:pointer;" onclick="canjear('Chismes')">Canjear</button></div>
                 </div>
             </div>
             <div class="vale-card" onclick="this.classList.toggle('flipped')">
                 <div class="vale-inner">
                     <div class="vale-front"><span>🍬</span><h3>VALE III</h3></div>
-                    <div class="vale-back"><p>Unas gomitas</p><button class="btn-reclamar" onclick="canjear('Unas gomitas')">Canjear</button></div>
+                    <div class="vale-back"><p>Unas gomitas</p><button style="padding:8px; cursor:pointer;" onclick="canjear('Gomitas')">Canjear</button></div>
                 </div>
             </div>
             <div class="vale-card" onclick="this.classList.toggle('flipped')">
                 <div class="vale-inner">
                     <div class="vale-front"><span>🔥</span><h3>VALE IV</h3></div>
-                    <div class="vale-back"><p>Una bolsa de chetos</p><button class="btn-reclamar" onclick="canjear('Una bolsa de chetos')">Canjear</button></div>
+                    <div class="vale-back"><p>Una bolsa de chetos</p><button style="padding:8px; cursor:pointer;" onclick="canjear('Chetos')">Canjear</button></div>
                 </div>
             </div>
             <div class="vale-card" onclick="this.classList.toggle('flipped')">
                 <div class="vale-inner">
                     <div class="vale-front"><span>🍕</span><h3>VALE V</h3></div>
-                    <div class="vale-back"><p>Una pizza a tu lado</p><button class="btn-reclamar" onclick="canjear('Una pizza a tu lado')">Canjear</button></div>
+                    <div class="vale-back"><p>Una pizza a tu lado</p><button style="padding:8px; cursor:pointer;" onclick="canjear('Pizza')">Canjear</button></div>
                 </div>
             </div>
             <div class="vale-card" onclick="this.classList.toggle('flipped')">
                 <div class="vale-inner">
                     <div class="vale-front"><span>🧛</span><h3>VALE VI</h3></div>
-                    <div class="vale-back"><p>Un día completo de besos</p><button class="btn-reclamar" onclick="canjear('Un día completo de besos')">Canjear</button></div>
+                    <div class="vale-back"><p>Un día de besos</p><button style="padding:8px; cursor:pointer;" onclick="canjear('Besos')">Canjear</button></div>
                 </div>
             </div>
         </div>
@@ -210,9 +201,7 @@
 
     <div class="music-player">
         <button id="musicBtn" onclick="toggleMusic()" style="background:none; border:none; color:var(--bright-red); cursor:pointer; font-weight: bold;">🎶 PLAY MUSIC</button>
-        <audio id="track" loop>
-            <source src="musica.mp3" type="audio/mpeg">
-        </audio>
+        <audio id="track" loop><source src="musica.mp3" type="audio/mpeg"></audio>
     </div>
 
     <script>
@@ -226,17 +215,13 @@
             const pass = document.getElementById('password').value.toLowerCase();
             if(pass === "chino") { 
                 document.getElementById('pantalla-bloqueo').style.opacity = "0";
-                const track = document.getElementById('track');
-                track.play().catch(e => console.log("Audio activo"));
-                
+                document.getElementById('track').play();
                 setTimeout(() => {
                     document.getElementById('pantalla-bloqueo').style.display = "none";
                     document.getElementById('contenido').style.display = "block";
                     document.getElementById('musicBtn').innerHTML = "⏸ PAUSE MUSIC";
                 }, 1000);
-            } else {
-                alert("Esa no es nuestra palabra...");
-            }
+            } else { alert("Esa no es nuestra palabra..."); }
         }
 
         const fechaInicio = new Date('2024-12-15T00:00:00'); 
@@ -251,7 +236,7 @@
 
         function canjear(msg) {
             event.stopPropagation();
-            window.open(`https://wa.me/+5627134465?text=He reclamado mi: ${msg} 🖤🥀`, '_blank');
+            window.open(`https://wa.me/+5627134465?text=He reclamado mi vale de: ${msg} 🖤🥀`, '_blank');
         }
 
         function suerteAleatoria() {
@@ -268,11 +253,10 @@
             const h = document.createElement('div');
             h.classList.add('heart'); h.innerHTML = '❤️';
             h.style.left = Math.random() * 100 + "vw";
-            h.style.fontSize = Math.random() * 20 + 10 + "px";
-            h.style.animationDuration = Math.random() * 4 + 3 + "s";
+            h.style.animationDuration = Math.random() * 3 + 2 + "s";
             document.body.appendChild(h);
-            setTimeout(() => h.remove(), 7000);
-        }, 500);
+            setTimeout(() => h.remove(), 5000);
+        }, 600);
 
         function toggleMusic() {
             const track = document.getElementById('track');
