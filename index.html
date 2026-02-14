@@ -24,7 +24,7 @@
             min-height: 100vh;
         }
 
-        /* --- NIEBLA BLANCA INTENSA --- */
+        /* --- NUEVA NIEBLA GENERADA POR CÓDIGO (SIN IMÁGENES) --- */
         .fog-wrapper {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -35,41 +35,43 @@
 
         .fog-layer {
             position: absolute;
-            top: 0; left: 0; width: 300%; height: 100%;
-            background: url('https://raw.githubusercontent.com/gery24667-arch/images/main/fog.png');
-            background-repeat: repeat-x;
-            background-size: contain;
-            filter: brightness(1.8) contrast(1.2) drop-shadow(0 0 10px white);
+            width: 200%; height: 100%;
+            /* Creamos un patrón de nubes blancas usando gradientes radiales */
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.3) 0%, transparent 50%),
+                radial-gradient(circle at 50% 20%, rgba(255,255,255,0.2) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.3) 0%, transparent 60%);
+            background-size: 1000px 100%;
+            filter: blur(40px); /* Esto crea el efecto de humo suave */
         }
 
-        .fog-1 { opacity: 0.6; animation: moveFog 35s linear infinite; }
-        .fog-2 { opacity: 0.4; filter: brightness(2) blur(12px); animation: moveFog 20s linear infinite reverse; top: 10%; }
-        .fog-3 { opacity: 0.3; filter: brightness(1.5) blur(5px); animation: moveFog 50s linear infinite; bottom: 0; }
+        .fog-1 { opacity: 0.5; animation: moveFog 25s linear infinite; }
+        .fog-2 { opacity: 0.3; animation: moveFog 40s linear infinite reverse; top: 10%; }
 
         @keyframes moveFog {
             from { transform: translateX(0); }
             to { transform: translateX(-50%); }
         }
 
-        /* --- GLOW Y VIÑETA --- */
+        /* --- VIÑETA Y GLOW --- */
         .vignette {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            box-shadow: inset 0 0 200px rgba(0,0,0,1);
+            box-shadow: inset 0 0 150px rgba(0,0,0,1);
             pointer-events: none;
             z-index: 5;
         }
 
         #cursor-glow {
             position: fixed;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(255, 0, 0, 0.25) 0%, rgba(0,0,0,0) 70%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.2) 0%, rgba(0,0,0,0) 70%);
             border-radius: 50%;
             pointer-events: none;
             z-index: -1;
             transform: translate(-50%, -50%);
-            transition: 0.08s ease-out;
+            transition: 0.1s ease-out;
         }
 
         /* --- PANTALLA DE BLOQUEO (ORIGINAL) --- */
@@ -122,13 +124,12 @@
         
         .vale-front, .vale-back {
             position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
             border-radius: 12px; padding: 15px; box-sizing: border-box;
-            border: 1px solid rgba(139, 0, 0, 0.5);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
         
-        .vale-front { background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(5px); color: var(--gothic-red); }
-        .vale-front span { font-size: 45px; margin-bottom: 10px; filter: drop-shadow(0 0 5px red); }
+        .vale-front { background: rgba(10, 10, 10, 0.7); backdrop-filter: blur(3px); color: var(--gothic-red); border: 1px solid var(--gothic-red); }
+        .vale-front span { font-size: 45px; margin-bottom: 10px; }
         
         .vale-back { background: #1a1a1a; color: white; transform: rotateY(180deg); border: 2px solid var(--bright-red); box-shadow: 0 0 20px rgba(255, 0, 0, 0.3); }
 
@@ -149,7 +150,6 @@
     <div class="fog-wrapper">
         <div class="fog-layer fog-1"></div>
         <div class="fog-layer fog-2"></div>
-        <div class="fog-layer fog-3"></div>
     </div>
 
     <div id="pantalla-bloqueo">
@@ -176,7 +176,7 @@
             <div class="vale-card" onclick="this.classList.toggle('flipped')">
                 <div class="vale-inner">
                     <div class="vale-front"><span>🛌</span><h3>VALE II</h3></div>
-                    <div class="vale-back"><p>Una caminata de chismes</p><button class="btn-reclamar" onclick="canjear('Una camita de chismes')">Canjear</button></div>
+                    <div class="vale-back"><p>Una camita de chismes</p><button class="btn-reclamar" onclick="canjear('Una camita de chismes')">Canjear</button></div>
                 </div>
             </div>
             <div class="vale-card" onclick="this.classList.toggle('flipped')">
