@@ -11,8 +11,7 @@
             --gothic-red: #8b0000;
             --bright-red: #ff0000;
             --paper: #f4e4bc;
-            --neon-red: 0 0 15px rgba(255, 0, 0, 0.8);
-            --neon-white: 0 0 25px rgba(255, 255, 255, 0.9);
+            --neon-glow: 0 0 15px rgba(255, 0, 0, 0.7), 0 0 5px rgba(255, 0, 0, 0.5);
         }
 
         body {
@@ -20,107 +19,118 @@
             background-color: var(--bg-dark);
             color: white; margin: 0; overflow-x: hidden;
             display: flex; flex-direction: column; align-items: center; min-height: 100vh;
-            cursor: none; /* Ocultamos el cursor original para usar el rojo personalizado */
-        }
-
-        /* --- CURSOR ROJO PERSONALIZADO --- */
-        #custom-cursor {
-            position: fixed; width: 12px; height: 12px; background: var(--bright-red);
-            border-radius: 50%; pointer-events: none; z-index: 9999;
-            box-shadow: 0 0 15px var(--bright-red), 0 0 30px var(--bright-red);
-            transform: translate(-50%, -50%); transition: transform 0.1s ease;
+            touch-action: manipulation;
         }
 
         /* --- NIEBLA Y VIÑETA --- */
         .fog-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; }
-        .fog-layer { position: absolute; width: 200%; height: 100%; background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%); animation: moveFog 30s linear infinite; }
+        .fog-layer { position: absolute; width: 200%; height: 100%; background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.15) 0%, transparent 60%); background-size: 1000px 100%; filter: blur(50px); animation: moveFog 30s linear infinite; }
         @keyframes moveFog { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .vignette { position: fixed; top: 0; left: 0; width: 100%; height: 100%; box-shadow: inset 0 0 200px rgba(0,0,0,1); pointer-events: none; z-index: 5; }
 
         /* --- PANTALLA BLOQUEO --- */
-        #pantalla-bloqueo { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); display: flex; justify-content: center; align-items: center; z-index: 2000; transition: 1.5s; cursor: auto; }
-        .login-box { background: var(--card-dark); padding: 40px; border: 1px solid var(--gothic-red); text-align: center; }
+        #pantalla-bloqueo { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); display: flex; justify-content: center; align-items: center; z-index: 2000; transition: 1.5s; }
+        .login-box { background: var(--card-dark); padding: 40px; border: 1px solid var(--gothic-red); text-align: center; box-shadow: 0 0 30px #000; }
 
         /* --- CONTENIDO --- */
         #contenido { display: none; padding: 20px; text-align: center; width: 100%; max-width: 1000px; z-index: 10; }
-        .titulo-latido { font-size: 3.5rem; color: var(--bright-red); text-shadow: 0 0 20px var(--bright-red); animation: heartbeat 2s infinite; }
+        .titulo-latido { font-size: 3.5rem; color: var(--bright-red); text-transform: uppercase; letter-spacing: 6px; text-shadow: 0 0 20px var(--bright-red); margin-top: 50px; animation: heartbeat 2s infinite; }
         @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
         /* --- PERGAMINO --- */
-        .scroll-container { margin: 40px 0; perspective: 1000px; }
-        .scroll-closed { width: 160px; height: 60px; background: linear-gradient(to bottom, #d4c49c, #f4e4bc, #d4c49c); border-radius: 10px; border: 2px solid #8b5e3c; display: flex; align-items: center; justify-content: center; color: #4e342e; font-weight: bold; cursor: pointer; }
-        #modal-carta { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 3000; justify-content: center; align-items: center; cursor: auto; }
-        .pergamino-abierto { background: var(--paper); color: #2c1e16; width: 90%; max-width: 500px; height: 0; overflow: hidden; position: relative; transition: height 1.5s ease-in-out; border-left: 2px solid #d4c49c; border-right: 2px solid #d4c49c; }
+        .scroll-container { margin: 40px 0; perspective: 1000px; cursor: pointer; }
+        .scroll-closed { width: 160px; height: 60px; background: linear-gradient(to bottom, #d4c49c, #f4e4bc, #d4c49c); border-radius: 10px; border: 2px solid #8b5e3c; display: flex; align-items: center; justify-content: center; color: #4e342e; font-weight: bold; box-shadow: 0 0 15px rgba(255,215,0,0.3); transition: 0.3s; }
+        #modal-carta { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 3000; justify-content: center; align-items: center; }
+        .pergamino-abierto { background: var(--paper); color: #2c1e16; width: 90%; max-width: 500px; height: 0; overflow: hidden; position: relative; transition: height 1.5s cubic-bezier(0.4, 0, 0.2, 1); border-left: 2px solid #d4c49c; border-right: 2px solid #d4c49c; box-shadow: 0 0 50px black; }
         .pergamino-abierto.desenrollado { height: 500px; }
         .scroll-rod { width: 105%; height: 25px; background: #4e342e; position: absolute; left: -2.5%; z-index: 10; border-radius: 5px; }
         .rod-top { top: 0; } .rod-bottom { bottom: 0; }
-        .carta-texto { padding: 50px 40px; font-family: 'Dancing Script', cursive; font-size: 1.4rem; opacity: 0; transition: 1s 1s; }
+        .carta-texto { padding: 50px 40px; font-family: 'Dancing Script', cursive; font-size: 1.4rem; line-height: 1.6; text-align: left; opacity: 0; transition: opacity 0.8s 1.2s; }
         .desenrollado .carta-texto { opacity: 1; }
 
         /* --- VALES --- */
-        .contenedor-vales { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-top: 50px; }
-        .vale-card { width: 220px; height: 320px; perspective: 1000px; }
+        .contenedor-vales { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-top: 50px; justify-items: center; }
+        .vale-card { width: 220px; height: 320px; perspective: 1000px; cursor: pointer; }
         .vale-inner { position: relative; width: 100%; height: 100%; transition: 0.8s; transform-style: preserve-3d; }
         .flipped .vale-inner { transform: rotateY(180deg); }
-        .vale-front, .vale-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--card-dark); border: 2px solid var(--bright-red); box-shadow: var(--neon-red); }
+        .vale-front, .vale-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--card-dark); border: 2px solid var(--bright-red); box-shadow: var(--neon-glow); }
+        .vale-front span { font-size: 60px; margin-bottom: 15px; filter: drop-shadow(0 0 10px var(--bright-red)); }
         .vale-back { transform: rotateY(180deg); background: #000; border: 2px solid white; box-shadow: 0 0 15px white; }
 
-        /* --- FLOR REALISTA MEJORADA --- */
-        .center-flower-box { margin: 80px 0; position: relative; }
-        .flower { position: relative; width: 120px; height: 120px; animation: rotateFlower 15s linear infinite; }
-        .flower-center { position: absolute; width: 40px; height: 40px; background: radial-gradient(circle, #fff 20%, #ffeb3b 100%); border-radius: 50%; top: 40px; left: 40px; z-index: 10; box-shadow: var(--neon-white); }
-        .petal-real { position: absolute; width: 50px; height: 80px; background: radial-gradient(ellipse at center, #ff0000 0%, #8b0000 100%); border-radius: 50% 50% 20% 20%; border: 1px solid rgba(255,255,255,0.3); left: 35px; transform-origin: bottom center; }
-        @keyframes rotateFlower { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        /* --- PARTÍCULAS --- */
+        .particle { position: fixed; pointer-events: none; z-index: 6; font-size: 24px; }
+        @keyframes fall { 
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } 
+        }
 
-        /* --- PARTÍCULAS Y RASTRO --- */
-        .trail-flower { position: fixed; pointer-events: none; z-index: 9998; font-size: 14px; animation: vanish 1.2s forwards; }
-        @keyframes vanish { to { transform: scale(2) translateY(-40px) rotate(180deg); opacity: 0; } }
-        .particle { position: fixed; pointer-events: none; z-index: 6; animation: fall 6s linear forwards; }
-        @keyframes fall { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
+        /* --- RASTRO DEL CURSOR --- */
+        .trail {
+            position: fixed; width: 8px; height: 8px;
+            background: var(--bright-red); border-radius: 50%;
+            pointer-events: none; z-index: 100;
+            box-shadow: 0 0 10px var(--bright-red);
+            animation: vanish 1s forwards;
+        }
+        @keyframes vanish {
+            to { transform: scale(3) translateY(-20px); opacity: 0; }
+        }
 
-        .music-player { position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.8); padding: 10px 20px; border: 1px solid red; border-radius: 50px; z-index: 100; }
+        .music-player { position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.8); padding: 10px 25px; border: 1px solid var(--bright-red); border-radius: 50px; z-index: 100; }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div id="custom-cursor"></div>
     <div class="vignette"></div>
     <div class="fog-wrapper"><div class="fog-layer"></div></div>
 
     <div id="pantalla-bloqueo">
         <div class="login-box">
-            <h2 style="color: var(--bright-red)">Para mi niña...</h2>
-            <p>¿Nuestra palabra?</p>
-            <input type="password" id="password" style="background:transparent; border:none; border-bottom:1px solid red; color:white; text-align:center; outline:none;">
+            <h2 style="color: var(--bright-red)">Solo para tus ojos...</h2>
+            <p>¿Cómo me dices de cariño?</p>
+            <input type="password" id="password" style="background:transparent; border:none; border-bottom:1px solid red; color:white; text-align:center; outline:none; font-size: 1.2rem;">
             <br><br>
-            <button onclick="verificar()" style="background:var(--gothic-red); color:white; border:none; padding:10px 20px; cursor:pointer;">ENTRAR</button>
+            <button onclick="verificar()" style="background:var(--gothic-red); color:white; border:none; padding:10px 25px; cursor:pointer;">REVELAR</button>
         </div>
     </div>
 
     <div id="contenido">
-        <h1 class="titulo-latido">Eternidad Oscura</h1>
-        <div id="contador" style="color: var(--bright-red); font-size: 1.8rem; font-weight: bold; margin: 20px 0;"></div>
+        <h1 class="titulo-latido">Eternidad a tu lado</h1>
+        <div id="contador" style="color: var(--bright-red); font-size: 1.8rem; font-weight: bold; margin: 25px 0;"></div>
 
         <div class="scroll-container" onclick="abrirCarta()">
             <div class="scroll-closed">📜 NUESTRA CARTA</div>
         </div>
 
-        <div class="contenedor-vales" id="grid-vales"></div>
-
-        <div class="center-flower-box">
-            <div class="flower">
-                <div class="flower-center"></div>
-                <script>
-                    for(let i=0; i<8; i++) {
-                        document.write(`<div class="petal-real" style="transform: rotate(${i*45}deg)"></div>`);
-                    }
-                </script>
-            </div>
-            <p style="margin-top: 50px; font-style: italic; color: #fff; text-shadow: var(--neon-white);">"Brillando solo para ti"</p>
+        <div class="contenedor-vales">
+            <script>
+                const vales = [
+                    {e:'🎬', t:'VALE I', m:'Una tarde de películas'},
+                    {e:'🛌', t:'VALE II', m:'Una camita de chismes'},
+                    {e:'🍬', t:'VALE III', m:'Unas gomitas'},
+                    {e:'🔥', t:'VALE IV', m:'Una bolsa de chetos'},
+                    {e:'🍕', t:'VALE V', m:'Una pizza a tu lado'},
+                    {e:'🧛', t:'VALE VI', m:'Un día de besos'}
+                ];
+                vales.forEach(v => {
+                    document.write(`
+                        <div class="vale-card" onclick="this.classList.toggle('flipped')">
+                            <div class="vale-inner">
+                                <div class="vale-front"><span>${v.e}</span><h3>${v.t}</h3></div>
+                                <div class="vale-back">
+                                    <p>${v.m}</p>
+                                    <button onclick="canjear('${v.m}')">Canjear</button>
+                                    <p style="font-size:0.7rem; margin-top:10px; color:#888;">Válido hasta: Que la muerte nos separe. 🧛🥀</p>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                });
+            </script>
         </div>
 
-        <button onclick="suerteAleatoria()" style="margin:40px; padding:15px 30px; border:2px solid red; background:transparent; color:white; cursor:pointer; box-shadow: var(--neon-red);">DESTINO ALEATORIO</button>
+        <button onclick="suerteAleatoria()" style="margin:60px; padding:15px; border:2px solid red; background:transparent; color:white; cursor:pointer; box-shadow: var(--neon-glow);">Dejar que el destino elija</button>
     </div>
 
     <div id="modal-carta" onclick="cerrarCarta()">
@@ -128,80 +138,66 @@
             <div class="scroll-rod rod-top"></div>
             <div class="carta-texto">
                 Mi Amor,<br><br>
-                Así como esta flor roja brilla bajo la luz blanca, tú iluminas cada rincón de mi oscuridad. Gracias por estos 426 días de magia absoluta. <br><br>
-                Válido por una eternidad. 🖤🥀🌻
+                Elegí "Apocalypse" porque nuestro amor es lo único que importa. Como estos girasoles, siempre busco tu luz, y como las rosas negras, mi amor es eterno.<br><br>
+                Gracias por estos 426 días.<br>
+                Eres mi eternidad. 🖤🥀🌻
             </div>
             <div class="scroll-rod rod-bottom"></div>
         </div>
     </div>
 
     <div class="music-player">
-        <button id="musicBtn" onclick="toggleMusic()" style="background:none; border:none; color:white; cursor:pointer;">🎶 PLAY</button>
+        <button id="musicBtn" onclick="toggleMusic()" style="background:none; border:none; color:var(--bright-red); cursor:pointer; font-weight: bold;">🎶 PLAY MUSIC</button>
         <audio id="track" loop><source src="musica.mp3" type="audio/mpeg"></audio>
     </div>
 
     <script>
-        const cursor = document.getElementById('custom-cursor');
-        
-        // MOVIMIENTO DEL CURSOR Y RASTRO DE FLORES
+        // --- RASTRO DEL CURSOR ROJO ---
         document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-
-            // Crear flores al mover el cursor
-            if(Math.random() > 0.85) {
-                const f = document.createElement('div');
-                f.className = 'trail-flower';
-                f.innerHTML = ['🌸', '✨', '🥀', '🌹'][Math.floor(Math.random()*4)];
-                f.style.left = e.clientX + 'px';
-                f.style.top = e.clientY + 'px';
-                document.body.appendChild(f);
-                setTimeout(() => f.remove(), 1200);
+            const trail = document.createElement('div');
+            trail.className = 'trail';
+            trail.style.left = e.clientX + 'px';
+            trail.style.top = e.clientY + 'px';
+            
+            if(Math.random() > 0.9) {
+                trail.innerHTML = Math.random() > 0.5 ? '🥀' : '✨';
+                trail.style.background = 'none';
+                trail.style.fontSize = '12px';
             }
+            
+            document.body.appendChild(trail);
+            setTimeout(() => trail.remove(), 1000);
         });
 
-        // GENERAR VALES
-        const valesData = [
-            {e:'🎬', t:'VALE I', m:'Tarde de Pelis'},
-            {e:'🛌', t:'VALE II', m:'Camita y Chisme'},
-            {e:'🍬', t:'VALE III', m:'Tus Dulces Favoritos'},
-            {e:'🔥', t:'VALE IV', m:'Bolsa de Chetos'},
-            {e:'🍕', t:'VALE V', m:'Cena Especial'},
-            {e:'🧛', t:'VALE VI', m:'Muchos Besitos'}
-        ];
-        const grid = document.getElementById('grid-vales');
-        valesData.forEach(v => {
-            grid.innerHTML += `
-                <div class="vale-card" onclick="this.classList.toggle('flipped')">
-                    <div class="vale-inner">
-                        <div class="vale-front"><span>${v.e}</span><h3>${v.t}</h3></div>
-                        <div class="vale-back">
-                            <p>${v.m}</p>
-                            <button onclick="canjear('${v.m}')" style="cursor:pointer;">Canjear</button>
-                        </div>
-                    </div>
-                </div>`;
-        });
+        function abrirCarta() {
+            document.getElementById('modal-carta').style.display = 'flex';
+            setTimeout(() => { document.getElementById('pergamino').classList.add('desenrollado'); }, 100);
+        }
+        function cerrarCarta() {
+            document.getElementById('pergamino').classList.remove('desenrollado');
+            setTimeout(() => { document.getElementById('modal-carta').style.display = 'none'; }, 800);
+        }
 
-        function abrirCarta() { document.getElementById('modal-carta').style.display = 'flex'; setTimeout(() => document.getElementById('pergamino').classList.add('desenrollado'), 100); }
-        function cerrarCarta() { document.getElementById('pergamino').classList.remove('desenrollado'); setTimeout(() => document.getElementById('modal-carta').style.display = 'none', 800); }
-
-        // LLUVIA DE FLORES CONSTANTE
+        const flores = ['🌻', '🌹', '🌸', '🤍', '🖤', '❤️', '🥀'];
         setInterval(() => {
             const p = document.createElement('div');
             p.classList.add('particle');
-            p.innerHTML = ['🌻', '🌹', '🌸', '🤍', '🖤', '❤️', '🥀'][Math.floor(Math.random() * 7)];
+            p.innerHTML = flores[Math.floor(Math.random() * flores.length)];
             p.style.left = Math.random() * 100 + "vw";
             p.style.fontSize = Math.random() * 20 + 20 + "px";
+            p.style.animation = `fall ${Math.random() * 4 + 4}s linear forwards`;
             document.body.appendChild(p);
-            setTimeout(() => p.remove(), 6000);
+            setTimeout(() => p.remove(), 8000);
         }, 400);
 
         function verificar() {
             if(document.getElementById('password').value.toLowerCase() === "chino") { 
                 document.getElementById('pantalla-bloqueo').style.opacity = "0";
                 document.getElementById('track').play();
-                setTimeout(() => { document.getElementById('pantalla-bloqueo').style.display = "none"; document.getElementById('contenido').style.display = "block"; }, 1000);
+                setTimeout(() => {
+                    document.getElementById('pantalla-bloqueo').style.display = "none";
+                    document.getElementById('contenido').style.display = "block";
+                }, 1000);
             } else { alert("Palabra incorrecta..."); }
         }
 
@@ -215,12 +211,18 @@
             document.getElementById('contador').innerHTML = `${d}D : ${h}H : ${m}M : ${s}S`;
         }, 1000);
 
-        function canjear(msg) { event.stopPropagation(); window.open(`https://wa.me/1234567890?text=Cariño, quiero canjear: ${msg} 🖤🥀🌻`); }
-        function suerteAleatoria() { 
+        function canjear(msg) {
+            event.stopPropagation();
+            window.open(`https://wa.me/1234567890?text=He reclamado mi: ${msg} 🖤🥀🌻`, '_blank');
+        }
+
+        function suerteAleatoria() {
             const cards = document.querySelectorAll('.vale-card');
             cards.forEach(c => c.classList.remove('flipped'));
-            setTimeout(() => cards[Math.floor(Math.random() * cards.length)].classList.add('flipped'), 300);
+            const randomIdx = Math.floor(Math.random() * cards.length);
+            setTimeout(() => { cards[randomIdx].classList.add('flipped'); }, 300);
         }
+
         function toggleMusic() {
             const track = document.getElementById('track');
             if (track.paused) { track.play(); document.getElementById('musicBtn').innerHTML = "⏸ PAUSE"; }
