@@ -45,6 +45,7 @@
             border-radius: 10px;
             text-align: center;
             box-shadow: 0 0 20px var(--gothic-red);
+            margin: 20px;
         }
 
         input {
@@ -56,9 +57,10 @@
             text-align: center;
             padding: 10px;
             outline: none;
+            width: 80%;
         }
 
-        /* --- CONTENIDO PRINCIPAL (Oculto al inicio) --- */
+        /* --- CONTENIDO PRINCIPAL --- */
         #contenido {
             display: none;
             padding: 20px;
@@ -67,7 +69,6 @@
             text-align: center;
         }
 
-        /* --- CONTADOR --- */
         #contador {
             font-size: 1.5rem;
             color: var(--gothic-red);
@@ -81,9 +82,10 @@
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
             margin-top: 30px;
+            justify-items: center;
         }
 
-        /* --- TARJETAS GOTICAS --- */
+        /* --- TARJETAS --- */
         .vale-card {
             width: 200px;
             height: 280px;
@@ -96,7 +98,6 @@
             width: 100%; height: 100%;
             transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             transform-style: preserve-3d;
-            border: 1px solid #333;
             border-radius: 10px;
         }
 
@@ -121,12 +122,17 @@
             border: 1px solid var(--gothic-red);
         }
 
+        .vale-front span { font-size: 40px; margin-bottom: 10px; }
+
         .vale-back {
             background: #1a1a1a;
             color: white;
             transform: rotateY(180deg);
             border: 2px solid var(--bright-red);
+            box-shadow: inset 0 0 15px rgba(255, 0, 0, 0.2);
         }
+
+        .vale-back p { font-size: 1rem; font-weight: bold; margin-bottom: 15px; }
 
         button {
             background: var(--gothic-red);
@@ -142,18 +148,21 @@
         button:hover { background: var(--bright-red); box-shadow: 0 0 15px var(--bright-red); }
 
         .btn-random {
-            margin-top: 50px;
+            margin: 50px 0;
             padding: 15px 30px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             border: 2px solid var(--bright-red);
             background: transparent;
             color: var(--bright-red);
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         /* --- LLUVIA CORAZONES --- */
         .heart {
             position: fixed; top: -10%; color: var(--bright-red);
             z-index: -1; animation: fall linear forwards;
+            pointer-events: none;
         }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
     </style>
@@ -171,26 +180,44 @@
     </div>
 
     <div id="contenido">
-        <h1 style="color: var(--bright-red);">Nuestro Tiempo de Oscuridad y Luz</h1>
-        <div id="contador">Cargando eternidad...</div>
+        <h1 style="color: var(--bright-red); text-shadow: 0 0 10px var(--gothic-red);">Eternidad a tu lado</h1>
+        <div id="contador">Calculando nuestra historia...</div>
 
-        <div class="contenedor-vales" id="grid-vales">
+        <div class="contenedor-vales">
             <div class="vale-card" onclick="this.classList.toggle('flipped')">
                 <div class="vale-inner">
-                    <div class="vale-front"><span>🖤</span><h3>Vale I</h3></div>
-                    <div class="vale-back"><p>Cena bajo la luna</p><button onclick="canjear('Cena Romántica')">Canjear</button></div>
+                    <div class="vale-front"><span>🎬</span><h3>Vale I</h3></div>
+                    <div class="vale-back"><p>Una tarde de películas</p><button onclick="canjear('Una tarde de películas')">Canjear</button></div>
                 </div>
             </div>
             <div class="vale-card" onclick="this.classList.toggle('flipped')">
                 <div class="vale-inner">
-                    <div class="vale-front"><span>🍷</span><h3>Vale II</h3></div>
-                    <div class="vale-back"><p>Noche de vino y pelis</p><button onclick="canjear('Noche de Vino')">Canjear</button></div>
+                    <div class="vale-front"><span>🛌</span><h3>Vale II</h3></div>
+                    <div class="vale-back"><p>Una camita de chismes</p><button onclick="canjear('Una camita de chismes')">Canjear</button></div>
                 </div>
             </div>
             <div class="vale-card" onclick="this.classList.toggle('flipped')">
                 <div class="vale-inner">
-                    <div class="vale-front"><span>🥀</span><h3>Vale III</h3></div>
-                    <div class="vale-back"><p>Masaje con velas</p><button onclick="canjear('Masaje con velas')">Canjear</button></div>
+                    <div class="vale-front"><span>🍬</span><h3>Vale III</h3></div>
+                    <div class="vale-back"><p>Unas gomitas</p><button onclick="canjear('Unas gomitas')">Canjear</button></div>
+                </div>
+            </div>
+            <div class="vale-card" onclick="this.classList.toggle('flipped')">
+                <div class="vale-inner">
+                    <div class="vale-front"><span>🔥</span><h3>Vale IV</h3></div>
+                    <div class="vale-back"><p>Una bolsa de chetos</p><button onclick="canjear('Una bolsa de chetos')">Canjear</button></div>
+                </div>
+            </div>
+            <div class="vale-card" onclick="this.classList.toggle('flipped')">
+                <div class="vale-inner">
+                    <div class="vale-front"><span>🍕</span><h3>Vale V</h3></div>
+                    <div class="vale-back"><p>Una pizza a tu lado</p><button onclick="canjear('Una pizza a tu lado')">Canjear</button></div>
+                </div>
+            </div>
+            <div class="vale-card" onclick="this.classList.toggle('flipped')">
+                <div class="vale-inner">
+                    <div class="vale-front"><span>🧛</span><h3>Vale VI</h3></div>
+                    <div class="vale-back"><p>Un día completo de besos</p><button onclick="canjear('Un día completo de besos')">Canjear</button></div>
                 </div>
             </div>
         </div>
@@ -202,7 +229,7 @@
         // 1. VERIFICAR CONTRASEÑA
         function verificar() {
             const pass = document.getElementById('password').value.toLowerCase();
-            const correcta = "chino"; // <--- CAMBIA ESTO POR TU PALABRA CLAVE
+            const correcta = "chino"; // <--- CAMBIA ESTO
             if(pass === correcta) {
                 document.getElementById('pantalla-bloqueo').style.opacity = "0";
                 setTimeout(() => {
@@ -214,8 +241,8 @@
             }
         }
 
-        // 2. CONTADOR
-        const fechaInicio = new Date('2024-12-15T00:00:00'); // <--- CAMBIA TU FECHA AQUI (Año-Mes-Día)
+        // 2. CONTADOR (Personaliza la fecha abajo)
+        const fechaInicio = new Date('2024-12-15T00:00:00'); 
         function actualizarContador() {
             const ahora = new Date();
             const diff = ahora - fechaInicio;
@@ -227,35 +254,26 @@
         }
         setInterval(actualizarContador, 1000);
 
-        // 3. WHATSAPP
+        // 3. WHATSAPP (Personaliza tu número abajo)
         function canjear(msg) {
             event.stopPropagation();
-            const tel = "+5627134465"; // <--- TU NUMERO
-            window.open(`https://wa.me/${tel}?text=He reclamado mi: ${msg} 🖤`, '_blank');
+            const tel = "+5627134465"; // <--- TU NUMERO AQUÍ
+            window.open(`https://wa.me/${tel}?text=He decidido reclamar mi: ${msg} 🖤🥀`, '_blank');
         }
 
         // 4. SUERTE ALEATORIA
         function suerteAleatoria() {
             const cards = document.querySelectorAll('.vale-card');
-            const randomIdx = Math.floor(Math.random() * cards.length);
             cards.forEach(c => c.classList.remove('flipped'));
+            
+            const randomIdx = Math.floor(Math.random() * cards.length);
             
             setTimeout(() => {
                 cards[randomIdx].classList.add('flipped');
-                cards[randomIdx].style.boxShadow = "0 0 30px var(--bright-red)";
+                cards[randomIdx].scrollIntoView({ behavior: 'smooth', block: 'center' });
             }, 500);
         }
 
-        // 5. CORAZONES ROJOS
+        // 5. LLUVIA DE CORAZONES
         setInterval(() => {
-            const h = document.createElement('div');
-            h.classList.add('heart');
-            h.innerHTML = '❤️';
-            h.style.left = Math.random() * 100 + "vw";
-            h.style.animationDuration = Math.random() * 3 + 2 + "s";
-            document.body.appendChild(h);
-            setTimeout(() => h.remove(), 5000);
-        }, 400);
-    </script>
-</body>
-</html>
+            const
