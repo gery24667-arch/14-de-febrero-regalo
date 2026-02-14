@@ -10,35 +10,22 @@
             --card-dark: #0a0a0a;
             --gothic-red: #8b0000;
             --bright-red: #ff0000;
-            --neon-glow: 0 0 15px rgba(255, 0, 0, 0.7), 0 0 5px rgba(255, 0, 0, 0.5);
+            --paper: #f4e4bc;
+            --neon-glow: 0 0 15px rgba(255, 0, 0, 0.7);
         }
 
         body {
             font-family: 'Georgia', serif;
             background-color: var(--bg-dark);
-            color: white;
-            margin: 0;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
+            color: white; margin: 0; overflow-x: hidden;
+            display: flex; flex-direction: column; align-items: center; min-height: 100vh;
         }
 
         /* --- NIEBLA Y AMBIENTE --- */
-        .fog-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; overflow: hidden; pointer-events: none; }
-        .fog-layer { position: absolute; width: 200%; height: 100%; background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.2) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.2) 0%, transparent 60%); background-size: 1000px 100%; filter: blur(50px); }
-        .fog-1 { opacity: 0.4; animation: moveFog 30s linear infinite; }
+        .fog-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; }
+        .fog-layer { position: absolute; width: 200%; height: 100%; background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.2) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.2) 0%, transparent 60%); background-size: 1000px 100%; filter: blur(50px); animation: moveFog 30s linear infinite; }
         @keyframes moveFog { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
         .vignette { position: fixed; top: 0; left: 0; width: 100%; height: 100%; box-shadow: inset 0 0 200px rgba(0,0,0,1); pointer-events: none; z-index: 5; }
-        
-        #cursor-glow {
-            position: fixed; width: 400px; height: 400px;
-            background: radial-gradient(circle, rgba(255, 0, 0, 0.15) 0%, rgba(0,0,0,0) 70%);
-            border-radius: 50%; pointer-events: none; z-index: -1;
-            transform: translate(-50%, -50%); transition: 0.1s ease-out;
-        }
 
         /* --- PANTALLA BLOQUEO --- */
         #pantalla-bloqueo { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); display: flex; justify-content: center; align-items: center; z-index: 2000; transition: 1.5s; }
@@ -49,7 +36,76 @@
         .titulo-latido { font-size: 3.5rem; color: var(--bright-red); text-transform: uppercase; letter-spacing: 6px; text-shadow: 0 0 20px var(--bright-red); margin-top: 50px; animation: heartbeat 2s infinite; }
         @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-        /* --- CARTAS NEÓN --- */
+        /* --- PERGAMINO QUE SE DESENROLLA --- */
+        .scroll-container {
+            margin: 40px 0;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        /* El rollo cerrado */
+        .scroll-closed {
+            width: 120px; height: 50px;
+            background: linear-gradient(to bottom, #d4c49c, #f4e4bc, #d4c49c);
+            border-radius: 10px;
+            border: 2px solid #8b5e3c;
+            display: flex; align-items: center; justify-content: center;
+            color: #4e342e; font-weight: bold; font-size: 0.8rem;
+            box-shadow: 0 0 15px rgba(255,215,0,0.3);
+            transition: transform 0.3s;
+            position: relative;
+        }
+        .scroll-closed::before, .scroll-closed::after {
+            content: ''; position: absolute; width: 10px; height: 60px;
+            background: #8b5e3c; border-radius: 5px; top: -5px;
+        }
+        .scroll-closed::before { left: -5px; } .scroll-closed::after { right: -5px; }
+        .scroll-closed:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--bright-red); }
+
+        /* La carta abierta (Modal) */
+        #modal-carta {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center;
+        }
+
+        .pergamino-abierto {
+            background: var(--paper);
+            color: #2c1e16;
+            width: 90%; max-width: 500px;
+            height: 0; /* Empieza con altura 0 */
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0,0,0,1);
+            transition: height 1.5s ease-in-out; /* Efecto desenrollar */
+            border-left: 2px solid #d4c49c;
+            border-right: 2px solid #d4c49c;
+        }
+
+        .pergamino-abierto.desenrollado {
+            height: 550px; /* Altura final al abrirse */
+        }
+
+        /* Tapas del rollo (Madera) */
+        .scroll-rod {
+            width: 105%; height: 30px;
+            background: #4e342e;
+            position: absolute; left: -2.5%;
+            z-index: 10; border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+        }
+        .rod-top { top: 0; }
+        .rod-bottom { bottom: 0; }
+
+        .carta-texto {
+            padding: 60px 40px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.4rem; line-height: 1.6;
+            text-align: left; opacity: 0;
+            transition: opacity 1s 1s; /* Aparece después de desenrollar */
+        }
+        .desenrollado .carta-texto { opacity: 1; }
+
+        /* --- VALES NEÓN --- */
         .contenedor-vales { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-top: 50px; justify-items: center; }
         .vale-card { width: 220px; height: 320px; perspective: 1000px; cursor: pointer; }
         .vale-inner { position: relative; width: 100%; height: 100%; transition: 0.8s; transform-style: preserve-3d; }
@@ -59,30 +115,20 @@
         .vale-back { transform: rotateY(180deg); background: #000; border: 2px solid white; box-shadow: 0 0 15px white; }
         .caducidad { font-size: 0.7rem; color: #888; margin-top: 15px; font-style: italic; }
 
-        /* --- MODAL PERGAMINO --- */
-        #modal-carta { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center; }
-        .pergamino { background: #f4e4bc; color: #2c1e16; padding: 40px; width: 80%; max-width: 500px; border-radius: 5px; box-shadow: 0 0 50px rgba(0,0,0,0.5); position: relative; transform: rotate(-1deg); border-left: 10px solid #d4c49c; }
-        .pergamino p { font-family: 'Dancing Script', cursive; font-size: 1.3rem; line-height: 1.6; }
-        .btn-cerrar { position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #8b0000; }
-
-        /* --- BOTONES --- */
-        .btn-random, .btn-carta { margin: 30px 10px; padding: 15px 30px; border: 2px solid var(--bright-red); border-radius: 10px; background: rgba(255,0,0,0.1); color: white; cursor: pointer; letter-spacing: 2px; box-shadow: var(--neon-glow); transition: 0.3s; }
-        .btn-carta { border-color: #f4e4bc; color: #f4e4bc; box-shadow: 0 0 15px rgba(244, 228, 188, 0.3); }
-
-        /* --- PARTÍCULAS --- */
-        .particle { position: fixed; pointer-events: none; z-index: 6; }
-        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
-        @keyframes floatUp { to { transform: translateY(-110vh) translateX(20px); opacity: 0; } }
+        .btn-random { margin: 60px 0; padding: 15px 40px; border: 2px solid var(--bright-red); border-radius: 10px; background: rgba(255,0,0,0.1); color: white; cursor: pointer; box-shadow: var(--neon-glow); }
 
         .music-player { position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.8); padding: 10px 25px; border: 1px solid var(--bright-red); border-radius: 50px; z-index: 100; }
+        .particle { position: fixed; pointer-events: none; z-index: 6; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+        @keyframes floatUp { to { transform: translateY(-110vh) opacity: 0; } }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div id="cursor-glow"></div>
+    <div id="cursor-glow" style="position:fixed; width:400px; height:400px; background:radial-gradient(circle, rgba(255,0,0,0.1) 0%, transparent 70%); border-radius:50%; pointer-events:none; z-index:-1; transform:translate(-50%,-50%);"></div>
     <div class="vignette"></div>
-    <div class="fog-wrapper"><div class="fog-layer fog-1"></div></div>
+    <div class="fog-wrapper"><div class="fog-layer"></div></div>
 
     <div id="pantalla-bloqueo">
         <div class="login-box">
@@ -98,7 +144,9 @@
         <h1 class="titulo-latido">Eternidad a tu lado</h1>
         <div id="contador" style="color: var(--bright-red); font-size: 1.8rem; font-weight: bold; margin: 25px 0;"></div>
 
-        <button class="btn-carta" onclick="abrirCarta()">📜 NUESTRA ETERNIDAD</button>
+        <div class="scroll-container" onclick="abrirCarta()">
+            <div class="scroll-closed">📜 LEER CARTA</div>
+        </div>
 
         <div class="contenedor-vales">
             <script>
@@ -117,7 +165,7 @@
                                 <div class="vale-front"><span>${v.e}</span><h3>${v.t}</h3></div>
                                 <div class="vale-back">
                                     <p>${v.m}</p>
-                                    <button style="padding:8px; cursor:pointer;" onclick="canjear('${v.m}')">Canjear</button>
+                                    <button onclick="canjear('${v.m}')">Canjear</button>
                                     <p class="caducidad">Válido hasta: Que la muerte nos separe. 🧛🥀</p>
                                 </div>
                             </div>
@@ -130,12 +178,16 @@
         <button class="btn-random" onclick="suerteAleatoria()">Dejar que el destino elija</button>
     </div>
 
-    <div id="modal-carta">
-        <div class="pergamino">
-            <button class="btn-cerrar" onclick="cerrarCarta()">×</button>
-            <p>Mi Amor,<br><br>
-            He elegido "Apocalypse" porque describe lo que siento: un amor que trasciende el fin del mundo. No importa si el cielo se cae o si el tiempo se detiene, mientras mi mano esté en la tuya, todo estará bien. Gracias por estos 426 días de ser mi luz en la oscuridad. <br><br>
-            Por siempre tuyo.</p>
+    <div id="modal-carta" onclick="cerrarCarta()">
+        <div class="pergamino-abierto" id="pergamino">
+            <div class="scroll-rod rod-top"></div>
+            <div class="carta-texto">
+                Mi Amor,<br><br>
+                He elegido "Apocalypse" porque describe lo que siento: un amor que trasciende el fin del mundo. No importa si el cielo se cae o si el tiempo se detiene, mientras mi mano esté en la tuya, todo estará bien. <br><br>
+                Gracias por estos 426 días de ser mi luz en la oscuridad. <br><br>
+                Por siempre tuyo. 🖤🥀
+            </div>
+            <div class="scroll-rod rod-bottom"></div>
         </div>
     </div>
 
@@ -145,15 +197,33 @@
     </div>
 
     <script>
-        function abrirCarta() { document.getElementById('modal-carta').style.display = 'flex'; }
-        function cerrarCarta() { document.getElementById('modal-carta').style.display = 'none'; }
+        function abrirCarta() {
+            document.getElementById('modal-carta').style.display = 'flex';
+            setTimeout(() => {
+                document.getElementById('pergamino').classList.add('desenrollado');
+            }, 100);
+        }
+        function cerrarCarta() {
+            document.getElementById('pergamino').classList.remove('desenrollado');
+            setTimeout(() => {
+                document.getElementById('modal-carta').style.display = 'none';
+            }, 800);
+        }
 
-        const glow = document.getElementById('cursor-glow');
-        document.addEventListener('mousemove', (e) => {
-            glow.style.left = e.clientX + 'px';
-            glow.style.top = e.clientY + 'px';
-        });
+        // --- SISTEMA DE PARTÍCULAS ---
+        setInterval(() => {
+            const p = document.createElement('div');
+            p.classList.add('particle');
+            const type = Math.random();
+            if(type < 0.4) { p.innerHTML = '❤️'; p.style.animation = `fall ${Math.random()*3+2}s linear forwards`; }
+            else if (type < 0.7) { p.innerHTML = '🖤'; p.style.animation = `fall ${Math.random()*4+3}s linear forwards`; }
+            else { p.innerHTML = '•'; p.style.color = 'red'; p.style.bottom = '0'; p.style.animation = `floatUp ${Math.random()*5+2}s ease-out forwards`; }
+            p.style.left = Math.random() * 100 + "vw";
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 6000);
+        }, 400);
 
+        // --- FUNCIONES BÁSICAS ---
         function verificar() {
             const pass = document.getElementById('password').value.toLowerCase();
             if(pass === "chino") { 
@@ -162,9 +232,8 @@
                 setTimeout(() => {
                     document.getElementById('pantalla-bloqueo').style.display = "none";
                     document.getElementById('contenido').style.display = "block";
-                    document.getElementById('musicBtn').innerHTML = "⏸ PAUSE MUSIC";
                 }, 1000);
-            } else { alert("Esa no es nuestra palabra..."); }
+            } else { alert("Palabra incorrecta..."); }
         }
 
         const fechaInicio = new Date('2024-12-15T00:00:00'); 
@@ -179,47 +248,19 @@
 
         function canjear(msg) {
             event.stopPropagation();
-            window.open(`https://wa.me/+5627134465?text=He reclamado mi vale de: ${msg} 🖤🥀`, '_blank');
+            window.open(`https://wa.me/+5627134465?text=He reclamado mi: ${msg} 🖤🥀`, '_blank');
         }
 
         function suerteAleatoria() {
             const cards = document.querySelectorAll('.vale-card');
-            cards.forEach(c => c.classList.remove('flipped'));
             const randomIdx = Math.floor(Math.random() * cards.length);
-            setTimeout(() => { cards[randomIdx].classList.add('flipped'); cards[randomIdx].scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 500);
+            cards[randomIdx].classList.add('flipped');
         }
-
-        // --- SISTEMA DE PARTÍCULAS MEZCLADAS ---
-        setInterval(() => {
-            const p = document.createElement('div');
-            p.classList.add('particle');
-            const type = Math.random();
-            
-            if(type < 0.4) { // Corazones
-                p.innerHTML = '❤️';
-                p.style.animation = `fall ${Math.random()*3+2}s linear forwards`;
-            } else if (type < 0.7) { // Pétalos Negros
-                p.innerHTML = '🖤';
-                p.style.animation = `fall ${Math.random()*4+3}s linear forwards`;
-            } else { // Brasas Rojas (Flotan hacia arriba)
-                p.innerHTML = '•';
-                p.style.color = 'red';
-                p.style.fontSize = '20px';
-                p.style.filter = 'blur(2px)';
-                p.style.bottom = '0';
-                p.style.animation = `floatUp ${Math.random()*5+2}s ease-out forwards`;
-            }
-
-            p.style.left = Math.random() * 100 + "vw";
-            document.body.appendChild(p);
-            setTimeout(() => p.remove(), 6000);
-        }, 300);
 
         function toggleMusic() {
             const track = document.getElementById('track');
-            const btn = document.getElementById('musicBtn');
-            if (track.paused) { track.play(); btn.innerHTML = "⏸ PAUSE MUSIC"; }
-            else { track.pause(); btn.innerHTML = "🎶 PLAY MUSIC"; }
+            if (track.paused) { track.play(); document.getElementById('musicBtn').innerHTML = "⏸ PAUSE"; }
+            else { track.pause(); document.getElementById('musicBtn').innerHTML = "🎶 PLAY"; }
         }
     </script>
 </body>
