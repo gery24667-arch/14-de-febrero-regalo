@@ -22,7 +22,6 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            cursor: none; /* Ocultamos el cursor para usar el personalizado */
         }
 
         /* --- 1. NIEBLA ANIMADA --- */
@@ -41,12 +40,12 @@
             to { background-position: 10000px 0; }
         }
 
-        /* --- 2. GLOW REACTIVO (CURSOR) --- */
+        /* --- 2. GLOW REACTIVO AL CURSOR --- */
         #cursor-glow {
             position: fixed;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(139, 0, 0, 0.15) 0%, rgba(0,0,0,0) 70%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(139, 0, 0, 0.2) 0%, rgba(0,0,0,0) 70%);
             border-radius: 50%;
             pointer-events: none;
             z-index: -1;
@@ -63,6 +62,7 @@
             animation: heartbeat 2s infinite;
             text-shadow: 0 0 15px var(--gothic-red);
             margin-top: 50px;
+            text-align: center;
         }
 
         @keyframes heartbeat {
@@ -92,34 +92,48 @@
 
         #contenido { display: none; padding: 20px; text-align: center; width: 100%; max-width: 1000px; }
 
-        /* Vales */
+        /* Estilos de Tarjetas (Gótico) */
         .contenedor-vales {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 25px;
             margin-top: 40px;
+            justify-items: center;
         }
 
         .vale-card { width: 200px; height: 280px; perspective: 1000px; cursor: pointer; }
-        .vale-inner { position: relative; width: 100%; height: 100%; transition: 0.8s; transform-style: preserve-3d; }
+        .vale-inner { position: relative; width: 100%; height: 100%; transition: 0.8s; transform-style: preserve-3d; border-radius: 10px; }
         .flipped .vale-inner { transform: rotateY(180deg); }
+        
         .vale-front, .vale-back {
             position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            border-radius: 5px; border: 1px solid var(--gothic-red);
+            border-radius: 10px; padding: 15px; box-sizing: border-box;
         }
-        .vale-front { background: #000; color: var(--gothic-red); }
-        .vale-back { background: #0a0a0a; transform: rotateY(180deg); color: white; border: 1px solid var(--bright-red); }
+        
+        .vale-front { background: linear-gradient(45deg, #000, #1a1a1a); color: var(--gothic-red); border: 1px solid var(--gothic-red); }
+        .vale-front span { font-size: 40px; }
+        
+        .vale-back { background: #1a1a1a; color: white; transform: rotateY(180deg); border: 2px solid var(--bright-red); box-shadow: inset 0 0 15px rgba(255, 0, 0, 0.2); }
+        .vale-back p { font-weight: bold; margin-bottom: 15px; }
 
-        /* Reproductor */
+        .btn-reclamar { background: var(--gothic-red); color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-family: 'Georgia', serif; }
+        .btn-reclamar:hover { background: var(--bright-red); box-shadow: 0 0 10px var(--bright-red); }
+
+        .btn-random {
+            margin: 50px 0; padding: 15px 30px; font-size: 1.1rem; border: 2px solid var(--bright-red);
+            background: transparent; color: var(--bright-red); text-transform: uppercase; letter-spacing: 2px; cursor: pointer;
+        }
+
+        /* Reproductor Minimalista */
         .music-player {
             position: fixed; bottom: 20px; right: 20px;
-            background: rgba(20, 20, 20, 0.8);
-            padding: 10px; border: 1px solid var(--gothic-red);
-            border-radius: 50px; display: flex; align-items: center;
+            background: rgba(20, 20, 20, 0.9);
+            padding: 10px 20px; border: 1px solid var(--gothic-red);
+            border-radius: 50px; display: flex; align-items: center; z-index: 100;
         }
 
-        .heart { position: fixed; top: -10%; color: var(--bright-red); z-index: -1; animation: fall linear forwards; }
+        .heart { position: fixed; top: -10%; color: var(--bright-red); z-index: -1; animation: fall linear forwards; pointer-events: none; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
     </style>
 </head>
@@ -130,59 +144,62 @@
 
     <div id="pantalla-bloqueo">
         <div class="login-box">
-            <h2 style="color: var(--gothic-red)">¿Cómo me dices de cariño?</h2>
-            <input type="password" id="password" style="background:transparent; border:none; border-bottom:1px solid red; color:white; text-align:center; outline:none;">
+            <h2 style="color: var(--gothic-red)">Solo para tus ojos...</h2>
+            <p>¿Cómo me dices de cariño?</p>
+            <input type="password" id="password" style="background:transparent; border:none; border-bottom:1px solid red; color:white; text-align:center; outline:none; font-size: 1.2rem;">
             <br><br>
-            <button onclick="verificar()" style="background:var(--gothic-red); color:white; border:none; padding:10px 20px; cursor:pointer;">REVELAR</button>
+            <button onclick="verificar()" style="background:var(--gothic-red); color:white; border:none; padding:10px 25px; cursor:pointer; font-family: serif;">REVELAR</button>
         </div>
     </div>
 
     <div id="contenido">
-        <h1 class="titulo-latido">Eternidad</h1>
-        <div id="contador" style="color: var(--gothic-red); font-size: 1.2rem; letter-spacing: 3px;"></div>
+        <h1 class="titulo-latido">Eternidad a tu lado</h1>
+        <div id="contador" style="color: var(--gothic-red); font-size: 1.5rem; letter-spacing: 3px; margin: 20px 0;"></div>
 
         <div class="contenedor-vales">
             <div class="vale-card" onclick="this.classList.toggle('flipped')">
                 <div class="vale-inner">
                     <div class="vale-front"><span>🎬</span><h3>VALE I</h3></div>
-                    <div class="vale-back"><p>Una tarde de películas</p><button onclick="canjear('Una tarde de películas')">Canjear</button></div>
+                    <div class="vale-back"><p>Una tarde de películas</p><button class="btn-reclamar" onclick="canjear('Una tarde de películas')">Canjear</button></div>
                 </div>
             </div>
             <div class="vale-card" onclick="this.classList.toggle('flipped')">
                 <div class="vale-inner">
                     <div class="vale-front"><span>🛌</span><h3>VALE II</h3></div>
-                    <div class="vale-back"><p>Una camita de chismes</p><button onclick="canjear('Una camita de chismes')">Canjear</button></div>
+                    <div class="vale-back"><p>Una camita de chismes</p><button class="btn-reclamar" onclick="canjear('Una camita de chismes')">Canjear</button></div>
                 </div>
             </div>
             <div class="vale-card" onclick="this.classList.toggle('flipped')">
                 <div class="vale-inner">
                     <div class="vale-front"><span>🍬</span><h3>VALE III</h3></div>
-                    <div class="vale-back"><p>Unas gomitas</p><button onclick="canjear('Unas gomitas')">Canjear</button></div>
+                    <div class="vale-back"><p>Unas gomitas</p><button class="btn-reclamar" onclick="canjear('Unas gomitas')">Canjear</button></div>
                 </div>
             </div>
             <div class="vale-card" onclick="this.classList.toggle('flipped')">
                 <div class="vale-inner">
                     <div class="vale-front"><span>🔥</span><h3>VALE IV</h3></div>
-                    <div class="vale-back"><p>Una bolsa de chetos</p><button onclick="canjear('Una bolsa de chetos')">Canjear</button></div>
+                    <div class="vale-back"><p>Una bolsa de chetos</p><button class="btn-reclamar" onclick="canjear('Una bolsa de chetos')">Canjear</button></div>
                 </div>
             </div>
             <div class="vale-card" onclick="this.classList.toggle('flipped')">
                 <div class="vale-inner">
                     <div class="vale-front"><span>🍕</span><h3>VALE V</h3></div>
-                    <div class="vale-back"><p>Una pizza a tu lado</p><button onclick="canjear('Una pizza a tu lado')">Canjear</button></div>
+                    <div class="vale-back"><p>Una pizza a tu lado</p><button class="btn-reclamar" onclick="canjear('Una pizza a tu lado')">Canjear</button></div>
                 </div>
             </div>
             <div class="vale-card" onclick="this.classList.toggle('flipped')">
                 <div class="vale-inner">
                     <div class="vale-front"><span>🧛</span><h3>VALE VI</h3></div>
-                    <div class="vale-back"><p>Un día de besos</p><button onclick="canjear('Un día de besos')">Canjear</button></div>
+                    <div class="vale-back"><p>Un día completo de besos</p><button class="btn-reclamar" onclick="canjear('Un día completo de besos')">Canjear</button></div>
                 </div>
             </div>
         </div>
+
+        <button class="btn-random" onclick="suerteAleatoria()">Dejar que el destino elija</button>
     </div>
 
     <div class="music-player">
-        <button onclick="document.getElementById('track').play()" style="background:none; border:none; color:red; cursor:pointer;">▶️ PLAY MUSIC</button>
+        <button id="musicBtn" onclick="toggleMusic()" style="background:none; border:none; color:var(--bright-red); cursor:pointer; font-weight: bold;">🎶 PLAY MUSIC</button>
         <audio id="track" loop>
             <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
         </audio>
@@ -196,18 +213,23 @@
             glow.style.top = e.clientY + 'px';
         });
 
+        // Contraseña
         function verificar() {
-            if(document.getElementById('password').value.toLowerCase() === "amor") {
+            const pass = document.getElementById('password').value.toLowerCase();
+            if(pass === "chino") { // <--- CAMBIA ESTO
                 document.getElementById('pantalla-bloqueo').style.opacity = "0";
                 setTimeout(() => {
                     document.getElementById('pantalla-bloqueo').style.display = "none";
                     document.getElementById('contenido').style.display = "block";
-                    document.getElementById('track').play();
+                    toggleMusic(); // Inicia música al entrar
                 }, 1000);
+            } else {
+                alert("Esa no es nuestra palabra...");
             }
         }
 
-        const fechaInicio = new Date('2023-05-15T00:00:00'); 
+        // Contador
+        const fechaInicio = new Date('2024-12-15T00:00:00'); // <--- CAMBIA TU FECHA
         setInterval(() => {
             const diff = new Date() - fechaInicio;
             const d = Math.floor(diff / 86400000);
@@ -217,18 +239,47 @@
             document.getElementById('contador').innerHTML = `${d}D : ${h}H : ${m}M : ${s}S`;
         }, 1000);
 
+        // WhatsApp
         function canjear(msg) {
-            window.open(`https://wa.me/+5627134465?text=Reclamo mi: ${msg} 🖤`, '_blank');
+            event.stopPropagation();
+            const tel = "+5627134465"; // <--- TU NUMERO
+            window.open(`https://wa.me/${tel}?text=He reclamado mi: ${msg} 🖤🥀`, '_blank');
         }
 
+        // Suerte Aleatoria
+        function suerteAleatoria() {
+            const cards = document.querySelectorAll('.vale-card');
+            cards.forEach(c => c.classList.remove('flipped'));
+            const randomIdx = Math.floor(Math.random() * cards.length);
+            setTimeout(() => {
+                cards[randomIdx].classList.add('flipped');
+                cards[randomIdx].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 500);
+        }
+
+        // Lluvia de corazones
         setInterval(() => {
             const h = document.createElement('div');
             h.classList.add('heart'); h.innerHTML = '❤️';
             h.style.left = Math.random() * 100 + "vw";
+            h.style.fontSize = Math.random() * 20 + 10 + "px";
             h.style.animationDuration = Math.random() * 3 + 2 + "s";
             document.body.appendChild(h);
             setTimeout(() => h.remove(), 5000);
-        }, 450);
+        }, 400);
+
+        // Control de Música
+        function toggleMusic() {
+            const track = document.getElementById('track');
+            const btn = document.getElementById('musicBtn');
+            if (track.paused) {
+                track.play();
+                btn.innerHTML = "⏸ PAUSE MUSIC";
+            } else {
+                track.pause();
+                btn.innerHTML = "🎶 PLAY MUSIC";
+            }
+        }
     </script>
 </body>
 </html>
