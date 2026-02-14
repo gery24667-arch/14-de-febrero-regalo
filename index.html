@@ -24,14 +24,13 @@
             min-height: 100vh;
         }
 
-        /* --- 1. NIEBLA BLANCA INTENSA (Efecto Humo Pesado) --- */
+        /* --- NIEBLA BLANCA INTENSA --- */
         .fog-wrapper {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -2;
             overflow: hidden;
             pointer-events: none;
-            background: radial-gradient(circle at center, rgba(10,10,10,0) 0%, rgba(0,0,0,1) 90%);
         }
 
         .fog-layer {
@@ -40,35 +39,19 @@
             background: url('https://raw.githubusercontent.com/gery24667-arch/images/main/fog.png');
             background-repeat: repeat-x;
             background-size: contain;
-            /* Filtro para hacerla blanca e intensa */
             filter: brightness(1.8) contrast(1.2) drop-shadow(0 0 10px white);
         }
 
-        .fog-1 {
-            opacity: 0.6; /* Intensidad alta */
-            animation: moveFog 35s linear infinite;
-        }
-
-        .fog-2 {
-            opacity: 0.4;
-            filter: brightness(2) blur(12px);
-            animation: moveFog 20s linear infinite reverse;
-            top: 10%;
-        }
-
-        .fog-3 {
-            opacity: 0.3;
-            filter: brightness(1.5) blur(5px);
-            animation: moveFog 50s linear infinite;
-            bottom: 0;
-        }
+        .fog-1 { opacity: 0.6; animation: moveFog 35s linear infinite; }
+        .fog-2 { opacity: 0.4; filter: brightness(2) blur(12px); animation: moveFog 20s linear infinite reverse; top: 10%; }
+        .fog-3 { opacity: 0.3; filter: brightness(1.5) blur(5px); animation: moveFog 50s linear infinite; bottom: 0; }
 
         @keyframes moveFog {
             from { transform: translateX(0); }
             to { transform: translateX(-50%); }
         }
 
-        /* --- 2. VIÑETA Y GLOW --- */
+        /* --- GLOW Y VIÑETA --- */
         .vignette {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -89,7 +72,26 @@
             transition: 0.08s ease-out;
         }
 
-        /* --- 3. CONTENIDO Y TÍTULO --- */
+        /* --- PANTALLA DE BLOQUEO (ORIGINAL) --- */
+        #pantalla-bloqueo {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-dark);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 2000; transition: 1.5s;
+        }
+
+        .login-box {
+            background: var(--card-dark);
+            padding: 40px;
+            border: 1px solid var(--gothic-red);
+            text-align: center;
+            box-shadow: 0 0 30px #000;
+        }
+
+        /* --- CONTENIDO --- */
+        #contenido { display: none; padding: 20px; text-align: center; width: 100%; max-width: 1000px; z-index: 10; }
+
         .titulo-latido {
             font-size: 3.5rem;
             color: var(--bright-red);
@@ -98,19 +100,14 @@
             animation: heartbeat 2s infinite;
             text-shadow: 0 0 20px var(--gothic-red);
             margin-top: 50px;
-            z-index: 10;
         }
 
         @keyframes heartbeat {
-            0% { transform: scale(1); }
-            14% { transform: scale(1.05); text-shadow: 0 0 40px var(--bright-red); }
-            28% { transform: scale(1); }
-            42% { transform: scale(1.05); }
-            70% { transform: scale(1); }
+            0%, 28%, 70% { transform: scale(1); }
+            14%, 42% { transform: scale(1.05); text-shadow: 0 0 40px var(--bright-red); }
         }
 
-        #contenido { display: none; padding: 20px; text-align: center; width: 100%; max-width: 1000px; z-index: 10; }
-
+        /* --- VALES --- */
         .contenedor-vales {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -138,6 +135,7 @@
         .btn-reclamar { background: var(--gothic-red); color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
         .btn-random { margin: 60px 0; padding: 15px 35px; border: 2px solid var(--bright-red); background: transparent; color: var(--bright-red); cursor: pointer; letter-spacing: 2px; }
 
+        /* REPRODUCTOR */
         .music-player { position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.8); padding: 10px 20px; border: 1px solid var(--gothic-red); border-radius: 50px; z-index: 100; }
         .heart { position: fixed; top: -10%; color: var(--bright-red); z-index: 6; animation: fall linear forwards; pointer-events: none; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
@@ -158,9 +156,9 @@
         <div class="login-box">
             <h2 style="color: var(--gothic-red)">Solo para tus ojos...</h2>
             <p>¿Cómo me dices de cariño?</p>
-            <input type="password" id="password" style="background:transparent; border:none; border-bottom:2px solid red; color:white; text-align:center; outline:none; font-size: 1.5rem; width: 80%;">
+            <input type="password" id="password" style="background:transparent; border:none; border-bottom:1px solid red; color:white; text-align:center; outline:none; font-size: 1.2rem;">
             <br><br>
-            <button onclick="verificar()" style="background:var(--gothic-red); color:white; border:none; padding:12px 30px; cursor:pointer;">REVELAR</button>
+            <button onclick="verificar()" style="background:var(--gothic-red); color:white; border:none; padding:10px 25px; cursor:pointer;">REVELAR</button>
         </div>
     </div>
 
@@ -178,7 +176,7 @@
             <div class="vale-card" onclick="this.classList.toggle('flipped')">
                 <div class="vale-inner">
                     <div class="vale-front"><span>🛌</span><h3>VALE II</h3></div>
-                    <div class="vale-back"><p>Una camita de chismes</p><button class="btn-reclamar" onclick="canjear('Una camita de chismes')">Canjear</button></div>
+                    <div class="vale-back"><p>Una caminata de chismes</p><button class="btn-reclamar" onclick="canjear('Una camita de chismes')">Canjear</button></div>
                 </div>
             </div>
             <div class="vale-card" onclick="this.classList.toggle('flipped')">
