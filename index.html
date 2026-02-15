@@ -21,23 +21,24 @@
             display: flex; flex-direction: column; align-items: center; min-height: 100vh;
         }
 
-        /* --- SUSURROS (Añadido) --- */
+        /* --- SUSURROS (Tamaño Ajustado a 40px) --- */
         .whisper {
             position: fixed;
-            color: rgba(255, 0, 0, 0.6);
+            color: rgba(255, 0, 0, 0.7);
             font-style: italic;
-            font-size: 1.2rem;
+            font-size: 40px; /* Tamaño solicitado */
             pointer-events: none;
             z-index: 8;
             animation: whisperFade 5s forwards;
-            text-shadow: 0 0 10px red;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
             font-family: 'Dancing Script', cursive;
+            white-space: nowrap;
         }
         @keyframes whisperFade {
-            0% { opacity: 0; transform: scale(0.8); }
+            0% { opacity: 0; transform: scale(0.7); }
             20% { opacity: 1; transform: scale(1); }
             80% { opacity: 1; }
-            100% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 0; transform: translateY(-30px); }
         }
 
         /* --- TELARAÑAS EN LOS EXTREMOS --- */
@@ -158,14 +159,15 @@
         const elementos = ['🌻', '🌹', '🌸', '🖤', '❤️', '🥀'];
         const susurrosFrases = ["Eres mi luz en la oscuridad...", "426 días y contando...", "Siempre tuyo/a...", "Pacto eterno...", "No te dejaré ir..."];
 
-        // FUNCIÓN DE SUSURROS (Añadido)
+        // SUSURROS AJUSTADOS
         setInterval(() => {
             if (document.getElementById('contenido').style.display === "block") {
                 const w = document.createElement('div');
                 w.className = 'whisper';
                 w.innerText = susurrosFrases[Math.floor(Math.random() * susurrosFrases.length)];
-                w.style.left = Math.random() * 70 + 15 + "vw";
-                w.style.top = Math.random() * 70 + 15 + "vh";
+                // Posicionamiento aleatorio cuidando los bordes
+                w.style.left = Math.random() * 50 + 10 + "vw";
+                w.style.top = Math.random() * 70 + 10 + "vh";
                 document.body.appendChild(w);
                 setTimeout(() => w.remove(), 5000);
             }
