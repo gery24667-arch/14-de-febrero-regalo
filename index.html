@@ -27,23 +27,34 @@
             z-index: 100; pointer-events: none; opacity: 0.5;
             filter: drop-shadow(0 0 10px var(--bright-red));
         }
-        .top-left { top: 0; left: 0; background: radial-gradient(circle at 0% 0%, transparent 20%, rgba(255,255,255,0.1) 21%, transparent 22%), repeating-radial-gradient(circle at 0% 0%, transparent 0, transparent 18px, rgba(255,0,0,0.2) 19px, transparent 20px); }
-        .top-right { top: 0; right: 0; transform: scaleX(-1); background: radial-gradient(circle at 0% 0%, transparent 20%, rgba(255,255,255,0.1) 21%, transparent 22%), repeating-radial-gradient(circle at 0% 0%, transparent 0, transparent 18px, rgba(255,0,0,0.2) 19px, transparent 20px); }
+        .top-left { top: 0; left: 0; background: radial-gradient(circle at 0% 0%, transparent 20%, rgba(255,255,255,0.1) 21%, transparent 22%), repeating-radial-gradient(circle at 0% 0%, transparent 0, transparent 18px, rgba(255,0,0,0.2) 16px, transparent 17px); }
+        .top-right { top: 0; right: 0; transform: scaleX(-1); background: radial-gradient(circle at 0% 0%, transparent 20%, rgba(255,255,255,0.1) 21%, transparent 22%), repeating-radial-gradient(circle at 0% 0%, transparent 0, transparent 18px, rgba(255,0,0,0.2) 16px, transparent 17px); }
         
         .hanging-spider { position: fixed; font-size: 24px; z-index: 101; animation: hang 4s ease-in-out infinite; }
         .spider-1 { top: 110px; left: 40px; }
         .spider-2 { top: 140px; right: 40px; }
         @keyframes hang { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(30px); } }
 
-        /* --- AMBIENTE --- */
+        /* --- AMBIENTE Y NIEBLA --- */
         .fog-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         .fog-layer { position: absolute; width: 200%; height: 100%; background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%); animation: moveFog 40s linear infinite; }
         @keyframes moveFog { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .vignette { position: fixed; top: 0; left: 0; width: 100%; height: 100%; box-shadow: inset 0 0 200px rgba(0,0,0,1); pointer-events: none; z-index: 5; }
 
-        /* --- PARTÍCULAS --- */
+        /* --- PARTÍCULAS (FLORES Y CORAZONES) --- */
         .particle { position: fixed; pointer-events: none; z-index: 6; font-size: 24px; animation: fall 6s linear forwards; }
         @keyframes fall { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+
+        /* --- PANTALLA DE BLOQUEO ACTUALIZADA --- */
+        #pantalla-bloqueo { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); display: flex; justify-content: center; align-items: center; z-index: 2000; transition: 1s; }
+        .login-box { 
+            background: var(--card-dark); 
+            padding: 50px; 
+            border: 1px solid var(--gothic-red); 
+            text-align: center; 
+            box-shadow: 0 0 30px rgba(255,0,0,0.2);
+            max-width: 400px;
+        }
 
         /* --- TÍTULO Y CONTADOR --- */
         .titulo-latido { font-size: 3.5rem; color: var(--bright-red); text-transform: uppercase; letter-spacing: 6px; text-shadow: 0 0 20px var(--bright-red); margin-top: 50px; animation: heartbeat 2s infinite; }
@@ -65,25 +76,26 @@
         .carta-texto { padding: 60px 40px; font-family: 'Dancing Script', cursive; font-size: 1.5rem; line-height: 1.6; opacity: 0; transition: opacity 0.8s 1.2s; }
         .desenrollado .carta-texto { opacity: 1; }
 
-        /* --- VALES CON TELARAÑA --- */
+        /* --- VALES CON TELARAÑAS --- */
         .contenedor-vales { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-top: 50px; width: 90%; }
         .vale-card { width: 220px; height: 320px; perspective: 1000px; cursor: pointer; margin: auto; }
         .vale-inner { position: relative; width: 100%; height: 100%; transition: 0.8s; transform-style: preserve-3d; }
         .flipped .vale-inner { transform: rotateY(180deg); }
         .vale-front, .vale-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--card-dark); border: 2px solid var(--bright-red); box-shadow: var(--neon-glow); overflow: hidden; }
         
-        /* Telaraña y araña en el vale */
+        /* Telaraña y araña en los vales */
         .vale-front::before { content: '🕸️'; position: absolute; top: -10px; left: -10px; font-size: 3rem; opacity: 0.4; filter: drop-shadow(0 0 5px white); }
         .vale-front::after { content: '🕷️'; position: absolute; top: 40px; left: 15px; font-size: 1rem; animation: hang 3s infinite; }
 
         .vale-front span { font-size: 60px; filter: drop-shadow(0 0 10px var(--bright-red)); margin-bottom: 20px; }
         .vale-back { transform: rotateY(180deg); background: #000; border: 2px solid white; box-shadow: 0 0 15px white; padding: 20px; text-align: center; }
+        .vale-back p { font-size: 1.1rem; color: white; margin-bottom: 15px; }
+        .vale-back .eterno { font-size: 0.75rem; color: #888; margin-top: 15px; font-style: italic; }
 
-        /* --- RASTRO NEÓN (CURSOR Y DEDO) --- */
+        /* --- RASTRO NEÓN (TÁCTIL Y MOUSE) --- */
         .trail { position: fixed; width: 15px; height: 15px; background: var(--bright-red); border-radius: 50%; pointer-events: none; z-index: 100; box-shadow: 0 0 20px var(--bright-red), 0 0 10px white; animation: vanish 1s forwards; display: flex; align-items: center; justify-content: center; }
         @keyframes vanish { to { transform: scale(2.5) translateY(-30px); opacity: 0; } }
 
-        #pantalla-bloqueo { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); display: flex; justify-content: center; align-items: center; z-index: 2000; transition: 1s; }
         #contenido { display: none; padding: 20px; text-align: center; width: 100%; max-width: 1200px; z-index: 10; }
         .music-player { position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.8); padding: 10px 25px; border: 1px solid var(--bright-red); border-radius: 50px; z-index: 100; cursor: pointer; }
     </style>
@@ -100,11 +112,12 @@
     <div class="hanging-spider spider-2">🕷️</div>
 
     <div id="pantalla-bloqueo">
-        <div style="background: var(--card-dark); padding: 40px; border: 1px solid var(--gothic-red); text-align: center;">
-            <h2 style="color: var(--bright-red)">Nuestra palabra...</h2>
-            <input type="password" id="password" style="background:transparent; border:none; border-bottom:1px solid red; color:white; text-align:center; outline:none; font-size: 1.2rem;">
+        <div class="login-box">
+            <h2 style="color: var(--bright-red); margin-bottom: 10px;">Nuestra palabra eterna...</h2>
+            <p style="color: #bbb; font-size: 0.9rem; margin-bottom: 25px;">Solo tú conoces la llave de este oscuro y eterno sentimiento. Escríbela para entrar.</p>
+            <input type="password" id="password" placeholder="Escribe aquí..." style="background:transparent; border:none; border-bottom:1px solid red; color:white; text-align:center; outline:none; font-size: 1.2rem; width: 80%;">
             <br><br>
-            <button onclick="verificar()" style="background:var(--gothic-red); color:white; border:none; padding:10px 25px; cursor:pointer;">ENTRAR</button>
+            <button onclick="verificar()" style="background:var(--gothic-red); color:white; border:none; padding:12px 30px; cursor:pointer; font-weight: bold; letter-spacing: 2px;">ENTRAR AL ABISMO</button>
         </div>
     </div>
 
@@ -137,6 +150,7 @@
     </div>
 
     <script>
+        // Lluvia de partículas
         const elementos = ['🌻', '🌹', '🌸', '🖤', '❤️', '🥀'];
         setInterval(() => {
             const p = document.createElement('div');
@@ -148,7 +162,7 @@
             setTimeout(() => p.remove(), 7000);
         }, 400);
 
-        // --- RASTRO NEÓN PARA CURSOR Y DEDO ---
+        // Rastro neón (Cursor y Dedo)
         function crearRastro(x, y) {
             const trail = document.createElement('div');
             trail.className = 'trail';
@@ -164,7 +178,7 @@
             crearRastro(touch.clientX, touch.clientY);
         });
 
-        // VALES
+        // Vales
         const valesData = [
             {e:'🎬', t:'VALE I', m:'Una tarde de películas'},
             {e:'🛌', t:'VALE II', m:'Una camita de chismes'},
@@ -183,6 +197,7 @@
                         <div class="vale-back">
                             <p>${v.m}</p>
                             <button onclick="canjear('${v.m}')" style="background:red; color:white; border:none; padding:8px 15px; cursor:pointer; margin-top:10px; border-radius:5px;">Canjear</button>
+                            <p class="eterno">Válido eternamente. 🥀</p>
                         </div>
                     </div>
                 </div>`;
