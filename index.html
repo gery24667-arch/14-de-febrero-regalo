@@ -86,7 +86,7 @@
         .carta-texto { padding: 60px 40px; font-family: 'Dancing Script', cursive; font-size: 1.5rem; line-height: 1.6; opacity: 0; transition: opacity 0.8s 1.2s; }
         .desenrollado .carta-texto { opacity: 1; }
 
-        /* --- VALES (Restaurados) --- */
+        /* --- VALES --- */
         .contenedor-vales { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-top: 50px; width: 90%; }
         .vale-card { width: 220px; height: 320px; perspective: 1000px; cursor: pointer; margin: auto; }
         .vale-inner { position: relative; width: 100%; height: 100%; transition: 0.8s; transform-style: preserve-3d; }
@@ -98,15 +98,10 @@
         .vale-front span { font-size: 60px; filter: drop-shadow(0 0 10px var(--bright-red)); margin-bottom: 20px; }
         .vale-back { transform: rotateY(180deg); background: #000; border: 2px solid white; box-shadow: 0 0 15px white; padding: 20px; text-align: center; }
 
-        /* --- COFRE Y LLAVE --- */
+        /* --- COFRE --- */
         #seccion-cofre { position: fixed; bottom: 20px; left: 20px; z-index: 100; text-align: center; }
         #timer-cofre { color: var(--bright-red); font-family: monospace; font-size: 1.2rem; margin-bottom: 5px; text-shadow: 0 0 10px red; }
         #cofre-visual { font-size: 60px; filter: drop-shadow(0 0 10px rgba(255,0,0,0.5)); transition: 0.3s; cursor: pointer; }
-        #llave-neon { 
-            position: fixed; font-size: 55px; display: none; z-index: 1001; 
-            filter: drop-shadow(0 0 5px #fff); color: white; text-shadow: var(--neon-key);
-            user-select: none; touch-action: none; cursor: grab;
-        }
 
         /* --- RASTRO --- */
         .trail { position: fixed; width: 15px; height: 15px; background: var(--bright-red); border-radius: 50%; pointer-events: none; z-index: 100; box-shadow: 0 0 20px var(--bright-red); animation: vanish 1s forwards; display: flex; align-items: center; justify-content: center; }
@@ -153,18 +148,17 @@
         <button onclick="suerteAleatoria()" style="margin:60px; padding:15px 40px; border:2px solid red; background:transparent; color:white; cursor:pointer; box-shadow: var(--neon-glow); font-weight: bold;">Dejar que el destino elija</button>
 
         <div id="seccion-cofre">
-            <div id="timer-cofre">05:00</div>
+            <div id="timer-cofre">06:00</div>
             <div id="cofre-visual" onclick="reabrirSiAbierto()">🎁</div>
         </div>
     </div>
 
-    <div id="llave-neon">🔑</div>
-
     <div id="modal-tesoro" onclick="this.style.display='none'">
-        <div style="background: var(--paper); color: #2c1e16; padding: 40px; border-radius: 15px; text-align: center; max-width: 450px; width: 90%; border: 4px solid #8b5e3c;">
-            <span style="font-size: 60px;">🔓</span>
-            <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; margin: 10px 0;">Mi gran tesoro</h2>
-            <p style="font-family: 'Dancing Script', cursive; font-size: 1.5rem;">Cada segundo a tu lado vale más que todo el oro del mundo. ❤️</p>
+        <div style="background: var(--paper); color: #2c1e16; padding: 40px; border-radius: 15px; text-align: center; max-width: 450px; width: 90%; border: 4px solid #8b5e3c; overflow-y: auto; max-height: 80vh;">
+            <span style="font-size: 60px;">💰</span>
+            <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; margin: 10px 0;">100 Pesos para nuestros gustos</h2>
+            <img src="https://i.postimg.cc/L5m9Y8C4/DALL-E-2024-05-15-Gothic-romantic-illustration.webp" style="width: 100%; border-radius: 10px; margin: 15px 0;" alt="Regalo">
+            <p style="font-family: 'Dancing Script', cursive; font-size: 1.5rem;">Eres el regalo más grande que la vida me ha dado. Este pequeño detalle es para disfrutarlo juntos, como todo en nuestra eternidad. ❤️</p>
         </div>
     </div>
 
@@ -187,7 +181,7 @@
         const elementos = ['🌻', '🌹', '🌸', '🖤', '❤️', '🥀'];
         const susurrosFrases = ["Eres mi luz en la oscuridad...", "426 días y contando...", "Siempre tuyo/a...", "Pacto eterno...", "No te dejaré ir..."];
         
-        let tiempoRestante = 300; 
+        let tiempoRestante = 360; // 6 MINUTOS
         let timerIniciado = false;
         let cofreAbierto = false;
 
@@ -202,70 +196,20 @@
                 if (tiempoRestante <= 0) {
                     clearInterval(intervalo);
                     document.getElementById('timer-cofre').style.display = 'none';
-                    activarLlave();
+                    abrirTesoro();
                 }
             }, 1000);
         }
 
-        function activarLlave() {
-            const llave = document.getElementById('llave-neon');
-            llave.style.display = 'block';
-            llave.style.top = '50%';
-            llave.style.left = '50%';
-            configurarArrastre(llave);
-        }
-
-        function configurarArrastre(elmnt) {
-            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            elmnt.onmousedown = dragMouseDown;
-            elmnt.ontouchstart = dragMouseDown;
-
-            function dragMouseDown(e) {
-                e.preventDefault();
-                if (e.type === "touchstart") {
-                    pos3 = e.touches[0].clientX;
-                    pos4 = e.touches[0].clientY;
-                } else {
-                    pos3 = e.clientX;
-                    pos4 = e.clientY;
-                }
-                document.onmouseup = closeDragElement;
-                document.ontouchend = closeDragElement;
-                document.onmousemove = elementDrag;
-                document.ontouchmove = elementDrag;
-            }
-
-            function elementDrag(e) {
-                let x = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
-                let y = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
-                pos1 = pos3 - x; pos2 = pos4 - y;
-                pos3 = x; pos4 = y;
-                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-                const cofre = document.getElementById('cofre-visual').getBoundingClientRect();
-                const rectLlave = elmnt.getBoundingClientRect();
-                if (!(rectLlave.right < cofre.left || rectLlave.left > cofre.right || 
-                    rectLlave.bottom < cofre.top || rectLlave.top > cofre.bottom)) {
-                    abrirTesoro();
-                    closeDragElement();
-                }
-            }
-
-            function closeDragElement() {
-                document.onmouseup = null; document.onmousemove = null;
-                document.ontouchend = null; document.ontouchmove = null;
-            }
-        }
-
         function abrirTesoro() {
             cofreAbierto = true;
-            document.getElementById('llave-neon').style.display = 'none';
             document.getElementById('cofre-visual').innerText = '🔓';
             document.getElementById('modal-tesoro').style.display = 'flex';
         }
 
         function reabrirSiAbierto() {
             if(cofreAbierto) document.getElementById('modal-tesoro').style.display = 'flex';
+            else alert("Aun no es tiempo de abrir el cofre...");
         }
 
         setInterval(() => {
