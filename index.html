@@ -21,30 +21,31 @@
             display: flex; flex-direction: column; align-items: center; min-height: 100vh;
         }
 
-        /* --- AMBIENTE --- */
+        /* --- AMBIENTE Y NIEBLA --- */
         .fog-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; }
         .fog-layer { position: absolute; width: 200%; height: 100%; background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.15) 0%, transparent 50%); background-size: 1000px 100%; filter: blur(50px); animation: moveFog 30s linear infinite; }
         @keyframes moveFog { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .vignette { position: fixed; top: 0; left: 0; width: 100%; height: 100%; box-shadow: inset 0 0 200px rgba(0,0,0,1); pointer-events: none; z-index: 5; }
 
-        /* --- IMAGEN CON TELARAÑA NEÓN --- */
+        /* --- ARAÑAS CAMINANTES --- */
+        .spider-walker {
+            position: fixed; font-size: 20px; z-index: 999;
+            pointer-events: none; transition: all 3s linear;
+            filter: drop-shadow(0 0 5px var(--bright-red));
+        }
+
+        /* --- IMAGEN PRINCIPAL --- */
         .img-container {
-            margin: 30px 0;
-            position: relative;
+            margin: 30px 0; position: relative;
             filter: drop-shadow(0 0 25px var(--bright-red));
             animation: float 4s ease-in-out infinite;
         }
-        /* Telaraña neón circular detrás de la imagen */
         .img-container::before {
-            content: "";
-            position: absolute; top: 50%; left: 50%;
-            width: 300px; height: 300px;
-            transform: translate(-50%, -50%);
-            background: 
-                repeating-radial-gradient(circle, transparent 0, transparent 15px, rgba(255,255,255,0.2) 16px, transparent 17px),
-                conic-gradient(from 0deg, transparent 0%, rgba(255,0,0,0.4) 5%, transparent 10%, rgba(255,0,0,0.4) 45%, transparent 50%);
-            z-index: -1;
-            mask-image: radial-gradient(circle, black 30%, transparent 70%);
+            content: ""; position: absolute; top: 50%; left: 50%;
+            width: 320px; height: 320px; transform: translate(-50%, -50%);
+            background: repeating-radial-gradient(circle, transparent 0, transparent 15px, rgba(255,255,255,0.15) 16px, transparent 17px),
+                        conic-gradient(from 0deg, transparent 0%, rgba(255,0,0,0.3) 10%, transparent 20%);
+            z-index: -1; mask-image: radial-gradient(circle, black 30%, transparent 70%);
         }
         .img-container img { width: 200px; height: auto; border-radius: 10px; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
@@ -62,45 +63,31 @@
         .scroll-container { margin: 40px 0; perspective: 1000px; cursor: pointer; }
         .scroll-closed { width: 160px; height: 60px; background: linear-gradient(to bottom, #d4c49c, #f4e4bc, #d4c49c); border-radius: 10px; border: 2px solid #8b5e3c; display: flex; align-items: center; justify-content: center; color: #4e342e; font-weight: bold; box-shadow: 0 0 15px rgba(255,215,0,0.3); }
         #modal-carta { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 3000; justify-content: center; align-items: center; }
-        .pergamino-abierto { background: var(--paper); color: #2c1e16; width: 90%; max-width: 500px; height: 0; overflow: hidden; position: relative; transition: height 1.5s cubic-bezier(0.4, 0, 0.2, 1); border-left: 2px solid #d4c49c; border-right: 2px solid #d4c49c; box-shadow: 0 0 50px black; }
+        .pergamino-abierto { background: var(--paper); color: #2c1e16; width: 90%; max-width: 500px; height: 0; overflow: hidden; position: relative; transition: height 1.5s cubic-bezier(0.4, 0, 0.2, 1); border-left: 2px solid #d4c49c; border-right: 2px solid #d4c49c; }
         .pergamino-abierto.desenrollado { height: 500px; }
-        .scroll-rod { width: 105%; height: 25px; background: #4e342e; position: absolute; left: -2.5%; z-index: 10; border-radius: 5px; }
-        .rod-top { top: 0; } .rod-bottom { bottom: 0; }
-        .carta-texto { padding: 50px 40px; font-family: 'Dancing Script', cursive; font-size: 1.4rem; opacity: 0; transition: opacity 0.8s 1.2s; }
+        .carta-texto { padding: 50px 40px; font-family: 'Dancing Script', cursive; font-size: 1.4rem; opacity: 0; transition: 0.8s 1.2s; }
         .desenrollado .carta-texto { opacity: 1; }
 
-        /* --- VALES NEÓN CON TELARAÑAS --- */
+        /* --- VALES --- */
         .contenedor-vales { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-top: 50px; justify-items: center; }
         .vale-card { width: 220px; height: 320px; perspective: 1000px; cursor: pointer; }
         .vale-inner { position: relative; width: 100%; height: 100%; transition: 0.8s; transform-style: preserve-3d; }
         .flipped .vale-inner { transform: rotateY(180deg); }
-        .vale-front, .vale-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--card-dark); border: 2px solid var(--bright-red); box-shadow: var(--neon-glow); overflow: hidden; }
+        .vale-front, .vale-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--card-dark); border: 2px solid var(--bright-red); box-shadow: var(--neon-glow); overflow: hidden; }
         
-        /* Telaraña en la esquina de los vales */
-        .vale-front::before {
-            content: "🕸️";
-            position: absolute; top: -5px; right: -5px;
-            font-size: 3rem; opacity: 0.4;
-            filter: drop-shadow(0 0 5px white);
-        }
-        /* Pequeña araña colgando */
-        .vale-front::after {
-            content: "🕷️";
-            position: absolute; top: 40px; right: 10px;
-            font-size: 1rem; opacity: 0.8;
-            animation: spiderMove 4s ease-in-out infinite;
-        }
-        @keyframes spiderMove { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(15px); } }
+        /* DECORACIONES VALES: TELARAÑA Y CRÁNEO */
+        .vale-front::before { content: "🕸️"; position: absolute; top: -5px; right: -5px; font-size: 3.5rem; opacity: 0.3; filter: drop-shadow(0 0 5px white); }
+        .vale-front::after { content: "💀"; position: absolute; bottom: 5px; left: 5px; font-size: 1.2rem; opacity: 0.6; filter: drop-shadow(0 0 5px var(--bright-red)); }
 
         .vale-front span { font-size: 60px; margin-bottom: 15px; filter: drop-shadow(0 0 10px var(--bright-red)); }
-        .vale-back { transform: rotateY(180deg); background: #000; border: 2px solid white; box-shadow: 0 0 15px white; }
+        .vale-back { transform: rotateY(180deg); background: #000; border: 2px solid white; box-shadow: 0 0 15px white; text-align: center; }
         .caducidad { font-size: 0.7rem; color: #888; margin-top: 15px; font-style: italic; }
 
         /* --- RASTRO Y PARTÍCULAS --- */
         .trail { position: fixed; width: 10px; height: 10px; background: var(--bright-red); border-radius: 50%; pointer-events: none; z-index: 100; box-shadow: 0 0 15px var(--bright-red); animation: vanish 1s forwards; }
         @keyframes vanish { to { transform: scale(3) translateY(-20px); opacity: 0; } }
         .particle { position: fixed; pointer-events: none; z-index: 6; font-size: 24px; animation: fall 5s linear forwards; }
-        @keyframes fall { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+        @keyframes fall { 0% { transform: translateY(-10vh); opacity: 1; } 100% { transform: translateY(110vh); opacity: 0; } }
 
         .music-player { position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.8); padding: 10px 25px; border: 1px solid var(--bright-red); border-radius: 50px; z-index: 100; }
     </style>
@@ -113,8 +100,7 @@
 
     <div id="pantalla-bloqueo">
         <div class="login-box">
-            <h2 style="color: var(--bright-red)">Solo para tus ojos...</h2>
-            <p>¿Nuestra palabra?</p>
+            <h2 style="color: var(--bright-red)">Nuestra palabra eterna...</h2>
             <input type="password" id="password" style="background:transparent; border:none; border-bottom:1px solid red; color:white; text-align:center; outline:none; font-size: 1.2rem;">
             <br><br>
             <button onclick="verificar()" style="background:var(--gothic-red); color:white; border:none; padding:10px 25px; cursor:pointer;">REVELAR</button>
@@ -125,7 +111,7 @@
         <h1 class="titulo-latido">Eternidad a tu lado</h1>
 
         <div class="img-container">
-            <img src="https://i.postimg.cc/bNGmKpqk/descargar-(5)-Photoroom.png" alt="Mi gatita eres tu">
+            <img src="https://i.postimg.cc/hjdFDTBw/Download-premium-png-of-PNG-A-Key-with-Skull-and-Black-roses-art-key-illustration-by-Adjima-about-Halloween-background-illustration-and-rose-22603410.png" alt="Cráneo y Rosas">
         </div>
 
         <div id="contador" style="color: var(--bright-red); font-size: 1.8rem; font-weight: bold; margin: 25px 0;"></div>
@@ -141,13 +127,13 @@
 
     <div id="modal-carta" onclick="cerrarCarta()">
         <div class="pergamino-abierto" id="pergamino">
-            <div class="scroll-rod rod-top"></div>
+            <div style="width:105%; height:25px; background:#4e342e; position:absolute; top:0; left:-2.5%; border-radius:5px;"></div>
             <div class="carta-texto">
                 Mi Amor,<br><br>
                 Cada día contigo es una flor que nunca se marchita. Gracias por estos 426 días juntos.<br><br>
                 Eres mi eternidad. 🖤🥀🌻
             </div>
-            <div class="scroll-rod rod-bottom"></div>
+            <div style="width:105%; height:25px; background:#4e342e; position:absolute; bottom:0; left:-2.5%; border-radius:5px;"></div>
         </div>
     </div>
 
@@ -157,11 +143,28 @@
     </div>
 
     <script>
+        // --- ARAÑAS QUE CAMINAN ---
+        function spawnSpider() {
+            const spider = document.createElement('div');
+            spider.className = 'spider-walker';
+            spider.innerHTML = '🕷️';
+            spider.style.left = Math.random() * 100 + 'vw';
+            spider.style.top = Math.random() * 100 + 'vh';
+            document.body.appendChild(spider);
+
+            setInterval(() => {
+                spider.style.left = Math.random() * 100 + 'vw';
+                spider.style.top = Math.random() * 100 + 'vh';
+                spider.style.transform = `rotate(${Math.random() * 360}deg)`;
+            }, 4000);
+        }
+        for(let i=0; i<5; i++) spawnSpider();
+
+        // RASTRO
         function crearRastro(x, y) {
             const trail = document.createElement('div');
             trail.className = 'trail';
-            trail.style.left = x + 'px';
-            trail.style.top = y + 'px';
+            trail.style.left = x + 'px'; trail.style.top = y + 'px';
             if(Math.random() > 0.9) trail.innerHTML = '🥀';
             document.body.appendChild(trail);
             setTimeout(() => trail.remove(), 1000);
@@ -169,6 +172,7 @@
         document.addEventListener('mousemove', (e) => crearRastro(e.clientX, e.clientY));
         document.addEventListener('touchmove', (e) => crearRastro(e.touches[0].clientX, e.touches[0].clientY));
 
+        // VALES
         const valesData = [
             {e:'🎬', t:'VALE I', m:'Una tarde de películas'},
             {e:'🛌', t:'VALE II', m:'Una camita de chismes'},
@@ -185,7 +189,7 @@
                         <div class="vale-front"><span>${v.e}</span><h3>${v.t}</h3></div>
                         <div class="vale-back">
                             <p>${v.m}</p>
-                            <button onclick="canjear('${v.m}')">Canjear</button>
+                            <button onclick="canjear('${v.m}')" style="background:red; color:white; border:none; padding:5px 10px; cursor:pointer;">Canjear</button>
                             <p class="caducidad">Válido hasta: Que la muerte nos separe. 🧛🥀</p>
                         </div>
                     </div>
@@ -195,23 +199,12 @@
         function abrirCarta() { document.getElementById('modal-carta').style.display = 'flex'; setTimeout(() => document.getElementById('pergamino').classList.add('desenrollado'), 100); }
         function cerrarCarta() { document.getElementById('pergamino').classList.remove('desenrollado'); setTimeout(() => document.getElementById('modal-carta').style.display = 'none', 800); }
 
-        const flores = ['🌻', '🌹', '🌸', '🤍', '🖤', '❤️', '🥀'];
-        setInterval(() => {
-            const p = document.createElement('div');
-            p.classList.add('particle');
-            p.innerHTML = flores[Math.floor(Math.random() * flores.length)];
-            p.style.left = Math.random() * 100 + "vw";
-            p.style.animation = `fall ${Math.random() * 4 + 4}s linear forwards`;
-            document.body.appendChild(p);
-            setTimeout(() => p.remove(), 8000);
-        }, 400);
-
         function verificar() {
-            if(document.getElementById('password').value.toLowerCase() === "chino") { 
+            if(document.getElementById('password').value.toLowerCase() === "chino") {
                 document.getElementById('pantalla-bloqueo').style.opacity = "0";
                 document.getElementById('track').play();
                 setTimeout(() => { document.getElementById('pantalla-bloqueo').style.display = "none"; document.getElementById('contenido').style.display = "block"; }, 1000);
-            } else { alert("Palabra incorrecta..."); }
+            }
         }
 
         const fechaInicio = new Date('2024-12-15T00:00:00'); 
@@ -232,8 +225,7 @@
         }
         function toggleMusic() {
             const track = document.getElementById('track');
-            if (track.paused) { track.play(); document.getElementById('musicBtn').innerHTML = "⏸ PAUSE"; }
-            else { track.pause(); document.getElementById('musicBtn').innerHTML = "🎶 PLAY"; }
+            track.paused ? track.play() : track.pause();
         }
     </script>
 </body>
