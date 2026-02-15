@@ -12,7 +12,6 @@
             --bright-red: #ff0000;
             --paper: #f4e4bc;
             --neon-glow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 10px rgba(255, 0, 0, 0.6);
-            /* Nueva variable para la llave */
             --neon-key: 0 0 10px #fff, 0 0 20px var(--bright-red), 0 0 30px var(--bright-red);
         }
 
@@ -23,12 +22,12 @@
             display: flex; flex-direction: column; align-items: center; min-height: 100vh;
         }
 
-        /* --- SUSURROS (Tamaño Ajustado a 40px) --- */
+        /* --- SUSURROS --- */
         .whisper {
             position: fixed;
             color: rgba(255, 0, 0, 0.7);
             font-style: italic;
-            font-size: 40px; /* Tamaño solicitado */
+            font-size: 40px;
             pointer-events: none;
             z-index: 8;
             animation: whisperFade 5s forwards;
@@ -43,7 +42,7 @@
             100% { opacity: 0; transform: translateY(-30px); }
         }
 
-        /* --- TELARAÑAS EN LOS EXTREMOS --- */
+        /* --- TELARAÑAS --- */
         .web-corner {
             position: fixed; width: 180px; height: 180px;
             z-index: 100; pointer-events: none; opacity: 0.5;
@@ -57,7 +56,7 @@
         .spider-2 { top: 140px; right: 40px; }
         @keyframes hang { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(30px); } }
 
-        /* --- NIEBLA Y AMBIENTE --- */
+        /* --- AMBIENTE --- */
         .fog-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         .fog-layer { position: absolute; width: 200%; height: 100%; background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%); animation: moveFog 40s linear infinite; }
         @keyframes moveFog { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -71,18 +70,13 @@
         .titulo-latido { font-size: 3.5rem; color: var(--bright-red); text-transform: uppercase; letter-spacing: 6px; text-shadow: 0 0 20px var(--bright-red); margin-top: 50px; animation: heartbeat 2s infinite; }
         @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-        /* --- IMAGEN PRINCIPAL --- */
+        /* --- IMAGEN --- */
         .img-container { margin: 30px 0; filter: drop-shadow(0 0 25px var(--bright-red)); animation: float 4s ease-in-out infinite; }
         .img-container img { width: 200px; height: auto; border-radius: 10px; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
-        /* --- PERGAMINO (Área de clic reducida) --- */
-        .scroll-container { 
-            margin: 40px auto; 
-            perspective: 1000px; 
-            cursor: pointer; 
-            display: inline-block; /* Esto reduce el clic solo al botón */
-        }
+        /* --- PERGAMINO --- */
+        .scroll-container { margin: 40px auto; perspective: 1000px; cursor: pointer; display: inline-block; }
         .scroll-closed { width: 180px; height: 70px; background: linear-gradient(to bottom, #d4c49c, #f4e4bc, #d4c49c); border-radius: 10px; border: 2px solid #8b5e3c; display: flex; align-items: center; justify-content: center; color: #4e342e; font-weight: bold; position: relative; box-shadow: 0 0 15px rgba(255,215,0,0.3); }
         .scroll-closed::after { content: '⚜️'; position: absolute; bottom: -10px; background: #8b0000; color: gold; padding: 5px; border-radius: 50%; border: 2px solid #4e342e; font-size: 10px; }
         
@@ -98,24 +92,21 @@
         .vale-inner { position: relative; width: 100%; height: 100%; transition: 0.8s; transform-style: preserve-3d; }
         .flipped .vale-inner { transform: rotateY(180deg); }
         .vale-front, .vale-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--card-dark); border: 2px solid var(--bright-red); box-shadow: var(--neon-glow); overflow: hidden; }
-        
-        .vale-front::before { content: '🕸️'; position: absolute; top: -10px; left: -10px; font-size: 3rem; opacity: 0.4; }
-        .vale-front::after { content: '🕷️'; position: absolute; top: 40px; left: 15px; font-size: 1rem; animation: hang 3s infinite; }
         .vale-front span { font-size: 60px; filter: drop-shadow(0 0 10px var(--bright-red)); margin-bottom: 20px; }
         .vale-back { transform: rotateY(180deg); background: #000; border: 2px solid white; box-shadow: 0 0 15px white; padding: 20px; text-align: center; }
 
-        /* --- NUEVO: ESTILOS COFRE Y LLAVE --- */
+        /* --- COFRE Y LLAVE --- */
         #seccion-cofre { position: fixed; bottom: 20px; left: 20px; z-index: 100; text-align: center; }
         #timer-cofre { color: var(--bright-red); font-family: monospace; font-size: 1.2rem; margin-bottom: 5px; text-shadow: 0 0 10px red; }
-        #cofre-visual { font-size: 50px; filter: drop-shadow(0 0 10px rgba(255,0,0,0.5)); transition: 0.3s; }
+        #cofre-visual { font-size: 60px; filter: drop-shadow(0 0 10px rgba(255,0,0,0.5)); transition: 0.3s; cursor: pointer; }
         
         #llave-neon { 
-            position: fixed; font-size: 50px; display: none; z-index: 1001; cursor: grab;
+            position: fixed; font-size: 55px; display: none; z-index: 1001; 
             filter: drop-shadow(0 0 5px #fff); color: white; text-shadow: var(--neon-key);
-            user-select: none; touch-action: none;
+            user-select: none; touch-action: none; cursor: grab;
         }
 
-        /* --- RASTRO DEL MOUSE Y DEDO --- */
+        /* --- RASTRO --- */
         .trail { position: fixed; width: 15px; height: 15px; background: var(--bright-red); border-radius: 50%; pointer-events: none; z-index: 100; box-shadow: 0 0 20px var(--bright-red); animation: vanish 1s forwards; display: flex; align-items: center; justify-content: center; }
         @keyframes vanish { to { transform: scale(2.5) translateY(-30px); opacity: 0; } }
 
@@ -129,7 +120,6 @@
 
     <div class="vignette"></div>
     <div class="fog-wrapper"><div class="fog-layer"></div></div>
-    
     <div class="web-corner top-left"></div>
     <div class="web-corner top-right"></div>
     <div class="hanging-spider spider-1">🕷️</div>
@@ -138,7 +128,6 @@
     <div id="pantalla-bloqueo">
         <div style="background: var(--card-dark); padding: 40px; border: 1px solid var(--gothic-red); text-align: center;">
             <h2 style="color: var(--bright-red)">Nuestra palabra eterna...</h2>
-            <p style="color: #bbb; font-size: 0.9rem; margin-bottom: 25px;">Solo tú conoces la llave de este oscuro sentimiento.</p>
             <input type="password" id="password" style="background:transparent; border:none; border-bottom:1px solid red; color:white; text-align:center; outline:none; font-size: 1.2rem; width: 80%;">
             <br><br>
             <button onclick="verificar()" style="background:var(--gothic-red); color:white; border:none; padding:10px 25px; cursor:pointer;">ENTRAR</button>
@@ -161,7 +150,7 @@
 
         <div id="seccion-cofre">
             <div id="timer-cofre">05:00</div>
-            <div id="cofre-visual">🎁</div>
+            <div id="cofre-visual" onclick="reabrirSiAbierto()">🎁</div>
         </div>
     </div>
 
@@ -169,12 +158,10 @@
 
     <div id="modal-tesoro" onclick="this.style.display='none'">
         <div style="background: var(--paper); color: #2c1e16; padding: 40px; border-radius: 15px; text-align: center; max-width: 450px; width: 90%; border: 4px solid #8b5e3c;">
-            <span style="font-size: 60px;">💰</span>
+            <span style="font-size: 60px;">🔓</span>
             <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; margin: 10px 0;">Mi gran tesoro</h2>
             <img src="https://via.placeholder.com/300x200" style="width: 100%; border-radius: 10px; border: 2px solid #8b0000; margin: 15px 0;">
-            <p style="font-family: 'Dancing Script', cursive; font-size: 1.5rem; line-height: 1.4;">
-                Cada segundo a tu lado vale más que todo el oro del mundo. Gracias por ser mi mayor riqueza. ❤️
-            </p>
+            <p style="font-family: 'Dancing Script', cursive; font-size: 1.5rem;">Cada segundo a tu lado vale más que todo el oro del mundo. ❤️</p>
         </div>
     </div>
 
@@ -195,11 +182,11 @@
 
     <script>
         const elementos = ['🌻', '🌹', '🌸', '🖤', '❤️', '🥀'];
-        const susurrosFrases = ["Eres mi luz en la oscuridad...", "426 días y contando...", "Siempre tuyo/a...", "Pacto eterno...", "No te dejaré ir..."];
+        const susurrosFrases = ["Eres mi luz en la oscuridad...", "426 días y contando...", "Siempre tuyo/a...", "Pacto eterno..."];
 
-        // LÓGICA COFRE Y TEMPORIZADOR
-        let tiempoRestante = 300; // 5 minutos
+        let tiempoRestante = 300; 
         let timerIniciado = false;
+        let cofreAbierto = false;
 
         function iniciarTimerCofre() {
             if(timerIniciado) return;
@@ -209,7 +196,6 @@
                 let m = Math.floor(tiempoRestante / 60);
                 let s = tiempoRestante % 60;
                 document.getElementById('timer-cofre').innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
-
                 if (tiempoRestante <= 0) {
                     clearInterval(intervalo);
                     document.getElementById('timer-cofre').style.display = 'none';
@@ -226,93 +212,96 @@
             configurarArrastre(llave);
         }
 
+        // ARRASTRE MEJORADO PARA DEDO Y MOUSE
         function configurarArrastre(elmnt) {
             let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            elmnt.onmousedown = iniciarArrastre;
-            elmnt.ontouchstart = iniciarArrastre;
 
-            function iniciarArrastre(e) {
-                e.preventDefault();
-                pos3 = e.clientX || e.touches[0].clientX;
-                pos4 = e.clientY || e.touches[0].clientY;
-                document.onmouseup = detenerArrastre;
-                document.ontouchend = detenerArrastre;
-                document.onmousemove = moverElemento;
-                document.ontouchmove = moverElemento;
+            elmnt.onmousedown = dragMouseDown;
+            elmnt.ontouchstart = dragMouseDown;
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                // Prevenir scroll mientras se arrastra en móvil
+                if (e.type === "touchstart") {
+                    pos3 = e.touches[0].clientX;
+                    pos4 = e.touches[0].clientY;
+                } else {
+                    pos3 = e.clientX;
+                    pos4 = e.clientY;
+                }
+                document.onmouseup = closeDragElement;
+                document.ontouchend = closeDragElement;
+                document.onmousemove = elementDrag;
+                document.ontouchmove = elementDrag;
             }
 
-            function moverElemento(e) {
-                e.preventDefault();
-                let x = e.clientX || e.touches[0].clientX;
-                let y = e.clientY || e.touches[0].clientY;
-                pos1 = pos3 - x;
-                pos2 = pos4 - y;
-                pos3 = x;
-                pos4 = y;
+            function elementDrag(e) {
+                e = e || window.event;
+                let clientX, clientY;
+                
+                if (e.type === "touchmove") {
+                    clientX = e.touches[0].clientX;
+                    clientY = e.touches[0].clientY;
+                } else {
+                    clientX = e.clientX;
+                    clientY = e.clientY;
+                }
+
+                pos1 = pos3 - clientX;
+                pos2 = pos4 - clientY;
+                pos3 = clientX;
+                pos4 = clientY;
+                
                 elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
                 elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
 
-                // Verificar colisión con el cofre
+                verificarColision();
+            }
+
+            function verificarColision() {
                 const cofre = document.getElementById('cofre-visual').getBoundingClientRect();
                 const rectLlave = elmnt.getBoundingClientRect();
 
                 if (!(rectLlave.right < cofre.left || rectLlave.left > cofre.right || 
                     rectLlave.bottom < cofre.top || rectLlave.top > cofre.bottom)) {
                     abrirTesoro();
+                    closeDragElement();
                 }
             }
 
-            function detenerArrastre() {
-                document.onmouseup = null; document.onmousemove = null;
-                document.ontouchend = null; document.ontouchmove = null;
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+                document.ontouchend = null;
+                document.ontouchmove = null;
             }
         }
 
         function abrirTesoro() {
+            cofreAbierto = true;
             document.getElementById('llave-neon').style.display = 'none';
-            document.getElementById('cofre-visual').innerText = '🔓';
-            setTimeout(() => {
+            document.getElementById('cofre-visual').innerText = '🔓'; // Cofre abierto
+            document.getElementById('modal-tesoro').style.display = 'flex';
+        }
+
+        function reabrirSiAbierto() {
+            if(cofreAbierto) {
                 document.getElementById('modal-tesoro').style.display = 'flex';
-            }, 500);
-        }
-
-        // --- SCRIPTS ORIGINALES ---
-        setInterval(() => {
-            if (document.getElementById('contenido').style.display === "block") {
-                const w = document.createElement('div');
-                w.className = 'whisper';
-                w.innerText = susurrosFrases[Math.floor(Math.random() * susurrosFrases.length)];
-                w.style.left = Math.random() * 50 + 10 + "vw";
-                w.style.top = Math.random() * 70 + 10 + "vh";
-                document.body.appendChild(w);
-                setTimeout(() => w.remove(), 5000);
             }
-        }, 8000);
-
-        setInterval(() => {
-            const p = document.createElement('div');
-            p.classList.add('particle');
-            p.innerHTML = elementos[Math.floor(Math.random() * elementos.length)];
-            p.style.left = Math.random() * 100 + "vw";
-            p.style.animationDuration = (Math.random() * 3 + 4) + "s";
-            document.body.appendChild(p);
-            setTimeout(() => p.remove(), 7000);
-        }, 400);
-
-        function crearRastro(x, y) {
-            const trail = document.createElement('div');
-            trail.className = 'trail';
-            trail.style.left = x + 'px'; trail.style.top = y + 'px';
-            if(Math.random() > 0.8) trail.innerHTML = elementos[Math.floor(Math.random() * elementos.length)];
-            document.body.appendChild(trail);
-            setTimeout(() => trail.remove(), 1000);
         }
 
-        document.addEventListener('mousemove', (e) => crearRastro(e.clientX, e.clientY));
-        document.addEventListener('touchmove', (e) => {
-            const touch = e.touches[0];
-            crearRastro(touch.clientX, touch.clientY);
-        });
+        // --- RESTO DE FUNCIONES ORIGINALES ---
+        function verificar() {
+            if(document.getElementById('password').value.toLowerCase() === "amor") {
+                document.getElementById('pantalla-bloqueo').style.opacity = "0";
+                document.getElementById('track').play();
+                setTimeout(() => { 
+                    document.getElementById('pantalla-bloqueo').style.display = "none"; 
+                    document.getElementById('contenido').style.display = "block"; 
+                    iniciarTimerCofre();
+                }, 1000);
+            }
+        }
 
         const valesData = [
             {e:'🎬', t:'VALE I', m:'Una tarde de películas'},
@@ -332,7 +321,6 @@
                         <div class="vale-back">
                             <p>${v.m}</p>
                             <button onclick="canjear('${v.m}')" style="background:red; color:white; border:none; padding:8px 15px; cursor:pointer; margin-top:10px; border-radius:5px;">Canjear</button>
-                            <p style="font-size:0.75rem; color:#888; margin-top:15px; font-style: italic;">Válido eternamente. 🥀</p>
                         </div>
                     </div>
                 </div>`;
@@ -340,17 +328,16 @@
 
         function abrirCarta() { document.getElementById('modal-carta').style.display = 'flex'; setTimeout(() => document.getElementById('pergamino').classList.add('desenrollado'), 100); }
         function cerrarCarta() { document.getElementById('pergamino').classList.remove('desenrollado'); setTimeout(() => document.getElementById('modal-carta').style.display = 'none', 800); }
-
-        function verificar() {
-            if(document.getElementById('password').value.toLowerCase() === "amor") {
-                document.getElementById('pantalla-bloqueo').style.opacity = "0";
-                document.getElementById('track').play();
-                setTimeout(() => { 
-                    document.getElementById('pantalla-bloqueo').style.display = "none"; 
-                    document.getElementById('contenido').style.display = "block"; 
-                    iniciarTimerCofre(); // Inicia el timer al entrar
-                }, 1000);
-            }
+        function canjear(msg) { event.stopPropagation(); window.open(`https://wa.me/1234567890?text=Cariño, quiero mi: ${msg} 🖤`); }
+        function suerteAleatoria() { 
+            const cards = document.querySelectorAll('.vale-card');
+            cards.forEach(c => c.classList.remove('flipped'));
+            setTimeout(() => cards[Math.floor(Math.random() * cards.length)].classList.add('flipped'), 300);
+        }
+        function toggleMusic() {
+            const track = document.getElementById('track');
+            if(track.paused) { track.play(); document.getElementById('musicBtn').innerText = "⏸ PAUSE"; }
+            else { track.pause(); document.getElementById('musicBtn').innerText = "🎶 PLAY"; }
         }
 
         const fechaInicio = new Date('2024-12-15T00:00:00'); 
@@ -363,17 +350,24 @@
             document.getElementById('contador').innerHTML = `${d}D : ${h}H : ${m}M : ${s}S`;
         }, 1000);
 
-        function canjear(msg) { event.stopPropagation(); window.open(`https://wa.me/1234567890?text=Cariño, quiero mi: ${msg} 🖤`); }
-        function suerteAleatoria() { 
-            const cards = document.querySelectorAll('.vale-card');
-            cards.forEach(c => c.classList.remove('flipped'));
-            setTimeout(() => cards[Math.floor(Math.random() * cards.length)].classList.add('flipped'), 300);
+        setInterval(() => {
+            const p = document.createElement('div');
+            p.classList.add('particle');
+            p.innerHTML = elementos[Math.floor(Math.random() * elementos.length)];
+            p.style.left = Math.random() * 100 + "vw";
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 7000);
+        }, 400);
+
+        function crearRastro(x, y) {
+            const trail = document.createElement('div');
+            trail.className = 'trail';
+            trail.style.left = x + 'px'; trail.style.top = y + 'px';
+            document.body.appendChild(trail);
+            setTimeout(() => trail.remove(), 1000);
         }
-        function toggleMusic() {
-            const track = document.getElementById('track');
-            if(track.paused) { track.play(); document.getElementById('musicBtn').innerText = "⏸ PAUSE"; }
-            else { track.pause(); document.getElementById('musicBtn').innerText = "🎶 PLAY"; }
-        }
+        document.addEventListener('mousemove', (e) => crearRastro(e.clientX, e.clientY));
+        document.addEventListener('touchmove', (e) => crearRastro(e.touches[0].clientX, e.touches[0].clientY));
     </script>
 </body>
 </html>
