@@ -21,7 +21,7 @@
             display: flex; flex-direction: column; align-items: center; min-height: 100vh;
         }
 
-        /* --- SUSURROS (40px) --- */
+        /* --- SUSURROS (TAMAÑO 40PX) --- */
         .whisper {
             position: fixed;
             color: rgba(255, 0, 0, 0.7);
@@ -50,87 +50,56 @@
         .top-left { top: 0; left: 0; background: radial-gradient(circle at 0% 0%, transparent 20%, rgba(255,255,255,0.1) 21%, transparent 22%), repeating-radial-gradient(circle at 0% 0%, transparent 0, transparent 18px, rgba(255,0,0,0.2) 19px, transparent 20px); }
         .top-right { top: 0; right: 0; transform: scaleX(-1); background: radial-gradient(circle at 0% 0%, transparent 20%, rgba(255,255,255,0.1) 21%, transparent 22%), repeating-radial-gradient(circle at 0% 0%, transparent 0, transparent 18px, rgba(255,0,0,0.2) 19px, transparent 20px); }
 
-        /* --- BOTÓN NUESTRA CARTA (ESTILO IMAGEN) --- */
-        .btn-carta-container {
-            margin: 40px 0;
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-        .btn-carta-container:hover { transform: scale(1.05); }
+        /* --- NIEBLA Y AMBIENTE --- */
+        .vignette { position: fixed; top: 0; left: 0; width: 100%; height: 100%; box-shadow: inset 0 0 200px rgba(0,0,0,1); pointer-events: none; z-index: 5; }
 
-        .btn-carta-body {
-            background: #f4e4bc; /* Color crema de la imagen */
-            border: 2px solid #8b5e3c; /* Borde café */
-            border-radius: 15px;
-            padding: 15px 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 20px rgba(244, 228, 188, 0.4);
-            color: #2c1e16;
-            font-weight: bold;
-            font-size: 1.2rem;
-            position: relative;
-        }
+        /* --- PARTÍCULAS (FLORES) --- */
+        .particle { position: fixed; pointer-events: none; z-index: 6; font-size: 24px; animation: fall 6s linear forwards; }
+        @keyframes fall { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
 
-        /* El sello rojo de la parte inferior */
-        .sello-rojo {
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #8b0000;
-            color: #ffd700;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            border: 2px solid #2c1e16;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-        }
+        /* --- TÍTULO Y CONTADOR --- */
+        .titulo-latido { font-size: 3.5rem; color: var(--bright-red); text-transform: uppercase; letter-spacing: 6px; text-shadow: 0 0 20px var(--bright-red); margin-top: 50px; animation: heartbeat 2s infinite; }
+        @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-        /* --- PANTALLA DE BLOQUEO --- */
-        #pantalla-bloqueo {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-dark); display: flex; justify-content: center; align-items: center;
-            z-index: 2000; transition: 1s;
-        }
-        .login-box {
-            background: var(--card-dark); padding: 40px;
-            border: 1px solid var(--gothic-red); text-align: center;
-        }
+        /* --- IMAGEN PRINCIPAL --- */
+        .img-container { margin: 30px 0; filter: drop-shadow(0 0 25px var(--bright-red)); animation: float 4s ease-in-out infinite; }
+        .img-container img { width: 200px; height: auto; border-radius: 10px; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
-        /* --- MODAL CARTA --- */
-        #modal-carta {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 3000; justify-content: center; align-items: center;
-        }
-        .pergamino-abierto {
-            background: var(--paper); color: #2c1e16; width: 90%; max-width: 500px;
-            height: 0; overflow: hidden; position: relative;
-            transition: height 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-            border-left: 4px solid #d4c49c; border-right: 4px solid #d4c49c;
-        }
+        /* --- BOTÓN DE CARTA (ESTILO ANTERIOR) --- */
+        .scroll-container { margin: 40px 0; perspective: 1000px; cursor: pointer; }
+        .scroll-closed { width: 180px; height: 70px; background: linear-gradient(to bottom, #d4c49c, #f4e4bc, #d4c49c); border-radius: 10px; border: 2px solid #8b5e3c; display: flex; align-items: center; justify-content: center; color: #4e342e; font-weight: bold; position: relative; box-shadow: 0 0 15px rgba(255,215,0,0.3); }
+        .scroll-closed::after { content: '⚜️'; position: absolute; bottom: -10px; background: #8b0000; color: gold; padding: 5px; border-radius: 50%; border: 2px solid #4e342e; font-size: 10px; }
+        
+        #modal-carta { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 3000; justify-content: center; align-items: center; }
+        .pergamino-abierto { background: var(--paper); color: #2c1e16; width: 90%; max-width: 500px; height: 0; overflow: hidden; position: relative; transition: height 1.5s cubic-bezier(0.4, 0, 0.2, 1); border-left: 4px solid #d4c49c; border-right: 4px solid #d4c49c; }
         .pergamino-abierto.desenrollado { height: 500px; }
         .carta-texto { padding: 60px 40px; font-family: 'Dancing Script', cursive; font-size: 1.5rem; line-height: 1.6; opacity: 0; transition: opacity 0.8s 1.2s; }
         .desenrollado .carta-texto { opacity: 1; }
 
-        /* --- OTROS ESTILOS --- */
-        #contenido { display: none; padding: 20px; text-align: center; width: 100%; max-width: 1200px; z-index: 10; }
-        .titulo-latido { font-size: 3.5rem; color: var(--bright-red); text-transform: uppercase; animation: heartbeat 2s infinite; text-shadow: 0 0 20px var(--bright-red); }
-        @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        .img-container img { width: 220px; border-radius: 10px; filter: drop-shadow(0 0 25px var(--bright-red)); }
+        /* --- VALES --- */
+        .contenedor-vales { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-top: 50px; width: 90%; }
+        .vale-card { width: 220px; height: 320px; perspective: 1000px; cursor: pointer; margin: auto; }
+        .vale-inner { position: relative; width: 100%; height: 100%; transition: 0.8s; transform-style: preserve-3d; }
+        .flipped .vale-inner { transform: rotateY(180deg); }
+        .vale-front, .vale-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--card-dark); border: 2px solid var(--bright-red); box-shadow: var(--neon-glow); overflow: hidden; }
+        .vale-front span { font-size: 60px; margin-bottom: 20px; }
+        .vale-back { transform: rotateY(180deg); background: #000; border: 2px solid white; box-shadow: 0 0 15px white; padding: 20px; text-align: center; }
+
+        /* --- RASTRO --- */
         .trail { position: fixed; width: 15px; height: 15px; background: var(--bright-red); border-radius: 50%; pointer-events: none; z-index: 100; box-shadow: 0 0 20px var(--bright-red); animation: vanish 1s forwards; }
         @keyframes vanish { to { transform: scale(2.5); opacity: 0; } }
+
+        /* --- PANTALLA BLOQUEO --- */
+        #pantalla-bloqueo { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); display: flex; justify-content: center; align-items: center; z-index: 2000; transition: 1s; }
+        .login-box { background: var(--card-dark); padding: 40px; border: 1px solid var(--gothic-red); text-align: center; }
+        #contenido { display: none; padding: 20px; text-align: center; width: 100%; max-width: 1200px; z-index: 10; }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
 </head>
 <body>
 
+    <div class="vignette"></div>
     <div class="web-corner top-left"></div>
     <div class="web-corner top-right"></div>
 
@@ -145,21 +114,16 @@
 
     <div id="contenido">
         <h1 class="titulo-latido">Eternidad a tu lado</h1>
-        
         <div class="img-container">
             <img src="https://i.postimg.cc/hjdFDTBw/Download-premium-png-of-PNG-A-Key-with-Skull-and-Black-roses-art-key-illustration-by-Adjima-about-Halloween-background-illustration-and-rose-22603410.png">
         </div>
-
         <div id="contador" style="color: var(--bright-red); font-size: 2.2rem; font-weight: bold; margin: 30px 0;"></div>
-
-        <div class="btn-carta-container" onclick="abrirCarta()">
-            <div class="btn-carta-body">
-                <span style="margin-right: 10px;">📜</span> NUESTRA CARTA
-                <div class="sello-rojo">⚜️</div>
-            </div>
+        
+        <div class="scroll-container" onclick="abrirCarta()">
+            <div class="scroll-closed">📜 NUESTRA CARTA</div>
         </div>
 
-        <div style="color: #666; font-style: italic;">(Toca la carta para leerla)</div>
+        <div class="contenedor-vales" id="grid-vales"></div>
     </div>
 
     <div id="modal-carta" onclick="cerrarCarta()">
@@ -173,8 +137,10 @@
     </div>
 
     <script>
+        const elementos = ['🌻', '🌹', '🌸', '🖤', '❤️', '🥀'];
         const susurrosFrases = ["Eres mi luz...", "426 días...", "Siempre tuyo...", "Pacto eterno...", "No te dejaré ir..."];
 
+        // SUSURROS GRANDES (40PX)
         setInterval(() => {
             if (document.getElementById('contenido').style.display === "block") {
                 const w = document.createElement('div');
@@ -187,6 +153,16 @@
             }
         }, 8000);
 
+        // LLUVIA DE FLORES
+        setInterval(() => {
+            const p = document.createElement('div');
+            p.classList.add('particle');
+            p.innerHTML = elementos[Math.floor(Math.random() * elementos.length)];
+            p.style.left = Math.random() * 100 + "vw";
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 7000);
+        }, 400);
+
         function crearRastro(x, y) {
             const trail = document.createElement('div');
             trail.className = 'trail';
@@ -198,23 +174,30 @@
         document.addEventListener('mousemove', (e) => crearRastro(e.clientX, e.clientY));
         document.addEventListener('touchmove', (e) => crearRastro(e.touches[0].clientX, e.touches[0].clientY));
 
-        function abrirCarta() { 
-            document.getElementById('modal-carta').style.display = 'flex'; 
-            setTimeout(() => document.getElementById('pergamino').classList.add('desenrollado'), 100); 
-        }
+        const valesData = [
+            {e:'🎬', t:'VALE I', m:'Una tarde de películas'},
+            {e:'🛌', t:'VALE II', m:'Una camita de chismes'},
+            {e:'🍕', t:'VALE V', m:'Una pizza a tu lado'},
+            {e:'🧛', t:'VALE VI', m:'Muchos besitos'}
+        ];
 
-        function cerrarCarta() { 
-            document.getElementById('pergamino').classList.remove('desenrollado'); 
-            setTimeout(() => document.getElementById('modal-carta').style.display = 'none', 800); 
-        }
+        valesData.forEach(v => {
+            document.getElementById('grid-vales').innerHTML += `
+                <div class="vale-card" onclick="this.classList.toggle('flipped')">
+                    <div class="vale-inner">
+                        <div class="vale-front"><span>${v.e}</span><h3>${v.t}</h3></div>
+                        <div class="vale-back"><p>${v.m}</p></div>
+                    </div>
+                </div>`;
+        });
+
+        function abrirCarta() { document.getElementById('modal-carta').style.display = 'flex'; setTimeout(() => document.getElementById('pergamino').classList.add('desenrollado'), 100); }
+        function cerrarCarta() { document.getElementById('pergamino').classList.remove('desenrollado'); setTimeout(() => document.getElementById('modal-carta').style.display = 'none', 800); }
 
         function verificar() {
             if(document.getElementById('password').value.toLowerCase() === "amor") {
-                document.getElementById('pantalla-bloqueo').style.opacity = "0";
-                setTimeout(() => { 
-                    document.getElementById('pantalla-bloqueo').style.display = "none"; 
-                    document.getElementById('contenido').style.display = "block"; 
-                }, 1000);
+                document.getElementById('pantalla-bloqueo').style.display = "none";
+                document.getElementById('contenido').style.display = "block";
             }
         }
 
