@@ -74,8 +74,13 @@
         .img-container img { width: 200px; height: auto; border-radius: 10px; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
-        /* --- PERGAMINO --- */
-        .scroll-container { margin: 40px 0; perspective: 1000px; cursor: pointer; }
+        /* --- PERGAMINO (Área de clic reducida) --- */
+        .scroll-container { 
+            margin: 40px auto; 
+            perspective: 1000px; 
+            cursor: pointer; 
+            display: inline-block; /* Esto reduce el clic solo al botón */
+        }
         .scroll-closed { width: 180px; height: 70px; background: linear-gradient(to bottom, #d4c49c, #f4e4bc, #d4c49c); border-radius: 10px; border: 2px solid #8b5e3c; display: flex; align-items: center; justify-content: center; color: #4e342e; font-weight: bold; position: relative; box-shadow: 0 0 15px rgba(255,215,0,0.3); }
         .scroll-closed::after { content: '⚜️'; position: absolute; bottom: -10px; background: #8b0000; color: gold; padding: 5px; border-radius: 50%; border: 2px solid #4e342e; font-size: 10px; }
         
@@ -133,9 +138,11 @@
             <img src="https://i.postimg.cc/hjdFDTBw/Download-premium-png-of-PNG-A-Key-with-Skull-and-Black-roses-art-key-illustration-by-Adjima-about-Halloween-background-illustration-and-rose-22603410.png" alt="Rosa Eterna">
         </div>
         <div id="contador" style="color: var(--bright-red); font-size: 2.2rem; font-weight: bold; margin: 30px 0; text-shadow: 0 0 10px red;"></div>
+        
         <div class="scroll-container" onclick="abrirCarta()">
             <div class="scroll-closed">📜 NUESTRA CARTA</div>
         </div>
+
         <div class="contenedor-vales" id="grid-vales"></div>
         <button onclick="suerteAleatoria()" style="margin:60px; padding:15px 40px; border:2px solid red; background:transparent; color:white; cursor:pointer; box-shadow: var(--neon-glow); font-weight: bold;">Dejar que el destino elija</button>
     </div>
@@ -159,13 +166,11 @@
         const elementos = ['🌻', '🌹', '🌸', '🖤', '❤️', '🥀'];
         const susurrosFrases = ["Eres mi luz en la oscuridad...", "426 días y contando...", "Siempre tuyo/a...", "Pacto eterno...", "No te dejaré ir..."];
 
-        // SUSURROS AJUSTADOS
         setInterval(() => {
             if (document.getElementById('contenido').style.display === "block") {
                 const w = document.createElement('div');
                 w.className = 'whisper';
                 w.innerText = susurrosFrases[Math.floor(Math.random() * susurrosFrases.length)];
-                // Posicionamiento aleatorio cuidando los bordes
                 w.style.left = Math.random() * 50 + 10 + "vw";
                 w.style.top = Math.random() * 70 + 10 + "vh";
                 document.body.appendChild(w);
