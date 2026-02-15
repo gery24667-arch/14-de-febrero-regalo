@@ -21,7 +21,7 @@
             display: flex; flex-direction: column; align-items: center; min-height: 100vh;
         }
 
-        /* --- TELARAÑAS EN LOS EXTREMOS --- */
+        /* --- TELARAÑAS EN LOS EXTREMOS DE LA PANTALLA --- */
         .web-corner {
             position: fixed; width: 180px; height: 180px;
             z-index: 100; pointer-events: none; opacity: 0.5;
@@ -35,13 +35,13 @@
         .spider-2 { top: 140px; right: 40px; }
         @keyframes hang { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(30px); } }
 
-        /* --- NIEBLA Y AMBIENTE --- */
+        /* --- AMBIENTE --- */
         .fog-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         .fog-layer { position: absolute; width: 200%; height: 100%; background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%); animation: moveFog 40s linear infinite; }
         @keyframes moveFog { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .vignette { position: fixed; top: 0; left: 0; width: 100%; height: 100%; box-shadow: inset 0 0 200px rgba(0,0,0,1); pointer-events: none; z-index: 5; }
 
-        /* --- PARTÍCULAS (ROSAS, GIRASOLES, CORAZONES) --- */
+        /* --- PARTÍCULAS --- */
         .particle { position: fixed; pointer-events: none; z-index: 6; font-size: 24px; animation: fall 6s linear forwards; }
         @keyframes fall { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
 
@@ -65,18 +65,23 @@
         .carta-texto { padding: 60px 40px; font-family: 'Dancing Script', cursive; font-size: 1.5rem; line-height: 1.6; opacity: 0; transition: opacity 0.8s 1.2s; }
         .desenrollado .carta-texto { opacity: 1; }
 
-        /* --- VALES NEÓN --- */
+        /* --- VALES CON TELARAÑA --- */
         .contenedor-vales { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-top: 50px; width: 90%; }
         .vale-card { width: 220px; height: 320px; perspective: 1000px; cursor: pointer; margin: auto; }
         .vale-inner { position: relative; width: 100%; height: 100%; transition: 0.8s; transform-style: preserve-3d; }
         .flipped .vale-inner { transform: rotateY(180deg); }
-        .vale-front, .vale-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--card-dark); border: 2px solid var(--bright-red); box-shadow: var(--neon-glow); }
+        .vale-front, .vale-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--card-dark); border: 2px solid var(--bright-red); box-shadow: var(--neon-glow); overflow: hidden; }
+        
+        /* Telaraña y araña en el vale */
+        .vale-front::before { content: '🕸️'; position: absolute; top: -10px; left: -10px; font-size: 3rem; opacity: 0.4; filter: drop-shadow(0 0 5px white); }
+        .vale-front::after { content: '🕷️'; position: absolute; top: 40px; left: 15px; font-size: 1rem; animation: hang 3s infinite; }
+
         .vale-front span { font-size: 60px; filter: drop-shadow(0 0 10px var(--bright-red)); margin-bottom: 20px; }
         .vale-back { transform: rotateY(180deg); background: #000; border: 2px solid white; box-shadow: 0 0 15px white; padding: 20px; text-align: center; }
 
-        /* --- RASTRO DEL MOUSE --- */
-        .trail { position: fixed; width: 12px; height: 12px; background: var(--bright-red); border-radius: 50%; pointer-events: none; z-index: 100; box-shadow: 0 0 15px var(--bright-red); animation: vanish 1s forwards; font-size: 14px; display: flex; align-items: center; justify-content: center; }
-        @keyframes vanish { to { transform: scale(3) translateY(-30px); opacity: 0; } }
+        /* --- RASTRO NEÓN (CURSOR Y DEDO) --- */
+        .trail { position: fixed; width: 15px; height: 15px; background: var(--bright-red); border-radius: 50%; pointer-events: none; z-index: 100; box-shadow: 0 0 20px var(--bright-red), 0 0 10px white; animation: vanish 1s forwards; display: flex; align-items: center; justify-content: center; }
+        @keyframes vanish { to { transform: scale(2.5) translateY(-30px); opacity: 0; } }
 
         #pantalla-bloqueo { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); display: flex; justify-content: center; align-items: center; z-index: 2000; transition: 1s; }
         #contenido { display: none; padding: 20px; text-align: center; width: 100%; max-width: 1200px; z-index: 10; }
@@ -105,19 +110,14 @@
 
     <div id="contenido">
         <h1 class="titulo-latido">Eternidad a tu lado</h1>
-
         <div class="img-container">
             <img src="https://i.postimg.cc/hjdFDTBw/Download-premium-png-of-PNG-A-Key-with-Skull-and-Black-roses-art-key-illustration-by-Adjima-about-Halloween-background-illustration-and-rose-22603410.png" alt="Rosa Eterna">
         </div>
-
         <div id="contador" style="color: var(--bright-red); font-size: 2.2rem; font-weight: bold; margin: 30px 0; text-shadow: 0 0 10px red;"></div>
-
         <div class="scroll-container" onclick="abrirCarta()">
             <div class="scroll-closed">📜 NUESTRA CARTA</div>
         </div>
-
         <div class="contenedor-vales" id="grid-vales"></div>
-
         <button onclick="suerteAleatoria()" style="margin:60px; padding:15px 40px; border:2px solid red; background:transparent; color:white; cursor:pointer; box-shadow: var(--neon-glow); font-weight: bold;">Dejar que el destino elija</button>
     </div>
 
@@ -137,8 +137,7 @@
     </div>
 
     <script>
-        // --- SISTEMA DE PARTÍCULAS (ROSAS, GIRASOLES, CORAZONES) ---
-        const elementos = ['🌻', '🌹', '🌸', '🖤', '❤️', '🥀', '🥀'];
+        const elementos = ['🌻', '🌹', '🌸', '🖤', '❤️', '🥀'];
         setInterval(() => {
             const p = document.createElement('div');
             p.classList.add('particle');
@@ -149,16 +148,21 @@
             setTimeout(() => p.remove(), 7000);
         }, 400);
 
-        // --- RASTRO DEL MOUSE CON FLORES ---
+        // --- RASTRO NEÓN PARA CURSOR Y DEDO ---
         function crearRastro(x, y) {
             const trail = document.createElement('div');
             trail.className = 'trail';
             trail.style.left = x + 'px'; trail.style.top = y + 'px';
-            if(Math.random() > 0.8) trail.innerHTML = '🥀';
+            if(Math.random() > 0.8) trail.innerHTML = elementos[Math.floor(Math.random() * elementos.length)];
             document.body.appendChild(trail);
             setTimeout(() => trail.remove(), 1000);
         }
+
         document.addEventListener('mousemove', (e) => crearRastro(e.clientX, e.clientY));
+        document.addEventListener('touchmove', (e) => {
+            const touch = e.touches[0];
+            crearRastro(touch.clientX, touch.clientY);
+        });
 
         // VALES
         const valesData = [
@@ -179,7 +183,6 @@
                         <div class="vale-back">
                             <p>${v.m}</p>
                             <button onclick="canjear('${v.m}')" style="background:red; color:white; border:none; padding:8px 15px; cursor:pointer; margin-top:10px; border-radius:5px;">Canjear</button>
-                            <p style="font-size:0.7rem; color:#888; margin-top:15px;">Válido hasta siempre. 🥀</p>
                         </div>
                     </div>
                 </div>`;
