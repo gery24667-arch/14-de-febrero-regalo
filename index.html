@@ -12,6 +12,7 @@
             --bright-red: #ff0000;
             --paper: #f4e4bc;
             --neon-glow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 10px rgba(255, 0, 0, 0.6);
+            /* Nueva variable para la llave */
             --neon-key: 0 0 10px #fff, 0 0 20px var(--bright-red), 0 0 30px var(--bright-red);
         }
 
@@ -22,24 +23,41 @@
             display: flex; flex-direction: column; align-items: center; min-height: 100vh;
         }
 
-        /* --- SUSURROS --- */
+        /* --- SUSURROS (Tamaño Ajustado a 40px) --- */
         .whisper {
-            position: fixed; color: rgba(255, 0, 0, 0.7); font-style: italic; font-size: 40px; 
-            pointer-events: none; z-index: 8; animation: whisperFade 5s forwards;
-            text-shadow: 0 0 15px rgba(255, 0, 0, 0.8); font-family: 'Dancing Script', cursive; white-space: nowrap;
+            position: fixed;
+            color: rgba(255, 0, 0, 0.7);
+            font-style: italic;
+            font-size: 40px; /* Tamaño solicitado */
+            pointer-events: none;
+            z-index: 8;
+            animation: whisperFade 5s forwards;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+            font-family: 'Dancing Script', cursive;
+            white-space: nowrap;
         }
-        @keyframes whisperFade { 0% { opacity: 0; transform: scale(0.7); } 20% { opacity: 1; transform: scale(1); } 80% { opacity: 1; } 100% { opacity: 0; transform: translateY(-30px); } }
+        @keyframes whisperFade {
+            0% { opacity: 0; transform: scale(0.7); }
+            20% { opacity: 1; transform: scale(1); }
+            80% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-30px); }
+        }
 
-        /* --- TELARAÑAS --- */
-        .web-corner { position: fixed; width: 180px; height: 180px; z-index: 100; pointer-events: none; opacity: 0.5; filter: drop-shadow(0 0 10px var(--bright-red)); }
+        /* --- TELARAÑAS EN LOS EXTREMOS --- */
+        .web-corner {
+            position: fixed; width: 180px; height: 180px;
+            z-index: 100; pointer-events: none; opacity: 0.5;
+            filter: drop-shadow(0 0 10px var(--bright-red));
+        }
         .top-left { top: 0; left: 0; background: radial-gradient(circle at 0% 0%, transparent 20%, rgba(255,255,255,0.1) 21%, transparent 22%), repeating-radial-gradient(circle at 0% 0%, transparent 0, transparent 18px, rgba(255,0,0,0.2) 19px, transparent 20px); }
         .top-right { top: 0; right: 0; transform: scaleX(-1); background: radial-gradient(circle at 0% 0%, transparent 20%, rgba(255,255,255,0.1) 21%, transparent 22%), repeating-radial-gradient(circle at 0% 0%, transparent 0, transparent 18px, rgba(255,0,0,0.2) 19px, transparent 20px); }
+        
         .hanging-spider { position: fixed; font-size: 24px; z-index: 101; animation: hang 4s ease-in-out infinite; }
         .spider-1 { top: 110px; left: 40px; }
         .spider-2 { top: 140px; right: 40px; }
         @keyframes hang { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(30px); } }
 
-        /* --- NIEBLA --- */
+        /* --- NIEBLA Y AMBIENTE --- */
         .fog-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         .fog-layer { position: absolute; width: 200%; height: 100%; background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%); animation: moveFog 40s linear infinite; }
         @keyframes moveFog { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -58,8 +76,13 @@
         .img-container img { width: 200px; height: auto; border-radius: 10px; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
-        /* --- PERGAMINO --- */
-        .scroll-container { margin: 40px auto; perspective: 1000px; cursor: pointer; display: inline-block; }
+        /* --- PERGAMINO (Área de clic reducida) --- */
+        .scroll-container { 
+            margin: 40px auto; 
+            perspective: 1000px; 
+            cursor: pointer; 
+            display: inline-block; /* Esto reduce el clic solo al botón */
+        }
         .scroll-closed { width: 180px; height: 70px; background: linear-gradient(to bottom, #d4c49c, #f4e4bc, #d4c49c); border-radius: 10px; border: 2px solid #8b5e3c; display: flex; align-items: center; justify-content: center; color: #4e342e; font-weight: bold; position: relative; box-shadow: 0 0 15px rgba(255,215,0,0.3); }
         .scroll-closed::after { content: '⚜️'; position: absolute; bottom: -10px; background: #8b0000; color: gold; padding: 5px; border-radius: 50%; border: 2px solid #4e342e; font-size: 10px; }
         
@@ -75,26 +98,29 @@
         .vale-inner { position: relative; width: 100%; height: 100%; transition: 0.8s; transform-style: preserve-3d; }
         .flipped .vale-inner { transform: rotateY(180deg); }
         .vale-front, .vale-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--card-dark); border: 2px solid var(--bright-red); box-shadow: var(--neon-glow); overflow: hidden; }
+        
+        .vale-front::before { content: '🕸️'; position: absolute; top: -10px; left: -10px; font-size: 3rem; opacity: 0.4; }
+        .vale-front::after { content: '🕷️'; position: absolute; top: 40px; left: 15px; font-size: 1rem; animation: hang 3s infinite; }
         .vale-front span { font-size: 60px; filter: drop-shadow(0 0 10px var(--bright-red)); margin-bottom: 20px; }
         .vale-back { transform: rotateY(180deg); background: #000; border: 2px solid white; box-shadow: 0 0 15px white; padding: 20px; text-align: center; }
 
-        /* --- SISTEMA DEL COFRE Y LLAVE --- */
-        #contenedor-cofre { position: fixed; bottom: 20px; left: 20px; z-index: 500; text-align: center; }
-        #cofre { font-size: 60px; cursor: pointer; transition: transform 0.3s; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
-        #timer-cofre { font-family: 'Courier New', monospace; color: var(--bright-red); font-weight: bold; font-size: 1.2rem; margin-bottom: 5px; text-shadow: 0 0 5px red; }
+        /* --- NUEVO: ESTILOS COFRE Y LLAVE --- */
+        #seccion-cofre { position: fixed; bottom: 20px; left: 20px; z-index: 100; text-align: center; }
+        #timer-cofre { color: var(--bright-red); font-family: monospace; font-size: 1.2rem; margin-bottom: 5px; text-shadow: 0 0 10px red; }
+        #cofre-visual { font-size: 50px; filter: drop-shadow(0 0 10px rgba(255,0,0,0.5)); transition: 0.3s; }
         
         #llave-neon { 
-            position: fixed; font-size: 45px; cursor: grab; z-index: 1000; display: none;
+            position: fixed; font-size: 50px; display: none; z-index: 1001; cursor: grab;
             filter: drop-shadow(0 0 5px #fff); color: white; text-shadow: var(--neon-key);
             user-select: none; touch-action: none;
         }
 
-        /* --- RASTRO --- */
+        /* --- RASTRO DEL MOUSE Y DEDO --- */
         .trail { position: fixed; width: 15px; height: 15px; background: var(--bright-red); border-radius: 50%; pointer-events: none; z-index: 100; box-shadow: 0 0 20px var(--bright-red); animation: vanish 1s forwards; display: flex; align-items: center; justify-content: center; }
         @keyframes vanish { to { transform: scale(2.5) translateY(-30px); opacity: 0; } }
 
         #pantalla-bloqueo { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); display: flex; justify-content: center; align-items: center; z-index: 2000; transition: 1s; }
-        #contenido { display: none; padding: 20px; text-align: center; width: 100%; max-width: 1200px; z-index: 10; padding-bottom: 100px; }
+        #contenido { display: none; padding: 20px; text-align: center; width: 100%; max-width: 1200px; z-index: 10; }
         .music-player { position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.8); padding: 10px 25px; border: 1px solid var(--bright-red); border-radius: 50px; z-index: 100; cursor: pointer; }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
@@ -103,6 +129,7 @@
 
     <div class="vignette"></div>
     <div class="fog-wrapper"><div class="fog-layer"></div></div>
+    
     <div class="web-corner top-left"></div>
     <div class="web-corner top-right"></div>
     <div class="hanging-spider spider-1">🕷️</div>
@@ -111,6 +138,7 @@
     <div id="pantalla-bloqueo">
         <div style="background: var(--card-dark); padding: 40px; border: 1px solid var(--gothic-red); text-align: center;">
             <h2 style="color: var(--bright-red)">Nuestra palabra eterna...</h2>
+            <p style="color: #bbb; font-size: 0.9rem; margin-bottom: 25px;">Solo tú conoces la llave de este oscuro sentimiento.</p>
             <input type="password" id="password" style="background:transparent; border:none; border-bottom:1px solid red; color:white; text-align:center; outline:none; font-size: 1.2rem; width: 80%;">
             <br><br>
             <button onclick="verificar()" style="background:var(--gothic-red); color:white; border:none; padding:10px 25px; cursor:pointer;">ENTRAR</button>
@@ -119,33 +147,44 @@
 
     <div id="contenido">
         <h1 class="titulo-latido">Eternidad a tu lado</h1>
-        <div class="img-container"><img src="https://i.postimg.cc/hjdFDTBw/Download-premium-png-of-PNG-A-Key-with-Skull-and-Black-roses-art-key-illustration-by-Adjima-about-Halloween-background-illustration-and-rose-22603410.png"></div>
+        <div class="img-container">
+            <img src="https://i.postimg.cc/hjdFDTBw/Download-premium-png-of-PNG-A-Key-with-Skull-and-Black-roses-art-key-illustration-by-Adjima-about-Halloween-background-illustration-and-rose-22603410.png" alt="Rosa Eterna">
+        </div>
         <div id="contador" style="color: var(--bright-red); font-size: 2.2rem; font-weight: bold; margin: 30px 0; text-shadow: 0 0 10px red;"></div>
         
-        <div class="scroll-container" onclick="abrirCarta()"><div class="scroll-closed">📜 NUESTRA CARTA</div></div>
+        <div class="scroll-container" onclick="abrirCarta()">
+            <div class="scroll-closed">📜 NUESTRA CARTA</div>
+        </div>
+
         <div class="contenedor-vales" id="grid-vales"></div>
         <button onclick="suerteAleatoria()" style="margin:60px; padding:15px 40px; border:2px solid red; background:transparent; color:white; cursor:pointer; box-shadow: var(--neon-glow); font-weight: bold;">Dejar que el destino elija</button>
 
-        <div id="contenedor-cofre">
+        <div id="seccion-cofre">
             <div id="timer-cofre">05:00</div>
-            <div id="cofre">🎁</div>
+            <div id="cofre-visual">🎁</div>
         </div>
     </div>
 
     <div id="llave-neon">🔑</div>
 
-    <div id="modal-carta" onclick="cerrarCarta()">
-        <div class="pergamino-abierto" id="pergamino">
-            <div class="carta-texto">Mi Amor,<br><br>Cada día contigo es una flor que nunca se marchita. Gracias por estos 426 días juntos.<br><br>Eres mi eternidad. 🖤🥀🌻</div>
+    <div id="modal-tesoro" onclick="this.style.display='none'">
+        <div style="background: var(--paper); color: #2c1e16; padding: 40px; border-radius: 15px; text-align: center; max-width: 450px; width: 90%; border: 4px solid #8b5e3c;">
+            <span style="font-size: 60px;">💰</span>
+            <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; margin: 10px 0;">Mi gran tesoro</h2>
+            <img src="https://via.placeholder.com/300x200" style="width: 100%; border-radius: 10px; border: 2px solid #8b0000; margin: 15px 0;">
+            <p style="font-family: 'Dancing Script', cursive; font-size: 1.5rem; line-height: 1.4;">
+                Cada segundo a tu lado vale más que todo el oro del mundo. Gracias por ser mi mayor riqueza. ❤️
+            </p>
         </div>
     </div>
 
-    <div id="modal-tesoro" onclick="this.style.display='none'">
-        <div style="background: var(--paper); color: #2c1e16; padding: 30px; border-radius: 15px; text-align: center; max-width: 400px; width: 85%;">
-            <span style="font-size: 50px;">💰</span>
-            <h2 style="font-family: 'Dancing Script', cursive; font-size: 2rem;">Mi mayor tesoro</h2>
-            <img src="https://via.placeholder.com/200" style="width: 100%; border-radius: 10px; margin: 15px 0;" alt="Tu imagen">
-            <p style="font-family: 'Dancing Script', cursive; font-size: 1.3rem;">Eres la riqueza más grande que la vida me pudo dar. Todo mi amor y mi futuro son para ti. ❤️</p>
+    <div id="modal-carta" onclick="cerrarCarta()">
+        <div class="pergamino-abierto" id="pergamino">
+            <div class="carta-texto">
+                Mi Amor,<br><br>
+                Cada día contigo es una flor que nunca se marchita. Gracias por estos 426 días juntos.<br><br>
+                Eres mi eternidad. 🖤🥀🌻
+            </div>
         </div>
     </div>
 
@@ -156,74 +195,74 @@
 
     <script>
         const elementos = ['🌻', '🌹', '🌸', '🖤', '❤️', '🥀'];
-        const susurrosFrases = ["Eres mi luz...", "426 días...", "Siempre tuyo...", "Pacto eterno..."];
+        const susurrosFrases = ["Eres mi luz en la oscuridad...", "426 días y contando...", "Siempre tuyo/a...", "Pacto eterno...", "No te dejaré ir..."];
 
-        // LÓGICA DEL TEMPORIZADOR Y LLAVE
-        let tiempo = 300; // 5 minutos en segundos
-        let timerActivo = false;
+        // LÓGICA COFRE Y TEMPORIZADOR
+        let tiempoRestante = 300; // 5 minutos
+        let timerIniciado = false;
 
-        function iniciarCofre() {
-            if(timerActivo) return;
-            timerActivo = true;
+        function iniciarTimerCofre() {
+            if(timerIniciado) return;
+            timerIniciado = true;
             const intervalo = setInterval(() => {
-                tiempo--;
-                let min = Math.floor(tiempo / 60);
-                let seg = tiempo % 60;
-                document.getElementById('timer-cofre').innerText = `${min}:${seg < 10 ? '0' : ''}${seg}`;
+                tiempoRestante--;
+                let m = Math.floor(tiempoRestante / 60);
+                let s = tiempoRestante % 60;
+                document.getElementById('timer-cofre').innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
 
-                if (tiempo <= 0) {
+                if (tiempoRestante <= 0) {
                     clearInterval(intervalo);
                     document.getElementById('timer-cofre').style.display = 'none';
-                    mostrarLlave();
+                    activarLlave();
                 }
             }, 1000);
         }
 
-        function mostrarLlave() {
+        function activarLlave() {
             const llave = document.getElementById('llave-neon');
             llave.style.display = 'block';
             llave.style.top = '50%';
             llave.style.left = '50%';
-            hacerArrastrable(llave);
+            configurarArrastre(llave);
         }
 
-        function hacerArrastrable(elmnt) {
+        function configurarArrastre(elmnt) {
             let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            elmnt.onmousedown = dragMouseDown;
-            elmnt.ontouchstart = dragMouseDown;
+            elmnt.onmousedown = iniciarArrastre;
+            elmnt.ontouchstart = iniciarArrastre;
 
-            function dragMouseDown(e) {
+            function iniciarArrastre(e) {
                 e.preventDefault();
                 pos3 = e.clientX || e.touches[0].clientX;
                 pos4 = e.clientY || e.touches[0].clientY;
-                document.onmouseup = closeDragElement;
-                document.ontouchend = closeDragElement;
-                document.onmousemove = elementDrag;
-                document.ontouchmove = elementDrag;
+                document.onmouseup = detenerArrastre;
+                document.ontouchend = detenerArrastre;
+                document.onmousemove = moverElemento;
+                document.ontouchmove = moverElemento;
             }
 
-            function elementDrag(e) {
+            function moverElemento(e) {
                 e.preventDefault();
-                let clientX = e.clientX || e.touches[0].clientX;
-                let clientY = e.clientY || e.touches[0].clientY;
-                pos1 = pos3 - clientX;
-                pos2 = pos4 - clientY;
-                pos3 = clientX;
-                pos4 = clientY;
+                let x = e.clientX || e.touches[0].clientX;
+                let y = e.clientY || e.touches[0].clientY;
+                pos1 = pos3 - x;
+                pos2 = pos4 - y;
+                pos3 = x;
+                pos4 = y;
                 elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
                 elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-                
-                // Detectar colisión con cofre
-                const cofreRect = document.getElementById('cofre').getBoundingClientRect();
-                const llaveRect = elmnt.getBoundingClientRect();
 
-                if (!(llaveRect.right < cofreRect.left || llaveRect.left > cofreRect.right || 
-                    llaveRect.bottom < cofreRect.top || llaveRect.top > cofreRect.bottom)) {
+                // Verificar colisión con el cofre
+                const cofre = document.getElementById('cofre-visual').getBoundingClientRect();
+                const rectLlave = elmnt.getBoundingClientRect();
+
+                if (!(rectLlave.right < cofre.left || rectLlave.left > cofre.right || 
+                    rectLlave.bottom < cofre.top || rectLlave.top > cofre.bottom)) {
                     abrirTesoro();
                 }
             }
 
-            function closeDragElement() {
+            function detenerArrastre() {
                 document.onmouseup = null; document.onmousemove = null;
                 document.ontouchend = null; document.ontouchmove = null;
             }
@@ -231,45 +270,13 @@
 
         function abrirTesoro() {
             document.getElementById('llave-neon').style.display = 'none';
-            document.getElementById('cofre').innerText = '🔓';
+            document.getElementById('cofre-visual').innerText = '🔓';
             setTimeout(() => {
                 document.getElementById('modal-tesoro').style.display = 'flex';
             }, 500);
         }
 
-        // --- RESTO DE FUNCIONES ORIGINALES ---
-        function verificar() {
-            if(document.getElementById('password').value.toLowerCase() === "amor") {
-                document.getElementById('pantalla-bloqueo').style.display = "none";
-                document.getElementById('contenido').style.display = "block";
-                document.getElementById('track').play();
-                iniciarCofre();
-            }
-        }
-
-        function abrirCarta() { document.getElementById('modal-carta').style.display = 'flex'; setTimeout(() => document.getElementById('pergamino').classList.add('desenrollado'), 100); }
-        function cerrarCarta() { document.getElementById('pergamino').classList.remove('desenrollado'); setTimeout(() => document.getElementById('modal-carta').style.display = 'none', 800); }
-
-        const valesData = [
-            {e:'🎬', t:'VALE I', m:'Una tarde de películas'},
-            {e:'🛌', t:'VALE II', m:'Una camita de chismes'},
-            {e:'🍬', t:'VALE III', m:'Unas gomitas'},
-            {e:'🔥', t:'VALE IV', m:'Una bolsa de chetos'},
-            {e:'🍕', t:'VALE V', m:'Una pizza a tu lado'},
-            {e:'🧛', t:'VALE VI', m:'Muchos besitos'}
-        ];
-
-        const grid = document.getElementById('grid-vales');
-        valesData.forEach(v => {
-            grid.innerHTML += `
-                <div class="vale-card" onclick="this.classList.toggle('flipped')">
-                    <div class="vale-inner">
-                        <div class="vale-front"><span>${v.e}</span><h3>${v.t}</h3></div>
-                        <div class="vale-back"><p>${v.m}</p><button onclick="canjear('${v.m}')" style="background:red; color:white; border:none; padding:8px 15px; cursor:pointer; margin-top:10px; border-radius:5px;">Canjear</button></div>
-                    </div>
-                </div>`;
-        });
-
+        // --- SCRIPTS ORIGINALES ---
         setInterval(() => {
             if (document.getElementById('contenido').style.display === "block") {
                 const w = document.createElement('div');
@@ -287,6 +294,7 @@
             p.classList.add('particle');
             p.innerHTML = elementos[Math.floor(Math.random() * elementos.length)];
             p.style.left = Math.random() * 100 + "vw";
+            p.style.animationDuration = (Math.random() * 3 + 4) + "s";
             document.body.appendChild(p);
             setTimeout(() => p.remove(), 7000);
         }, 400);
@@ -295,11 +303,55 @@
             const trail = document.createElement('div');
             trail.className = 'trail';
             trail.style.left = x + 'px'; trail.style.top = y + 'px';
+            if(Math.random() > 0.8) trail.innerHTML = elementos[Math.floor(Math.random() * elementos.length)];
             document.body.appendChild(trail);
             setTimeout(() => trail.remove(), 1000);
         }
+
         document.addEventListener('mousemove', (e) => crearRastro(e.clientX, e.clientY));
-        document.addEventListener('touchmove', (e) => crearRastro(e.touches[0].clientX, e.touches[0].clientY));
+        document.addEventListener('touchmove', (e) => {
+            const touch = e.touches[0];
+            crearRastro(touch.clientX, touch.clientY);
+        });
+
+        const valesData = [
+            {e:'🎬', t:'VALE I', m:'Una tarde de películas'},
+            {e:'🛌', t:'VALE II', m:'Una camita de chismes'},
+            {e:'🍬', t:'VALE III', m:'Unas gomitas'},
+            {e:'🔥', t:'VALE IV', m:'Una bolsa de chetos'},
+            {e:'🍕', t:'VALE V', m:'Una pizza a tu lado'},
+            {e:'🧛', t:'VALE VI', m:'Muchos besitos'}
+        ];
+
+        const grid = document.getElementById('grid-vales');
+        valesData.forEach(v => {
+            grid.innerHTML += `
+                <div class="vale-card" onclick="this.classList.toggle('flipped')">
+                    <div class="vale-inner">
+                        <div class="vale-front"><span>${v.e}</span><h3>${v.t}</h3></div>
+                        <div class="vale-back">
+                            <p>${v.m}</p>
+                            <button onclick="canjear('${v.m}')" style="background:red; color:white; border:none; padding:8px 15px; cursor:pointer; margin-top:10px; border-radius:5px;">Canjear</button>
+                            <p style="font-size:0.75rem; color:#888; margin-top:15px; font-style: italic;">Válido eternamente. 🥀</p>
+                        </div>
+                    </div>
+                </div>`;
+        });
+
+        function abrirCarta() { document.getElementById('modal-carta').style.display = 'flex'; setTimeout(() => document.getElementById('pergamino').classList.add('desenrollado'), 100); }
+        function cerrarCarta() { document.getElementById('pergamino').classList.remove('desenrollado'); setTimeout(() => document.getElementById('modal-carta').style.display = 'none', 800); }
+
+        function verificar() {
+            if(document.getElementById('password').value.toLowerCase() === "amor") {
+                document.getElementById('pantalla-bloqueo').style.opacity = "0";
+                document.getElementById('track').play();
+                setTimeout(() => { 
+                    document.getElementById('pantalla-bloqueo').style.display = "none"; 
+                    document.getElementById('contenido').style.display = "block"; 
+                    iniciarTimerCofre(); // Inicia el timer al entrar
+                }, 1000);
+            }
+        }
 
         const fechaInicio = new Date('2024-12-15T00:00:00'); 
         setInterval(() => {
