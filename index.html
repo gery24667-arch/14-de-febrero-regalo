@@ -56,7 +56,7 @@
         .spider-2 { top: 140px; right: 40px; }
         @keyframes hang { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(30px); } }
 
-        /* --- AMBIENTE --- */
+        /* --- NIEBLA Y AMBIENTE --- */
         .fog-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         .fog-layer { position: absolute; width: 200%; height: 100%; background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%); animation: moveFog 40s linear infinite; }
         @keyframes moveFog { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -70,7 +70,7 @@
         .titulo-latido { font-size: 3.5rem; color: var(--bright-red); text-transform: uppercase; letter-spacing: 6px; text-shadow: 0 0 20px var(--bright-red); margin-top: 50px; animation: heartbeat 2s infinite; }
         @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-        /* --- IMAGEN --- */
+        /* --- IMAGEN PRINCIPAL --- */
         .img-container { margin: 30px 0; filter: drop-shadow(0 0 25px var(--bright-red)); animation: float 4s ease-in-out infinite; }
         .img-container img { width: 200px; height: auto; border-radius: 10px; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
@@ -99,7 +99,6 @@
         #seccion-cofre { position: fixed; bottom: 20px; left: 20px; z-index: 100; text-align: center; }
         #timer-cofre { color: var(--bright-red); font-family: monospace; font-size: 1.2rem; margin-bottom: 5px; text-shadow: 0 0 10px red; }
         #cofre-visual { font-size: 60px; filter: drop-shadow(0 0 10px rgba(255,0,0,0.5)); transition: 0.3s; cursor: pointer; }
-        
         #llave-neon { 
             position: fixed; font-size: 55px; display: none; z-index: 1001; 
             filter: drop-shadow(0 0 5px #fff); color: white; text-shadow: var(--neon-key);
@@ -120,6 +119,7 @@
 
     <div class="vignette"></div>
     <div class="fog-wrapper"><div class="fog-layer"></div></div>
+    
     <div class="web-corner top-left"></div>
     <div class="web-corner top-right"></div>
     <div class="hanging-spider spider-1">🕷️</div>
@@ -182,8 +182,8 @@
 
     <script>
         const elementos = ['🌻', '🌹', '🌸', '🖤', '❤️', '🥀'];
-        const susurrosFrases = ["Eres mi luz en la oscuridad...", "426 días y contando...", "Siempre tuyo/a...", "Pacto eterno..."];
-
+        const susurrosFrases = ["Eres mi luz en la oscuridad...", "426 días y contando...", "Siempre tuyo/a...", "Pacto eterno...", "No te dejaré ir..."];
+        
         let tiempoRestante = 300; 
         let timerIniciado = false;
         let cofreAbierto = false;
@@ -212,17 +212,13 @@
             configurarArrastre(llave);
         }
 
-        // ARRASTRE MEJORADO PARA DEDO Y MOUSE
         function configurarArrastre(elmnt) {
             let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-
             elmnt.onmousedown = dragMouseDown;
             elmnt.ontouchstart = dragMouseDown;
 
             function dragMouseDown(e) {
-                // Prevenir scroll mientras se jala la llave en móvil
-                if (e.cancelable) e.preventDefault();
-                
+                e.preventDefault();
                 if (e.type === "touchstart") {
                     pos3 = e.touches[0].clientX;
                     pos4 = e.touches[0].clientY;
@@ -237,31 +233,18 @@
             }
 
             function elementDrag(e) {
-                let clientX, clientY;
-                
-                if (e.type === "touchmove") {
-                    clientX = e.touches[0].clientX;
-                    clientY = e.touches[0].clientY;
-                } else {
-                    clientX = e.clientX;
-                    clientY = e.clientY;
-                }
-
-                pos1 = pos3 - clientX;
-                pos2 = pos4 - clientY;
-                pos3 = clientX;
-                pos4 = clientY;
-                
+                let x = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
+                let y = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
+                pos1 = pos3 - x; pos2 = pos4 - y;
+                pos3 = x; pos4 = y;
                 elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
                 elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-
                 verificarColision();
             }
 
             function verificarColision() {
                 const cofre = document.getElementById('cofre-visual').getBoundingClientRect();
                 const rectLlave = elmnt.getBoundingClientRect();
-
                 if (!(rectLlave.right < cofre.left || rectLlave.left > cofre.right || 
                     rectLlave.bottom < cofre.top || rectLlave.top > cofre.bottom)) {
                     abrirTesoro();
@@ -270,39 +253,59 @@
             }
 
             function closeDragElement() {
-                document.onmouseup = null;
-                document.onmousemove = null;
-                document.ontouchend = null;
-                document.ontouchmove = null;
+                document.onmouseup = null; document.onmousemove = null;
+                document.ontouchend = null; document.ontouchmove = null;
             }
         }
 
         function abrirTesoro() {
             cofreAbierto = true;
             document.getElementById('llave-neon').style.display = 'none';
-            document.getElementById('cofre-visual').innerText = '🔓'; // Cofre cambia a abierto permanentemente
+            document.getElementById('cofre-visual').innerText = '🔓';
             document.getElementById('modal-tesoro').style.display = 'flex';
         }
 
         function reabrirSiAbierto() {
-            if(cofreAbierto) {
-                document.getElementById('modal-tesoro').style.display = 'flex';
-            }
+            if(cofreAbierto) document.getElementById('modal-tesoro').style.display = 'flex';
         }
 
-        // --- RESTO DE FUNCIONES ORIGINALES ---
-        function verificar() {
-            if(document.getElementById('password').value.toLowerCase() === "amor") {
-                document.getElementById('pantalla-bloqueo').style.opacity = "0";
-                document.getElementById('track').play();
-                setTimeout(() => { 
-                    document.getElementById('pantalla-bloqueo').style.display = "none"; 
-                    document.getElementById('contenido').style.display = "block"; 
-                    iniciarTimerCofre();
-                }, 1000);
+        // --- SUSURROS ---
+        setInterval(() => {
+            if (document.getElementById('contenido').style.display === "block") {
+                const w = document.createElement('div');
+                w.className = 'whisper';
+                w.innerText = susurrosFrases[Math.floor(Math.random() * susurrosFrases.length)];
+                w.style.left = Math.random() * 50 + 10 + "vw";
+                w.style.top = Math.random() * 70 + 10 + "vh";
+                document.body.appendChild(w);
+                setTimeout(() => w.remove(), 5000);
             }
+        }, 8000);
+
+        // --- PARTÍCULAS ---
+        setInterval(() => {
+            const p = document.createElement('div');
+            p.classList.add('particle');
+            p.innerHTML = elementos[Math.floor(Math.random() * elementos.length)];
+            p.style.left = Math.random() * 100 + "vw";
+            p.style.animationDuration = (Math.random() * 3 + 4) + "s";
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 7000);
+        }, 400);
+
+        function crearRastro(x, y) {
+            const trail = document.createElement('div');
+            trail.className = 'trail';
+            trail.style.left = x + 'px'; trail.style.top = y + 'px';
+            if(Math.random() > 0.8) trail.innerHTML = elementos[Math.floor(Math.random() * elementos.length)];
+            document.body.appendChild(trail);
+            setTimeout(() => trail.remove(), 1000);
         }
 
+        document.addEventListener('mousemove', (e) => crearRastro(e.clientX, e.clientY));
+        document.addEventListener('touchmove', (e) => crearRastro(e.touches[0].clientX, e.touches[0].clientY));
+
+        // --- VALES ---
         const valesData = [
             {e:'🎬', t:'VALE I', m:'Una tarde de películas'},
             {e:'🛌', t:'VALE II', m:'Una camita de chismes'},
@@ -328,16 +331,17 @@
 
         function abrirCarta() { document.getElementById('modal-carta').style.display = 'flex'; setTimeout(() => document.getElementById('pergamino').classList.add('desenrollado'), 100); }
         function cerrarCarta() { document.getElementById('pergamino').classList.remove('desenrollado'); setTimeout(() => document.getElementById('modal-carta').style.display = 'none', 800); }
-        function canjear(msg) { event.stopPropagation(); window.open(`https://wa.me/1234567890?text=Cariño, quiero mi: ${msg} 🖤`); }
-        function suerteAleatoria() { 
-            const cards = document.querySelectorAll('.vale-card');
-            cards.forEach(c => c.classList.remove('flipped'));
-            setTimeout(() => cards[Math.floor(Math.random() * cards.length)].classList.add('flipped'), 300);
-        }
-        function toggleMusic() {
-            const track = document.getElementById('track');
-            if(track.paused) { track.play(); document.getElementById('musicBtn').innerText = "⏸ PAUSE"; }
-            else { track.pause(); document.getElementById('musicBtn').innerText = "🎶 PLAY"; }
+
+        function verificar() {
+            if(document.getElementById('password').value.toLowerCase() === "amor") {
+                document.getElementById('pantalla-bloqueo').style.opacity = "0";
+                document.getElementById('track').play();
+                setTimeout(() => { 
+                    document.getElementById('pantalla-bloqueo').style.display = "none"; 
+                    document.getElementById('contenido').style.display = "block"; 
+                    iniciarTimerCofre();
+                }, 1000);
+            }
         }
 
         const fechaInicio = new Date('2024-12-15T00:00:00'); 
@@ -350,24 +354,17 @@
             document.getElementById('contador').innerHTML = `${d}D : ${h}H : ${m}M : ${s}S`;
         }, 1000);
 
-        setInterval(() => {
-            const p = document.createElement('div');
-            p.classList.add('particle');
-            p.innerHTML = elementos[Math.floor(Math.random() * elementos.length)];
-            p.style.left = Math.random() * 100 + "vw";
-            document.body.appendChild(p);
-            setTimeout(() => p.remove(), 7000);
-        }, 400);
-
-        function crearRastro(x, y) {
-            const trail = document.createElement('div');
-            trail.className = 'trail';
-            trail.style.left = x + 'px'; trail.style.top = y + 'px';
-            document.body.appendChild(trail);
-            setTimeout(() => trail.remove(), 1000);
+        function canjear(msg) { event.stopPropagation(); window.open(`https://wa.me/1234567890?text=Cariño, quiero mi: ${msg} 🖤`); }
+        function suerteAleatoria() { 
+            const cards = document.querySelectorAll('.vale-card');
+            cards.forEach(c => c.classList.remove('flipped'));
+            setTimeout(() => cards[Math.floor(Math.random() * cards.length)].classList.add('flipped'), 300);
         }
-        document.addEventListener('mousemove', (e) => crearRastro(e.clientX, e.clientY));
-        document.addEventListener('touchmove', (e) => crearRastro(e.touches[0].clientX, e.touches[0].clientY));
+        function toggleMusic() {
+            const track = document.getElementById('track');
+            if(track.paused) { track.play(); document.getElementById('musicBtn').innerText = "⏸ PAUSE"; }
+            else { track.pause(); document.getElementById('musicBtn').innerText = "🎶 PLAY"; }
+        }
     </script>
 </body>
 </html>
