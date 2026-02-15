@@ -21,69 +21,78 @@
             display: flex; flex-direction: column; align-items: center; min-height: 100vh;
         }
 
-        /* --- NUEVAS TELARAÑAS EN LOS EXTREMOS --- */
-        .corner-web {
-            position: fixed; width: 200px; height: 200px;
-            z-index: 100; pointer-events: none; opacity: 0.6;
-            filter: drop-shadow(0 0 10px var(--bright-red));
+        /* --- TELARAÑAS EN LOS EXTREMOS (Sin tocar lo demás) --- */
+        .web-corner {
+            position: fixed; width: 150px; height: 150px;
+            z-index: 100; pointer-events: none; opacity: 0.5;
+            filter: drop-shadow(0 0 8px var(--bright-red));
         }
-        .top-left { top: 0; left: 0; background: radial-gradient(circle at top left, transparent 30%, rgba(255,255,255,0.1) 31%, transparent 32%), repeating-radial-gradient(circle at top left, transparent 0, transparent 20px, rgba(255,0,0,0.3) 21px, transparent 22px); border-radius: 0 0 100% 0; }
-        .top-right { top: 0; right: 0; background: radial-gradient(circle at top right, transparent 30%, rgba(255,255,255,0.1) 31%, transparent 32%), repeating-radial-gradient(circle at top right, transparent 0, transparent 20px, rgba(255,0,0,0.3) 21px, transparent 22px); border-radius: 0 0 0 100%; }
+        .top-left { top: 0; left: 0; border-right: 1px solid rgba(255,0,0,0.2); border-bottom: 1px solid rgba(255,0,0,0.2); background: radial-gradient(circle at 0% 0%, transparent 20%, rgba(255,255,255,0.1) 21%, transparent 22%), repeating-radial-gradient(circle at 0% 0%, transparent 0, transparent 15px, rgba(255,0,0,0.2) 16px, transparent 17px); }
+        .top-right { top: 0; right: 0; transform: scaleX(-1); background: radial-gradient(circle at 0% 0%, transparent 20%, rgba(255,255,255,0.1) 21%, transparent 22%), repeating-radial-gradient(circle at 0% 0%, transparent 0, transparent 15px, rgba(255,0,0,0.2) 16px, transparent 17px); }
         
-        .corner-spider { position: fixed; font-size: 1.5rem; z-index: 101; animation: hang 3s ease-in-out infinite; }
-        .s-left { top: 120px; left: 50px; }
-        .s-right { top: 150px; right: 40px; }
-        @keyframes hang { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(20px); } }
+        .hanging-spider { position: fixed; font-size: 20px; z-index: 101; animation: hang 4s ease-in-out infinite; }
+        .spider-1 { top: 100px; left: 30px; }
+        .spider-2 { top: 130px; right: 30px; }
+        @keyframes hang { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(25px); } }
 
-        /* --- ESTRUCTURA ORIGINAL MANTENIDA --- */
+        /* --- NIEBLA Y AMBIENTE --- */
+        .fog-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        .fog-layer { position: absolute; width: 200%; height: 100%; background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%); animation: moveFog 40s linear infinite; }
+        @keyframes moveFog { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .vignette { position: fixed; top: 0; left: 0; width: 100%; height: 100%; box-shadow: inset 0 0 200px rgba(0,0,0,1); pointer-events: none; z-index: 5; }
+
+        /* --- TÍTULO Y CONTADOR --- */
+        .titulo-latido { font-size: 3.5rem; color: var(--bright-red); text-transform: uppercase; letter-spacing: 6px; text-shadow: 0 0 20px var(--bright-red); margin-top: 50px; animation: heartbeat 2s infinite; }
+        @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+        /* --- IMAGEN --- */
         .img-container { margin: 30px 0; filter: drop-shadow(0 0 25px var(--bright-red)); animation: float 4s ease-in-out infinite; }
         .img-container img { width: 200px; height: auto; border-radius: 10px; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
-        #pantalla-bloqueo { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); display: flex; justify-content: center; align-items: center; z-index: 2000; transition: 1s; }
-        .login-box { background: var(--card-dark); padding: 40px; border: 1px solid var(--gothic-red); text-align: center; }
-
-        #contenido { display: none; padding: 20px; text-align: center; width: 100%; max-width: 1000px; z-index: 10; }
-        .titulo-latido { font-size: 3.5rem; color: var(--bright-red); text-shadow: 0 0 20px var(--bright-red); animation: heartbeat 2s infinite; }
-        @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-
-        /* PERGAMINO ORIGINAL */
-        .scroll-container { margin: 40px 0; cursor: pointer; display: inline-block; }
-        .scroll-closed { width: 160px; height: 60px; background: linear-gradient(to bottom, #d4c49c, #f4e4bc, #d4c49c); border-radius: 10px; border: 2px solid #8b5e3c; display: flex; align-items: center; justify-content: center; color: #4e342e; font-weight: bold; }
+        /* --- PERGAMINO --- */
+        .scroll-container { margin: 40px 0; perspective: 1000px; cursor: pointer; }
+        .scroll-closed { width: 180px; height: 70px; background: linear-gradient(to bottom, #d4c49c, #f4e4bc, #d4c49c); border-radius: 10px; border: 2px solid #8b5e3c; display: flex; align-items: center; justify-content: center; color: #4e342e; font-weight: bold; position: relative; box-shadow: 0 0 15px rgba(255,215,0,0.3); }
+        .scroll-closed::after { content: '⚜️'; position: absolute; bottom: -10px; background: #8b0000; color: gold; padding: 5px; border-radius: 50%; border: 2px solid #4e342e; font-size: 10px; }
         
-        #modal-carta { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center; }
-        .pergamino-abierto { background: var(--paper); color: #2c1e16; width: 90%; max-width: 500px; height: 0; overflow: hidden; position: relative; transition: height 1.2s; border-left: 2px solid #d4c49c; border-right: 2px solid #d4c49c; }
-        .desenrollado { height: 450px; }
-        .carta-texto { padding: 40px; font-family: 'Dancing Script', cursive; font-size: 1.3rem; }
+        #modal-carta { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 3000; justify-content: center; align-items: center; }
+        .pergamino-abierto { background: var(--paper); color: #2c1e16; width: 90%; max-width: 500px; height: 0; overflow: hidden; position: relative; transition: height 1.5s cubic-bezier(0.4, 0, 0.2, 1); border-left: 4px solid #d4c49c; border-right: 4px solid #d4c49c; }
+        .pergamino-abierto.desenrollado { height: 500px; }
+        .carta-texto { padding: 60px 40px; font-family: 'Dancing Script', cursive; font-size: 1.5rem; line-height: 1.6; opacity: 0; transition: opacity 0.8s 1.2s; }
+        .desenrollado .carta-texto { opacity: 1; }
 
-        /* VALES ORIGINALES */
-        .contenedor-vales { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px; margin-top: 50px; }
-        .vale-card { width: 200px; height: 300px; perspective: 1000px; cursor: pointer; margin: auto; }
+        /* --- VALES NEÓN --- */
+        .contenedor-vales { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-top: 50px; width: 90%; }
+        .vale-card { width: 220px; height: 320px; perspective: 1000px; cursor: pointer; }
         .vale-inner { position: relative; width: 100%; height: 100%; transition: 0.8s; transform-style: preserve-3d; }
         .flipped .vale-inner { transform: rotateY(180deg); }
         .vale-front, .vale-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--card-dark); border: 2px solid var(--bright-red); box-shadow: var(--neon-glow); }
-        .vale-back { transform: rotateY(180deg); background: #000; border: 2px solid white; box-shadow: 0 0 15px white; }
-
-        .music-player { position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.8); padding: 10px; border: 1px solid var(--bright-red); border-radius: 50px; z-index: 100; }
+        .vale-front span { font-size: 60px; filter: drop-shadow(0 0 10px var(--bright-red)); margin-bottom: 20px; }
+        .vale-back { transform: rotateY(180deg); background: #000; border: 2px solid white; box-shadow: 0 0 15px white; padding: 20px; text-align: center; }
+        
+        /* --- OTROS --- */
+        #pantalla-bloqueo { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); display: flex; justify-content: center; align-items: center; z-index: 2000; transition: 1s; }
+        #contenido { display: none; padding: 20px; text-align: center; width: 100%; max-width: 1200px; z-index: 10; }
+        .music-player { position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.8); padding: 10px 25px; border: 1px solid var(--bright-red); border-radius: 50px; z-index: 100; cursor: pointer; }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div class="vignette"></div>
+    <div class="fog-wrapper"><div class="fog-layer"></div></div>
     
-    <div class="corner-web top-left"></div>
-    <div class="corner-web top-right"></div>
-    <div class="corner-spider s-left">🕷️</div>
-    <div class="corner-spider s-right">🕷️</div>
+    <div class="web-corner top-left"></div>
+    <div class="web-corner top-right"></div>
+    <div class="hanging-spider spider-1">🕷️</div>
+    <div class="hanging-spider spider-2">🕷️</div>
 
     <div id="pantalla-bloqueo">
-        <div class="login-box">
-            <h2 style="color: var(--bright-red)">Contraseña...</h2>
-            <input type="password" id="password" style="background:transparent; border-bottom:1px solid red; color:white; text-align:center; outline:none;">
+        <div style="background: var(--card-dark); padding: 40px; border: 1px solid var(--gothic-red); text-align: center;">
+            <h2 style="color: var(--bright-red)">Nuestra palabra...</h2>
+            <input type="password" id="password" style="background:transparent; border:none; border-bottom:1px solid red; color:white; text-align:center; outline:none; font-size: 1.2rem;">
             <br><br>
-            <button onclick="verificar()" style="background:var(--gothic-red); color:white; border:none; padding:10px 20px; cursor:pointer;">ENTRAR</button>
+            <button onclick="verificar()" style="background:var(--gothic-red); color:white; border:none; padding:10px 25px; cursor:pointer;">ENTRAR</button>
         </div>
     </div>
 
@@ -91,10 +100,10 @@
         <h1 class="titulo-latido">Eternidad a tu lado</h1>
 
         <div class="img-container">
-            <img src="https://i.postimg.cc/hjdFDTBw/Download-premium-png-of-PNG-A-Key-with-Skull-and-Black-roses-art-key-illustration-by-Adjima-about-Halloween-background-illustration-and-rose-22603410.png" alt="Cráneo y Rosas">
+            <img src="https://i.postimg.cc/hjdFDTBw/Download-premium-png-of-PNG-A-Key-with-Skull-and-Black-roses-art-key-illustration-by-Adjima-about-Halloween-background-illustration-and-rose-22603410.png" alt="Rosa Eterna">
         </div>
 
-        <div id="contador" style="color: var(--bright-red); font-size: 1.8rem; margin: 20px 0;"></div>
+        <div id="contador" style="color: var(--bright-red); font-size: 2rem; font-weight: bold; margin: 30px 0;"></div>
 
         <div class="scroll-container" onclick="abrirCarta()">
             <div class="scroll-closed">📜 NUESTRA CARTA</div>
@@ -102,33 +111,34 @@
 
         <div class="contenedor-vales" id="grid-vales"></div>
 
-        <button onclick="suerteAleatoria()" style="margin:40px; padding:10px 30px; border:1px solid red; background:transparent; color:white; cursor:pointer;">Destino Aleatorio</button>
+        <button onclick="suerteAleatoria()" style="margin:60px; padding:15px 40px; border:2px solid red; background:transparent; color:white; cursor:pointer; box-shadow: var(--neon-glow);">Dejar que el destino elija</button>
     </div>
 
     <div id="modal-carta" onclick="cerrarCarta()">
         <div class="pergamino-abierto" id="pergamino">
             <div class="carta-texto">
                 Mi Amor,<br><br>
-                Cada día contigo es especial. Gracias por estos 426 días.<br><br>
-                Eres mi eternidad. 🖤🥀
+                Cada día contigo es una flor que nunca se marchita. Gracias por estos 426 días juntos.<br><br>
+                Eres mi eternidad. 🖤🥀🌻
             </div>
         </div>
     </div>
 
-    <div class="music-player">
-        <button onclick="toggleMusic()" style="background:none; border:none; color:var(--bright-red); cursor:pointer;">🎶 MÚSICA</button>
+    <div class="music-player" onclick="toggleMusic()">
+        <span id="musicBtn">🎶 PLAY MUSIC</span>
         <audio id="track" loop><source src="musica.mp3" type="audio/mpeg"></audio>
     </div>
 
     <script>
         const valesData = [
-            {e:'🎬', t:'VALE I', m:'Películas juntos'},
-            {e:'🛌', t:'VALE II', m:'Camita de chismes'},
+            {e:'🎬', t:'VALE I', m:'Una tarde de películas'},
+            {e:'🛌', t:'VALE II', m:'Una camita de chismes'},
             {e:'🍬', t:'VALE III', m:'Unas gomitas'},
-            {e:'🔥', t:'VALE IV', m:'Bolsa de chetos'},
-            {e:'🍕', t:'VALE V', m:'Cena especial'},
-            {e:'🧛', t:'VALE VI', m:'Día de besos'}
+            {e:'🔥', t:'VALE IV', m:'Una bolsa de chetos'},
+            {e:'🍕', t:'VALE V', m:'Una pizza a tu lado'},
+            {e:'🧛', t:'VALE VI', m:'Un día de muchos besos'}
         ];
+
         const grid = document.getElementById('grid-vales');
         valesData.forEach(v => {
             grid.innerHTML += `
@@ -137,7 +147,8 @@
                         <div class="vale-front"><span>${v.e}</span><h3>${v.t}</h3></div>
                         <div class="vale-back">
                             <p>${v.m}</p>
-                            <button onclick="canjear('${v.m}')" style="background:red; border:none; color:white; padding:5px; cursor:pointer;">Canjear</button>
+                            <button onclick="canjear('${v.m}')" style="background:red; color:white; border:none; padding:5px 10px; cursor:pointer; margin-top:10px;">Canjear</button>
+                            <p style="font-size:0.7rem; color:#888; margin-top:15px;">Válido hasta: Que la muerte nos separe. 🥀</p>
                         </div>
                     </div>
                 </div>`;
@@ -148,9 +159,9 @@
 
         function verificar() {
             if(document.getElementById('password').value.toLowerCase() === "chino") {
-                document.getElementById('pantalla-bloqueo').style.display = "none";
-                document.getElementById('contenido').style.display = "block";
+                document.getElementById('pantalla-bloqueo').style.opacity = "0";
                 document.getElementById('track').play();
+                setTimeout(() => { document.getElementById('pantalla-bloqueo').style.display = "none"; document.getElementById('contenido').style.display = "block"; }, 1000);
             }
         }
 
@@ -164,14 +175,16 @@
             document.getElementById('contador').innerHTML = `${d}D : ${h}H : ${m}M : ${s}S`;
         }, 1000);
 
-        function canjear(msg) { event.stopPropagation(); window.open(`https://wa.me/1234567890?text=Quiero mi vale: ${msg}`); }
+        function canjear(msg) { event.stopPropagation(); window.open(`https://wa.me/1234567890?text=Cariño, quiero mi: ${msg} 🖤`); }
         function suerteAleatoria() { 
             const cards = document.querySelectorAll('.vale-card');
-            cards[Math.floor(Math.random() * cards.length)].classList.add('flipped');
+            cards.forEach(c => c.classList.remove('flipped'));
+            setTimeout(() => cards[Math.floor(Math.random() * cards.length)].classList.add('flipped'), 300);
         }
         function toggleMusic() {
             const track = document.getElementById('track');
-            track.paused ? track.play() : track.pause();
+            if(track.paused) { track.play(); document.getElementById('musicBtn').innerText = "⏸ PAUSE"; }
+            else { track.pause(); document.getElementById('musicBtn').innerText = "🎶 PLAY"; }
         }
     </script>
 </body>
