@@ -42,7 +42,7 @@
             100% { opacity: 0; transform: translateY(-30px); }
         }
 
-        /* --- TELARAÑAS --- */
+        /* --- TELARAÑAS EN LOS EXTREMOS --- */
         .web-corner {
             position: fixed; width: 180px; height: 180px;
             z-index: 100; pointer-events: none; opacity: 0.5;
@@ -86,12 +86,15 @@
         .carta-texto { padding: 60px 40px; font-family: 'Dancing Script', cursive; font-size: 1.5rem; line-height: 1.6; opacity: 0; transition: opacity 0.8s 1.2s; }
         .desenrollado .carta-texto { opacity: 1; }
 
-        /* --- VALES --- */
+        /* --- VALES (Restaurados) --- */
         .contenedor-vales { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-top: 50px; width: 90%; }
         .vale-card { width: 220px; height: 320px; perspective: 1000px; cursor: pointer; margin: auto; }
         .vale-inner { position: relative; width: 100%; height: 100%; transition: 0.8s; transform-style: preserve-3d; }
         .flipped .vale-inner { transform: rotateY(180deg); }
         .vale-front, .vale-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--card-dark); border: 2px solid var(--bright-red); box-shadow: var(--neon-glow); overflow: hidden; }
+        
+        .vale-front::before { content: '🕸️'; position: absolute; top: -10px; left: -10px; font-size: 3rem; opacity: 0.4; }
+        .vale-front::after { content: '🕷️'; position: absolute; top: 40px; left: 15px; font-size: 1rem; animation: hang 3s infinite; }
         .vale-front span { font-size: 60px; filter: drop-shadow(0 0 10px var(--bright-red)); margin-bottom: 20px; }
         .vale-back { transform: rotateY(180deg); background: #000; border: 2px solid white; box-shadow: 0 0 15px white; padding: 20px; text-align: center; }
 
@@ -128,6 +131,7 @@
     <div id="pantalla-bloqueo">
         <div style="background: var(--card-dark); padding: 40px; border: 1px solid var(--gothic-red); text-align: center;">
             <h2 style="color: var(--bright-red)">Nuestra palabra eterna...</h2>
+            <p style="color: #bbb; font-size: 0.9rem; margin-bottom: 25px;">Solo tú conoces la llave de este oscuro sentimiento.</p>
             <input type="password" id="password" style="background:transparent; border:none; border-bottom:1px solid red; color:white; text-align:center; outline:none; font-size: 1.2rem; width: 80%;">
             <br><br>
             <button onclick="verificar()" style="background:var(--gothic-red); color:white; border:none; padding:10px 25px; cursor:pointer;">ENTRAR</button>
@@ -160,7 +164,6 @@
         <div style="background: var(--paper); color: #2c1e16; padding: 40px; border-radius: 15px; text-align: center; max-width: 450px; width: 90%; border: 4px solid #8b5e3c;">
             <span style="font-size: 60px;">🔓</span>
             <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; margin: 10px 0;">Mi gran tesoro</h2>
-            <img src="https://via.placeholder.com/300x200" style="width: 100%; border-radius: 10px; border: 2px solid #8b0000; margin: 15px 0;">
             <p style="font-family: 'Dancing Script', cursive; font-size: 1.5rem;">Cada segundo a tu lado vale más que todo el oro del mundo. ❤️</p>
         </div>
     </div>
@@ -239,10 +242,6 @@
                 pos3 = x; pos4 = y;
                 elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
                 elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-                verificarColision();
-            }
-
-            function verificarColision() {
                 const cofre = document.getElementById('cofre-visual').getBoundingClientRect();
                 const rectLlave = elmnt.getBoundingClientRect();
                 if (!(rectLlave.right < cofre.left || rectLlave.left > cofre.right || 
@@ -269,7 +268,6 @@
             if(cofreAbierto) document.getElementById('modal-tesoro').style.display = 'flex';
         }
 
-        // --- SUSURROS ---
         setInterval(() => {
             if (document.getElementById('contenido').style.display === "block") {
                 const w = document.createElement('div');
@@ -282,7 +280,6 @@
             }
         }, 8000);
 
-        // --- PARTÍCULAS ---
         setInterval(() => {
             const p = document.createElement('div');
             p.classList.add('particle');
@@ -305,7 +302,6 @@
         document.addEventListener('mousemove', (e) => crearRastro(e.clientX, e.clientY));
         document.addEventListener('touchmove', (e) => crearRastro(e.touches[0].clientX, e.touches[0].clientY));
 
-        // --- VALES ---
         const valesData = [
             {e:'🎬', t:'VALE I', m:'Una tarde de películas'},
             {e:'🛌', t:'VALE II', m:'Una camita de chismes'},
@@ -324,6 +320,7 @@
                         <div class="vale-back">
                             <p>${v.m}</p>
                             <button onclick="canjear('${v.m}')" style="background:red; color:white; border:none; padding:8px 15px; cursor:pointer; margin-top:10px; border-radius:5px;">Canjear</button>
+                            <p style="font-size:0.75rem; color:#888; margin-top:15px; font-style: italic;">Válido eternamente. 🥀</p>
                         </div>
                     </div>
                 </div>`;
