@@ -19,9 +19,10 @@
             background-color: var(--bg-dark);
             color: white; margin: 0; overflow-x: hidden;
             display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+            user-select: none;
         }
 
-        /* --- TELARAÑAS EN LOS EXTREMOS DE LA PANTALLA --- */
+        /* --- TELARAÑAS PANTALLA --- */
         .web-corner {
             position: fixed; width: 180px; height: 180px;
             z-index: 100; pointer-events: none; opacity: 0.5;
@@ -35,26 +36,26 @@
         .spider-2 { top: 140px; right: 40px; }
         @keyframes hang { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(30px); } }
 
-        /* --- AMBIENTE Y NIEBLA --- */
+        /* --- SUSURROS --- */
+        .whisper { position: fixed; color: rgba(255, 0, 0, 0.6); font-style: italic; font-size: 1.2rem; pointer-events: none; z-index: 8; animation: whisperFade 5s forwards; text-shadow: 0 0 10px red; }
+        @keyframes whisperFade { 0% { opacity: 0; transform: scale(0.8); } 20% { opacity: 1; transform: scale(1); } 80% { opacity: 1; } 100% { opacity: 0; transform: translateY(-20px); } }
+
+        /* --- AMBIENTE --- */
         .fog-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         .fog-layer { position: absolute; width: 200%; height: 100%; background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%); animation: moveFog 40s linear infinite; }
         @keyframes moveFog { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .vignette { position: fixed; top: 0; left: 0; width: 100%; height: 100%; box-shadow: inset 0 0 200px rgba(0,0,0,1); pointer-events: none; z-index: 5; }
 
-        /* --- PARTÍCULAS (FLORES Y CORAZONES) --- */
+        /* --- PARTÍCULAS --- */
         .particle { position: fixed; pointer-events: none; z-index: 6; font-size: 24px; animation: fall 6s linear forwards; }
         @keyframes fall { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
 
-        /* --- PANTALLA DE BLOQUEO ACTUALIZADA --- */
-        #pantalla-bloqueo { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); display: flex; justify-content: center; align-items: center; z-index: 2000; transition: 1s; }
-        .login-box { 
-            background: var(--card-dark); 
-            padding: 50px; 
-            border: 1px solid var(--gothic-red); 
-            text-align: center; 
-            box-shadow: 0 0 30px rgba(255,0,0,0.2);
-            max-width: 400px;
-        }
+        /* --- COFRE Y LLAVE --- */
+        .chest-section { margin: 40px 0; text-align: center; z-index: 10; }
+        .chest { font-size: 5rem; cursor: pointer; transition: 0.3s; filter: drop-shadow(0 0 10px gold); }
+        .chest.locked { grayscale: 1; opacity: 0.7; cursor: not-allowed; }
+        #key { font-size: 3rem; position: absolute; cursor: grab; z-index: 1000; display: none; filter: drop-shadow(0 0 15px yellow); }
+        #timer-display { color: var(--bright-red); font-family: monospace; margin-top: 10px; font-size: 1.2rem; }
 
         /* --- TÍTULO Y CONTADOR --- */
         .titulo-latido { font-size: 3.5rem; color: var(--bright-red); text-transform: uppercase; letter-spacing: 6px; text-shadow: 0 0 20px var(--bright-red); margin-top: 50px; animation: heartbeat 2s infinite; }
@@ -70,32 +71,35 @@
         .scroll-closed { width: 180px; height: 70px; background: linear-gradient(to bottom, #d4c49c, #f4e4bc, #d4c49c); border-radius: 10px; border: 2px solid #8b5e3c; display: flex; align-items: center; justify-content: center; color: #4e342e; font-weight: bold; position: relative; box-shadow: 0 0 15px rgba(255,215,0,0.3); }
         .scroll-closed::after { content: '⚜️'; position: absolute; bottom: -10px; background: #8b0000; color: gold; padding: 5px; border-radius: 50%; border: 2px solid #4e342e; font-size: 10px; }
         
-        #modal-carta { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 3000; justify-content: center; align-items: center; }
-        .pergamino-abierto { background: var(--paper); color: #2c1e16; width: 90%; max-width: 500px; height: 0; overflow: hidden; position: relative; transition: height 1.5s cubic-bezier(0.4, 0, 0.2, 1); border-left: 4px solid #d4c49c; border-right: 4px solid #d4c49c; }
-        .pergamino-abierto.desenrollado { height: 500px; }
-        .carta-texto { padding: 60px 40px; font-family: 'Dancing Script', cursive; font-size: 1.5rem; line-height: 1.6; opacity: 0; transition: opacity 0.8s 1.2s; }
+        #modal-carta, #modal-cofre { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 3000; justify-content: center; align-items: center; }
+        .pergamino-abierto { background: var(--paper); color: #2c1e16; width: 90%; max-width: 500px; height: 0; overflow: hidden; position: relative; transition: height 1.5s cubic-bezier(0.4, 0, 0.2, 1); border-left: 4px solid #d4c49c; border-right: 4px solid #d4c49c; text-align: center; }
+        .pergamino-abierto.desenrollado { height: 600px; }
+        .carta-texto { padding: 40px; font-family: 'Dancing Script', cursive; font-size: 1.5rem; line-height: 1.6; opacity: 0; transition: opacity 0.8s 1.2s; }
         .desenrollado .carta-texto { opacity: 1; }
 
-        /* --- VALES CON TELARAÑAS --- */
+        /* --- BOTÓN SELLAR PACTO --- */
+        .btn-pacto { background: #000; color: var(--bright-red); border: 2px solid var(--bright-red); padding: 10px 20px; font-family: serif; cursor: pointer; margin-top: 20px; box-shadow: 0 0 10px red; transition: 0.3s; }
+        .btn-pacto:hover { background: var(--bright-red); color: white; }
+        #heart-explosion { position: fixed; font-size: 10rem; color: red; z-index: 4000; display: none; filter: drop-shadow(0 0 50px red); }
+
+        /* --- VALES CON EFECTO TINTA --- */
         .contenedor-vales { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-top: 50px; width: 90%; }
         .vale-card { width: 220px; height: 320px; perspective: 1000px; cursor: pointer; margin: auto; }
         .vale-inner { position: relative; width: 100%; height: 100%; transition: 0.8s; transform-style: preserve-3d; }
         .flipped .vale-inner { transform: rotateY(180deg); }
         .vale-front, .vale-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--card-dark); border: 2px solid var(--bright-red); box-shadow: var(--neon-glow); overflow: hidden; }
         
-        /* Telaraña y araña en los vales */
-        .vale-front::before { content: '🕸️'; position: absolute; top: -10px; left: -10px; font-size: 3rem; opacity: 0.4; filter: drop-shadow(0 0 5px white); }
+        .vale-front::before { content: '🕸️'; position: absolute; top: -10px; left: -10px; font-size: 3rem; opacity: 0.4; }
         .vale-front::after { content: '🕷️'; position: absolute; top: 40px; left: 15px; font-size: 1rem; animation: hang 3s infinite; }
 
-        .vale-front span { font-size: 60px; filter: drop-shadow(0 0 10px var(--bright-red)); margin-bottom: 20px; }
-        .vale-back { transform: rotateY(180deg); background: #000; border: 2px solid white; box-shadow: 0 0 15px white; padding: 20px; text-align: center; }
-        .vale-back p { font-size: 1.1rem; color: white; margin-bottom: 15px; }
-        .vale-back .eterno { font-size: 0.75rem; color: #888; margin-top: 15px; font-style: italic; }
+        .ink-stain { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, rgba(0,0,0,0.9) 0%, transparent 70%); opacity: 0; transition: opacity 0.5s; pointer-events: none; z-index: 20; }
+        .stained .ink-stain { opacity: 1; background: black; }
 
-        /* --- RASTRO NEÓN (TÁCTIL Y MOUSE) --- */
-        .trail { position: fixed; width: 15px; height: 15px; background: var(--bright-red); border-radius: 50%; pointer-events: none; z-index: 100; box-shadow: 0 0 20px var(--bright-red), 0 0 10px white; animation: vanish 1s forwards; display: flex; align-items: center; justify-content: center; }
+        /* --- RASTRO NEÓN --- */
+        .trail { position: fixed; width: 15px; height: 15px; background: var(--bright-red); border-radius: 50%; pointer-events: none; z-index: 100; box-shadow: 0 0 20px var(--bright-red); animation: vanish 1s forwards; }
         @keyframes vanish { to { transform: scale(2.5) translateY(-30px); opacity: 0; } }
 
+        #pantalla-bloqueo { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); display: flex; justify-content: center; align-items: center; z-index: 2000; transition: 1s; }
         #contenido { display: none; padding: 20px; text-align: center; width: 100%; max-width: 1200px; z-index: 10; }
         .music-player { position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.8); padding: 10px 25px; border: 1px solid var(--bright-red); border-radius: 50px; z-index: 100; cursor: pointer; }
     </style>
@@ -108,39 +112,57 @@
     
     <div class="web-corner top-left"></div>
     <div class="web-corner top-right"></div>
-    <div class="hanging-spider spider-1">🕷️</div>
-    <div class="hanging-spider spider-2">🕷️</div>
+
+    <div id="heart-explosion">❤️</div>
+    <div id="key">🔑</div>
 
     <div id="pantalla-bloqueo">
-        <div class="login-box">
-            <h2 style="color: var(--bright-red); margin-bottom: 10px;">Nuestra palabra eterna...</h2>
-            <p style="color: #bbb; font-size: 0.9rem; margin-bottom: 25px;">Solo tú conoces la llave de este oscuro y eterno sentimiento. Escríbela para entrar.</p>
-            <input type="password" id="password" placeholder="Escribe aquí..." style="background:transparent; border:none; border-bottom:1px solid red; color:white; text-align:center; outline:none; font-size: 1.2rem; width: 80%;">
+        <div style="background: var(--card-dark); padding: 40px; border: 1px solid var(--gothic-red); text-align: center;">
+            <h2 style="color: var(--bright-red)">Nuestra palabra eterna...</h2>
+            <p style="color: #bbb; font-size: 0.8rem; margin-bottom: 20px;">Solo tú conoces la llave de este oscuro sentimiento.</p>
+            <input type="password" id="password" style="background:transparent; border:none; border-bottom:1px solid red; color:white; text-align:center; outline:none; font-size: 1.2rem;">
             <br><br>
-            <button onclick="verificar()" style="background:var(--gothic-red); color:white; border:none; padding:12px 30px; cursor:pointer; font-weight: bold; letter-spacing: 2px;">ENTRAR AL ABISMO</button>
+            <button onclick="verificar()" style="background:var(--gothic-red); color:white; border:none; padding:10px 25px; cursor:pointer;">ENTRAR AL ABISMO</button>
         </div>
     </div>
 
     <div id="contenido">
         <h1 class="titulo-latido">Eternidad a tu lado</h1>
-        <div class="img-container">
-            <img src="https://i.postimg.cc/hjdFDTBw/Download-premium-png-of-PNG-A-Key-with-Skull-and-Black-roses-art-key-illustration-by-Adjima-about-Halloween-background-illustration-and-rose-22603410.png" alt="Rosa Eterna">
+
+        <div class="chest-section">
+            <div id="cofre-icon" class="chest locked">📦</div>
+            <div id="timer-display">Cerrado por: 05:00</div>
         </div>
+
         <div id="contador" style="color: var(--bright-red); font-size: 2.2rem; font-weight: bold; margin: 30px 0; text-shadow: 0 0 10px red;"></div>
+
         <div class="scroll-container" onclick="abrirCarta()">
             <div class="scroll-closed">📜 NUESTRA CARTA</div>
         </div>
+
         <div class="contenedor-vales" id="grid-vales"></div>
-        <button onclick="suerteAleatoria()" style="margin:60px; padding:15px 40px; border:2px solid red; background:transparent; color:white; cursor:pointer; box-shadow: var(--neon-glow); font-weight: bold;">Dejar que el destino elija</button>
+
+        <button onclick="suerteAleatoria()" style="margin:60px; padding:15px 40px; border:2px solid red; background:transparent; color:white; cursor:pointer; box-shadow: var(--neon-glow);">Dejar que el destino elija</button>
     </div>
 
-    <div id="modal-carta" onclick="cerrarCarta()">
+    <div id="modal-carta">
         <div class="pergamino-abierto" id="pergamino">
             <div class="carta-texto">
                 Mi Amor,<br><br>
                 Cada día contigo es una flor que nunca se marchita. Gracias por estos 426 días juntos.<br><br>
-                Eres mi eternidad. 🖤🥀🌻
+                Eres mi eternidad. 🖤🥀🌻<br>
+                <button class="btn-pacto" onclick="sellarPacto()">SELLAR PACTO</button>
+                <br><br>
+                <span onclick="cerrarCarta()" style="font-size: 1rem; cursor:pointer; color:red;">[ Cerrar ]</span>
             </div>
+        </div>
+    </div>
+
+    <div id="modal-cofre" onclick="this.style.display='none'">
+        <div style="background: black; padding: 20px; border: 2px solid gold; border-radius: 10px;">
+            <h2 style="color: gold;">Nuestra Foto Eterna</h2>
+            <img src="https://via.placeholder.com/300x400/200000/ffffff?text=TU+FOTO+AQUI" style="width: 100%; border-radius: 5px; filter: sepia(0.5) contrast(1.2);">
+            <p style="color: gold; font-style: italic;">"En cada pixel, un suspiro por ti."</p>
         </div>
     </div>
 
@@ -150,19 +172,31 @@
     </div>
 
     <script>
-        // Lluvia de partículas
         const elementos = ['🌻', '🌹', '🌸', '🖤', '❤️', '🥀'];
+        const susurros = ["Eres mi luz en la oscuridad...", "426 días y contando...", "Siempre tuyo...", "Pacto eterno...", "No te dejaré ir..."];
+
+        // SUSURROS ALEATORIOS
+        setInterval(() => {
+            const w = document.createElement('div');
+            w.className = 'whisper';
+            w.innerText = susurros[Math.floor(Math.random() * susurros.length)];
+            w.style.left = Math.random() * 70 + 15 + "vw";
+            w.style.top = Math.random() * 70 + 15 + "vh";
+            document.body.appendChild(w);
+            setTimeout(() => w.remove(), 5000);
+        }, 8000);
+
+        // PARTÍCULAS
         setInterval(() => {
             const p = document.createElement('div');
             p.classList.add('particle');
             p.innerHTML = elementos[Math.floor(Math.random() * elementos.length)];
             p.style.left = Math.random() * 100 + "vw";
-            p.style.animationDuration = (Math.random() * 3 + 4) + "s";
             document.body.appendChild(p);
             setTimeout(() => p.remove(), 7000);
         }, 400);
 
-        // Rastro neón (Cursor y Dedo)
+        // RASTRO NEÓN
         function crearRastro(x, y) {
             const trail = document.createElement('div');
             trail.className = 'trail';
@@ -171,19 +205,90 @@
             document.body.appendChild(trail);
             setTimeout(() => trail.remove(), 1000);
         }
-
         document.addEventListener('mousemove', (e) => crearRastro(e.clientX, e.clientY));
-        document.addEventListener('touchmove', (e) => {
-            const touch = e.touches[0];
-            crearRastro(touch.clientX, touch.clientY);
-        });
+        document.addEventListener('touchmove', (e) => crearRastro(e.touches[0].clientX, e.touches[0].clientY));
 
-        // Vales
+        // TEMPORIZADOR COFRE (5 min)
+        let timeLeft = 300;
+        function startTimer() {
+            const timerInt = setInterval(() => {
+                const m = Math.floor(timeLeft / 60);
+                const s = timeLeft % 60;
+                document.getElementById('timer-display').innerText = `Cerrado por: ${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInt);
+                    document.getElementById('timer-display').innerText = "¡La llave ha aparecido!";
+                    aparecerLlave();
+                }
+                timeLeft--;
+            }, 1000);
+        }
+
+        function aparecerLlave() {
+            const key = document.getElementById('key');
+            key.style.display = 'block';
+            key.style.left = '50px'; key.style.top = '200px';
+            
+            // Hacer la llave arrastrable (simple)
+            key.onmousedown = (e) => {
+                let shiftX = e.clientX - key.getBoundingClientRect().left;
+                let shiftY = e.clientY - key.getBoundingClientRect().top;
+                document.onmousemove = (e) => {
+                    key.style.left = e.clientX - shiftX + 'px';
+                    key.style.top = e.clientY - shiftY + 'px';
+                    checkCollision();
+                };
+                key.onmouseup = () => { document.onmousemove = null; };
+            };
+            // Soporte táctil
+            key.ontouchmove = (e) => {
+                key.style.left = e.touches[0].clientX - 25 + 'px';
+                key.style.top = e.touches[0].clientY - 25 + 'px';
+                checkCollision();
+            };
+        }
+
+        function checkCollision() {
+            const cofre = document.getElementById('cofre-icon');
+            const key = document.getElementById('key');
+            const cRect = cofre.getBoundingClientRect();
+            const kRect = key.getBoundingClientRect();
+
+            if (!(kRect.right < cRect.left || kRect.left > cRect.right || kRect.bottom < cRect.top || kRect.top > cRect.bottom)) {
+                cofre.classList.remove('locked');
+                cofre.innerText = "🔓";
+                cofre.onclick = () => document.getElementById('modal-cofre').style.display = 'flex';
+                key.style.display = 'none';
+            }
+        }
+
+        // SELLAR PACTO
+        function sellarPacto() {
+            const heart = document.getElementById('heart-explosion');
+            heart.style.display = 'block';
+            heart.style.left = '50%'; heart.style.top = '50%';
+            heart.style.transform = 'translate(-50%, -50%) scale(0)';
+            
+            setTimeout(() => {
+                heart.style.transition = '2s';
+                heart.style.transform = 'translate(-50%, -50%) scale(5)';
+                heart.style.opacity = '0';
+                for(let i=0; i<30; i++) {
+                    const p = document.createElement('div');
+                    p.classList.add('particle');
+                    p.innerHTML = '🌹';
+                    p.style.left = '50vw'; p.style.top = '50vh';
+                    p.style.animation = `fall ${Math.random()*2+1}s forwards`;
+                    document.body.appendChild(p);
+                }
+                alert("Pacto Sellado Eternamente. 🖤");
+            }, 100);
+        }
+
+        // VALES CON TINTA
         const valesData = [
             {e:'🎬', t:'VALE I', m:'Una tarde de películas'},
             {e:'🛌', t:'VALE II', m:'Una camita de chismes'},
-            {e:'🍬', t:'VALE III', m:'Unas gomitas'},
-            {e:'🔥', t:'VALE IV', m:'Una bolsa de chetos'},
             {e:'🍕', t:'VALE V', m:'Una pizza a tu lado'},
             {e:'🧛', t:'VALE VI', m:'Muchos besitos'}
         ];
@@ -191,29 +296,41 @@
         const grid = document.getElementById('grid-vales');
         valesData.forEach(v => {
             grid.innerHTML += `
-                <div class="vale-card" onclick="this.classList.toggle('flipped')">
+                <div class="vale-card" id="vale-${v.t.replace(' ','')}" onclick="this.classList.toggle('flipped')">
                     <div class="vale-inner">
                         <div class="vale-front"><span>${v.e}</span><h3>${v.t}</h3></div>
                         <div class="vale-back">
+                            <div class="ink-stain"></div>
                             <p>${v.m}</p>
-                            <button onclick="canjear('${v.m}')" style="background:red; color:white; border:none; padding:8px 15px; cursor:pointer; margin-top:10px; border-radius:5px;">Canjear</button>
-                            <p class="eterno">Válido eternamente. 🥀</p>
+                            <button onclick="canjear(event, '${v.m}', 'vale-${v.t.replace(' ','')}')" style="background:red; color:white; border:none; padding:8px 15px; cursor:pointer; z-index:30;">Canjear</button>
+                            <p style="font-size:0.7rem; color:#888; margin-top:10px;">Válido eternamente. 🥀</p>
                         </div>
                     </div>
                 </div>`;
         });
 
-        function abrirCarta() { document.getElementById('modal-carta').style.display = 'flex'; setTimeout(() => document.getElementById('pergamino').classList.add('desenrollado'), 100); }
-        function cerrarCarta() { document.getElementById('pergamino').classList.remove('desenrollado'); setTimeout(() => document.getElementById('modal-carta').style.display = 'none', 800); }
+        function canjear(e, msg, id) {
+            e.stopPropagation();
+            const card = document.getElementById(id);
+            card.classList.add('stained');
+            setTimeout(() => {
+                window.open(`https://wa.me/1234567890?text=Cariño, he firmado el pacto por mi: ${msg} 🖤`);
+                card.classList.remove('stained');
+            }, 1000);
+        }
 
         function verificar() {
             if(document.getElementById('password').value.toLowerCase() === "amor") {
                 document.getElementById('pantalla-bloqueo').style.opacity = "0";
                 document.getElementById('track').play();
+                startTimer();
                 setTimeout(() => { document.getElementById('pantalla-bloqueo').style.display = "none"; document.getElementById('contenido').style.display = "block"; }, 1000);
             }
         }
 
+        function abrirCarta() { document.getElementById('modal-carta').style.display = 'flex'; setTimeout(() => document.getElementById('pergamino').classList.add('desenrollado'), 100); }
+        function cerrarCarta() { document.getElementById('pergamino').classList.remove('desenrollado'); setTimeout(() => document.getElementById('modal-carta').style.display = 'none', 800); }
+        
         const fechaInicio = new Date('2024-12-15T00:00:00'); 
         setInterval(() => {
             const diff = new Date() - fechaInicio;
@@ -224,12 +341,6 @@
             document.getElementById('contador').innerHTML = `${d}D : ${h}H : ${m}M : ${s}S`;
         }, 1000);
 
-        function canjear(msg) { event.stopPropagation(); window.open(`https://wa.me/1234567890?text=Cariño, quiero mi: ${msg} 🖤`); }
-        function suerteAleatoria() { 
-            const cards = document.querySelectorAll('.vale-card');
-            cards.forEach(c => c.classList.remove('flipped'));
-            setTimeout(() => cards[Math.floor(Math.random() * cards.length)].classList.add('flipped'), 300);
-        }
         function toggleMusic() {
             const track = document.getElementById('track');
             if(track.paused) { track.play(); document.getElementById('musicBtn').innerText = "⏸ PAUSE"; }
